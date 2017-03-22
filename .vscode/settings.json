@@ -1,0 +1,16 @@
+{
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "files.exclude": {
+        "**/*.js": true,
+        ".vscode/": true,
+        "node_modules/": true,
+        "platforms/": true,
+        "tsconfig.json": true,
+        "references.d.ts": true,
+        "tslint.json": true,
+        ".angular-cli.json": true,
+        "**/typings.d.ts": true,
+        ".editorconfig": true,
+        "**/*.spec.ts": true
+    }
+}

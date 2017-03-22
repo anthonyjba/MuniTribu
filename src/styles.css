@@ -1,0 +1,72 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    background: #1B1C1F;
+}
+
+.panel-body {
+    background: #1B1C1F;
+    color: #999;
+    font-size: 12px;
+}
+
+.fa-2 {
+    font-size: 2em;
+}
+
+.fa-3 {
+    font-size: 2em;
+}
+
+.form-control.black {
+    color: gainsboro;
+    background-color: #1B1C1F;
+}
+
+.form-control.main {
+    color: #E5972F;
+    background-color: #1B1C1F;
+}
+
+.table-inverse {
+    color: gainsboro;    
+}
+
+.card {
+    position: relative;
+    display: block;
+    border: 1px solid gainsboro;
+    border-radius: .25rem;
+}
+
+.card-block {
+    padding: .875rem;
+}
+.counter {
+    color: #fff; 
+}
+
+/*dnd*/
+.dnd-drag-start {
+    -moz-transform:scale(0.8);
+    -webkit-transform:scale(0.8);
+    transform:scale(0.8);
+    opacity:0.7;
+    border: 2px dashed #000;
+}
+
+.dnd-drag-enter {
+    opacity:0.7;
+    border: 2px dashed #000;
+}
+
+.dnd-drag-over {
+    border: 2px dashed #000;
+}
+
+.dnd-sortable-drag {
+  -moz-transform:scale(0.9);
+  -webkit-transform:scale(0.9);
+  transform:scale(0.9);
+  opacity:0.7;
+  border: 1px dashed #000;
+}
