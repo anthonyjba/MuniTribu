@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 //app
@@ -8,7 +8,8 @@ import { CuboCuotaService } from './shared/services/cubo-cuota.service';
 import { Dictionary } from './shared/enums';
 
 @Component({
-  selector: 'app-root',  
+  selector: 'app-root',
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css', './app.components2.css']
 })
@@ -94,6 +95,12 @@ export class AppComponent implements OnInit {
     reg.selected = elem.target.checked; 
     
     this.displayCubo();
+  }
+
+  updateColumns(result){
+    this.listByGroup = result;
+    console.log("new listGroup");
+    console.log(this.listByGroup);
   }
 
   onClick(event) {

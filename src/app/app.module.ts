@@ -8,12 +8,14 @@ import { AccordionModule } from 'ng2-bootstrap';
 import { CuboCuotaService } from './shared/services/cubo-cuota.service'
 import { DndModule } from 'ng2-dnd';
 import { TruncatePipe } from './shared/truncate.pipe';
+import { SortableGroupComponent } from './sortable-group/sortable-group.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TruncatePipe
+    TruncatePipe,
+    SortableGroupComponent
   ],
   imports: [
     BrowserModule,

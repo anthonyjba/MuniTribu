@@ -45,10 +45,12 @@ div.panel-heading {
 /* Switch Cttl
 ==========================*/
 .switch {
-  position: relative;
+  /*position: relative;*/
   display: inline-block;
   width: 30px;
   height: 14px;
+  position:absolute;
+  right:15px;
 }
 
 .switch input {display:none;}

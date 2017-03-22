@@ -38,275 +38,33 @@
                         <div class="panel-collapse">
                             <div class="panel-body">
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Municipio:</label>
-                                        <select [(ngModel)]="selmuni" id="Municipios" class="form-control main">
-                                            <option *ngFor="let muni of municipios"
-                                                [value]="muni.id">                    
-                                                    {{muni.name}}
-                                            </option>
-                                        </select>
-                                        <hr>
-                                    </div>
+                                
+                            <label>Municipio:</label>
+                            <select [(ngModel)]="selmuni" id="Municipios" class="form-control main">
+                                <option value="45900">Toledo</option>
+                                <!--<option *ngFor="let muni of municipios"
+                                    [value]="muni.id">                    
+                                        {{muni.name}}
+                                </option>-->
+                            </select>
+                            <hr>
+                                    
+                            <sortable-group (change)="updateColumns($event)"></sortable-group>
 
-
-                                    <div class="col-md-12">
-                                        <label>A nivel de:</label>
-                                        <ul dnd-sortable-container [sortableData]="listByGroup" class="list-group">
-                                            <li *ngFor="let item of listByGroup; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item.name}}
-                                                <div style="float:right">
-                                                    <label class="switch">
-                                                        <input type="checkbox" [id]="item.id" [checked]="item.selected" (change)="onChange($event)">
-                                                        <div class="slider round"></div>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <accordion [closeOthers]="oneAtATime">
-                                            <accordion-group #dgAC>
-                                                <div accordion-heading style="padding: 0px;">Cultivos
-                                                    <div style="float:right">
-                                                        <i class="pull-right float-xs-right glyphicon"
-                                                    [ngClass]="{'glyphicon-chevron-down': dgAC?.isOpen, 'glyphicon-chevron-right': !dgAC?.isOpen}"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="fixed-panel">
-                                                    <ul class="list-group">
-                                                        <li *ngFor="let item of cultivos" class="list-group-item widget">
-                                                            <button type="button" [id]="item.id" name="AC" class="btn-widget" (click)="onClick($event)">
-                                                                {{ item.id + '-'+ item.name }}
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                </div>                                                
-                                            </accordion-group>
-                                            <accordion-group #dgTipoCIF>
-                                                <div accordion-heading>Propietarios
-                                                    <div style="float:right">
-                                                        <i class="pull-right float-xs-right glyphicon"
-                                                    [ngClass]="{'glyphicon-chevron-down': dgTipoCIF?.isOpen, 'glyphicon-chevron-right': !dgTipoCIF?.isOpen}"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="fixed-panel">
-                                                    <ul class="list-group">
-                                                        <li *ngFor="let key of keys(dg_TIPO_CIF);" class="list-group-item widget">
-                                                            <button type="button" [id]="key" name="TIPO_CIF" class="btn-widget" (click)="onClick($event)">
-                                                                {{ key }}</button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </accordion-group>
-                                            <accordion-group #dgTalla>
-                                                <div accordion-heading>Talla
-                                                    <div style="float:right">
-                                                        <i class="pull-right float-xs-right glyphicon"
-                                                    [ngClass]="{'glyphicon-chevron-down': dgTalla?.isOpen, 'glyphicon-chevron-right': !dgTalla?.isOpen}"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="fixed-panel">
-                                                    <ul class="list-group">
-                                                        <li *ngFor="let key of keys(dg_TALLA);" class="list-group-item widget">
-                                                            <button type="button" [id]="key" name="TALLA" class="btn-widget" (click)="onClick($event)">
-                                                                {{ key }}</button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </accordion-group>
-                                            <accordion-group #dgIP>
-                                                <div accordion-heading>IP
-                                                    <div style="float:right">
-                                                        <i class="pull-right float-xs-right glyphicon"
-                                                    [ngClass]="{'glyphicon-chevron-down': dgIP?.isOpen, 'glyphicon-chevron-right': !dgIP?.isOpen}"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="fixed-panel">
-                                                    <ul class="list-group">
-                                                        <li *ngFor="let key of keys(dg_IP);" class="list-group-item widget">
-                                                            <button type="button" [id]="key" name="IP" class="btn-widget" (click)="onClick($event)">
-                                                                {{ key }}</button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </accordion-group>
-                                            <accordion-group #dgIPP>
-                                                <div accordion-heading>IPP
-                                                    <div style="float:right">
-                                                        <i class="pull-right float-xs-right glyphicon"
-                                                    [ngClass]="{'glyphicon-chevron-down': dgIP?.isOpen, 'glyphicon-chevron-right': !dgIP?.isOpen}"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="fixed-panel">
-                                                    <ul class="list-group">
-                                                        <li *ngFor="let key of keys(dg_IPP);" class="list-group-item widget">
-                                                            <button type="button" [id]="key" name="IPP" class="btn-widget" (click)="onClick($event)">
-                                                                {{ key }}</button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </accordion-group>
-                                        </accordion>
-
-                                        
-
-                                            
-
-                                    </div>
-                                </div>
 
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-9">
                     <div class="row">
 
                         <div class="container-fluid">
 
-                            <div class="col-md-3">
-                                <div class="col-md-6">
-                                    <div>
-                                        <div>
-                                            <i class="fa fa-home" style="font-size:2em"></i>
-                                        </div>
-                                        <div>
-                                            <div class="number">
-                                                <div class="counter" style="font-size:3em">
-                                                    {{ cuboCuotaResumen.N_SUBPARC }}
-                                                </div>
-                                            </div>
-                                            <div>SubParcelas</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div>
-                                        <div>
-                                            <i class="fa fa-group" style="font-size:2em"></i>
-                                        </div>
-                                        <div class="details">
-                                            <div class="number">
-                                                <div class="counter" style="font-size:3em">
-                                                    {{ cuboCuotaResumen.N_PROPIETARIOS }}
-                                                </div>
-                                            </div>
-                                            <div class="desc">Propietarios</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-3">
-                                <div class="dashboard-stat yellow-lemon" style="border-radius: 4px;">
-                                    <div class="visual">
-                                        <i class="fa fa-meh-o"></i>
-                                    </div>
-                                    <div class="details">
-                                        <div class="number">
-                                            <div class="counter">
-                                                {{ cuboCuotaResumen.SUM_HECT | number : '1.2-2' }}
-                                            </div>
-                                        </div>
-                                        <div class="desc">Hectáreas</div>
-                                    </div>
-
-                                    <a class="more" href="">Ver más
-                                <i class="fa fa-share"></i>
-                            </a>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="dashboard-stat green-jungle" style="border-radius: 4px;">
-                                    <div class="visual">
-                                        <i class="fa fa-smile-o"></i>
-                                    </div>
-                                    <div class="details">
-                                        <div class="number">
-                                            <div class="counter">
-                                                {{ cuboCuotaResumen.SUM_V_CATASTR | number : '1.2-2' }}
-                                            </div>
-                                        </div>
-                                        <div class="desc">Valor Catastral</div>
-                                    </div>
-
-                                    <a class="more" href="">Ver más
-                                <i class="fa fa-share"></i>
-                            </a>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="dashboard-stat red-thunderbird" style="border-radius: 4px;">
-                                    <div class="visual">
-                                        <i class="fa fa-frown-o"></i>
-                                    </div>
-                                    <div class="details">
-                                        <div class="number">
-                                            <div class="counter">
-                                                {{ cuboCuotaResumen.SUM_CUOTA | number : '1.2-3' }}
-                                            </div>
-                                        </div>
-                                        <div class="desc">Cuota</div>
-                                    </div>
-                                    <a class="more" href="">ver más
-                                <i class="fa fa-share"></i>
-                            </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-
-
-                            <h4>Resultados:</h4>
-                            <div class="card card-block">
-                                <div class="table-responsive">
-                                    <table class="table table-inverse">
-                                        <thead>
-                                            <th>AC</th>
-                                            <th>Propietario</th>
-                                            <th>Talla</th>
-                                            <th>IP</th>
-                                            <th>Nº SubParcelas</th>
-                                            <th>Nº Propietarios</th>
-                                            <th>Hectáreas</th>
-                                            <th>Valor Catastral</th>
-                                            <th>Cuota</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor='let item of cuboCuotaFiltrado'>
-                                                <td>{{ item.AC }}</td>
-                                                <td>{{ item.TIPO_CIF | truncate : 30 }}</td>
-                                                <td>{{ item.TALLA }}</td>
-                                                <td>{{ item.IP }}</td>
-                                                <td>{{ item.N_SUBPARC }}</td>
-                                                <td>{{ item.N_PROPIETARIOS }}</td>
-                                                <td>{{ item.SUM_HECT }}</td>
-                                                <td>{{ item.SUM_V_CATASTR }}</td>
-                                                <td>{{ item.SUM_CUOTA }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-
                 
             </div>
         </div>
