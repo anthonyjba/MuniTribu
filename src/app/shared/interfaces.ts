@@ -5,6 +5,13 @@ export interface IDefault {
     selected: boolean
 }
 
+export interface IColumns {
+    id: string,
+    name?: string,
+    display?: boolean,
+    filters?: {};
+}
+
 export interface IMunicipio {
     id: string,
     name: string

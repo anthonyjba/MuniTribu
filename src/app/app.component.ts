@@ -2,10 +2,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 //app
-import { IMunicipio, IDefault, ICubo_Couta } from './shared/interfaces';
+import { IMunicipio, IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
 import * as DictionaryModule from './shared/services/dictionary.service';
 import { CuboCuotaService } from './shared/services/cubo-cuota.service';
 import { Dictionary } from './shared/enums';
+import { Columns  } from './shared/config';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
   cuboCuotaFiltrado: Array<ICubo_Couta>;
   cuboCuotaResumen: ICubo_Couta;
   cultivos: Array<IDefault>;
+  columnsGroup : Array<IColumns> = Columns;
   
   //Dictionares group
   dg_AC = {};
@@ -40,15 +42,8 @@ export class AppComponent implements OnInit {
   
   //Default Values
   selmuni: string = "45900";
-  selNivel: string = "AC";
-  listByGroup: Array<IDefault> = [ 
-                  { id: 'AC', name:'Cultivo', selected: true }, 
-                  { id: 'TIPO_CIF', name:'Propietario', selected: false },
-                  { id: 'TALLA', name:'Tamaño', selected: false },
-                  { id: 'IP', name:'IP', selected: false },
-                  { id: 'IPP', name:'IPP', selected: false }
-                ];
-  public oneAtATime: boolean = true;
+  selNivel: string = "AC";  
+  public oneAtATime: boolean = true; //Accordion
   
 
   constructor(private cubocuotaService: CuboCuotaService) {
@@ -72,35 +67,39 @@ export class AppComponent implements OnInit {
   }
 
   extractDictionary(){
-
     for (var i = 0, j = this.cuboCuotaInicial.length; i !== j; i++) {
-      this.dg_AC[this.cuboCuotaInicial[i].AC] = 1;
+      for (var x = 0, y = this.columnsGroup.length; x != y; x++){
+        if(this.cuboCuotaInicial[i][this.columnsGroup[x].id])
+          this.columnsGroup[x].filters[this.cuboCuotaInicial[i][this.columnsGroup[x].id]] = 1;
+      }
+    }
+          
+      /*this.dg_AC[this.cuboCuotaInicial[i].AC] = 1;
       this.dg_TIPO_CIF[this.cuboCuotaInicial[i].TIPO_CIF] = 1;
       this.dg_TALLA[this.cuboCuotaInicial[i].TALLA] = 1;
       this.dg_IP[this.cuboCuotaInicial[i].IP] = 1;
       this.dg_IPP[this.cuboCuotaInicial[i].IPP] = 1;
-    }
 
     delete this.dg_AC[null];
     delete this.dg_TIPO_CIF[null];
     delete this.dg_TALLA[null];
     delete this.dg_IP[null];
-    delete this.dg_IPP[null];
-
+    delete this.dg_IPP[null];*/
+    console.log(this.columnsGroup);
     this.displayCubo();
   }
 
   onChange(elem) {
-    let reg = this.listByGroup.find((item) => item.id === elem.target.id);
-    reg.selected = elem.target.checked; 
+    //let reg = this.columnsGroup.find((item) => item.id === elem.target.id);
+    //reg.selected = elem.target.checked; 
     
     this.displayCubo();
   }
 
   updateColumns(result){
-    this.listByGroup = result;
+    this.columnsGroup = result;
     console.log("new listGroup");
-    console.log(this.listByGroup);
+    console.log(this.columnsGroup);
   }
 
   onClick(event) {
@@ -157,15 +156,15 @@ export class AppComponent implements OnInit {
 
     for (var i = 0, j = DataCube.length; i !== j; i++) {
       if(  
-          (this.listByGroup[0].selected ? DataCube[i].AC !== null : DataCube[i].AC === null) &&
+          (this.columnsGroup[0].display ? DataCube[i].AC !== null : DataCube[i].AC === null) &&
           (Object.getOwnPropertyNames(this.fg_AC).length === 0 || this.fg_AC[DataCube[i].AC]) && 
-          (this.listByGroup[1].selected ? DataCube[i].TIPO_CIF !== null : DataCube[i].TIPO_CIF === null) &&
+          (this.columnsGroup[1].display ? DataCube[i].TIPO_CIF !== null : DataCube[i].TIPO_CIF === null) &&
           (Object.getOwnPropertyNames(this.fg_TIPO_CIF).length === 0 || this.fg_TIPO_CIF[DataCube[i].TIPO_CIF]) &&
-          (this.listByGroup[2].selected ? DataCube[i].TALLA !== null : DataCube[i].TALLA === null) &&
+          (this.columnsGroup[2].display ? DataCube[i].TALLA !== null : DataCube[i].TALLA === null) &&
           (Object.getOwnPropertyNames(this.fg_TALLA).length === 0 || this.fg_TALLA[DataCube[i].TALLA]) &&
-          (this.listByGroup[3].selected ? DataCube[i].IP !== null : DataCube[i].IP === null) &&
+          (this.columnsGroup[3].display ? DataCube[i].IP !== null : DataCube[i].IP === null) &&
           (Object.getOwnPropertyNames(this.fg_IP).length === 0 || this.fg_IP[DataCube[i].IP]) &&
-          (this.listByGroup[4].selected ? DataCube[i].IPP !== null : DataCube[i].IPP === null) &&
+          (this.columnsGroup[4].display ? DataCube[i].IPP !== null : DataCube[i].IPP === null) &&
           (Object.getOwnPropertyNames(this.fg_IPP).length === 0 || this.fg_IPP[DataCube[i].IPP])
           )  
           { res.push(DataCube[i]); }
