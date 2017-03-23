@@ -52,18 +52,21 @@
                             <sortable-group (change)="updateColumns($event)"></sortable-group>
 
                             <accordion [closeOthers]="uniqueAccordion">                                
-                                <accordion-group *ngFor="let col of columnsGroup">
+                                <accordion-group *ngFor="let col of columnsGroup" [panelClass]="customClass">
                                     <div accordion-heading>{{ col.name }}
-                                        <div style="float:right">
-                                            <i class="pull-right float-xs-right glyphicon"
+                                        
+                                        <i class="pull-right float-xs-right glyphicon"
                                         [ngClass]="{'glyphicon-chevron-down': true }"></i>
-                                        </div>
+                                        
                                     </div>
                                     <div class="fixed-panel">
-                                        <ul class="list-group">
+                                        <ul class="list-group slot">
                                             <li *ngFor="let key of keys(col.values);" class="list-group-item widget">
-                                                <button type="button" [id]="key" name="{{ col.id }}" class="btn-widget" (click)="onClick($event)">
+                                                <div class="color-line"></div> 
+                                                <div class="slot-content">
+                                                    <button type="button" [id]="key" name="{{ col.id }}" class="btn-widget" (click)="onClick($event)">
                                                     {{ key }}</button>
+                                                </div>                                                
                                             </li>
                                         </ul>
                                     </div>

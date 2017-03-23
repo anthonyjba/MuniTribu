@@ -26,18 +26,11 @@ export class AppComponent implements OnInit {
   cultivos: Array<IDefault>;
   columnsGroup: Array<IColumns> = Columns;
   
-  //Filters Acummulative
-  fg_AC = {};
-  fg_TIPO_CIF = {};
-  fg_TALLA = {};
-  fg_IP = {};
-  fg_IPP = {};
-  
   //Default Values
   selmuni: string = "45900";
   selNivel: string = "AC";  
   uniqueAccordion: boolean = true;
-  
+  public customClass: string = 'customClass';
 
   constructor(private cubocuotaService: CuboCuotaService) {
       this.cuboCuotaResumen = { MUNI: this.selmuni, AC: null, IP: null, IPP: null, TALLA: null, TIPO_CIF: null, 
@@ -67,7 +60,6 @@ export class AppComponent implements OnInit {
       }
     }
           
-    //console.log(this.keys(this.columnsGroup[1].values));
     this.__displayResumen();
   }
 
@@ -75,8 +67,6 @@ export class AppComponent implements OnInit {
     //Verificar porque repite esta funcion 2 veces
     if(result.length > 0) {
         this.columnsGroup = result;
-        //console.log("new listGroup");
-        //console.log(this.columnsGroup);
 
         //refresh display filter
         this.cuboCuotaFiltrado = this.__updateTablacubo();
@@ -86,24 +76,6 @@ export class AppComponent implements OnInit {
 
   onClick(event) {
     let dictCurrent = this.columnsGroup.find((col) => col.id === event.target.name).filters;
-    
-    /*switch(event.target.name) {
-      case "AC": 
-        dictCurrent = this.columnsGroup[x].filters;
-        break;
-      case "TIPO_CIF":
-        dictCurrent = this.fg_TIPO_CIF;
-        break;
-      case "TALLA":
-        dictCurrent = this.fg_TALLA;
-        break;
-      case "IP":
-        dictCurrent = this.fg_IP;
-        break;
-      case "IPP":
-        dictCurrent = this.fg_IPP;
-        break;
-    }*/
 
     if (dictCurrent.hasOwnProperty(event.target.id)){
       delete dictCurrent[event.target.id];
