@@ -9,6 +9,7 @@ export interface IColumns {
     id: string,
     name?: string,
     display?: boolean,
+    values?: {},
     filters?: {};
 }
 

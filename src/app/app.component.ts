@@ -24,14 +24,7 @@ export class AppComponent implements OnInit {
   cuboCuotaFiltrado: Array<ICubo_Couta>;
   cuboCuotaResumen: ICubo_Couta;
   cultivos: Array<IDefault>;
-  columnsGroup : Array<IColumns> = Columns;
-  
-  //Dictionares group
-  dg_AC = {};
-  dg_TIPO_CIF = {};
-  dg_TALLA = {};
-  dg_IP = {};
-  dg_IPP = {};
+  columnsGroup: Array<IColumns> = Columns;
   
   //Filters Acummulative
   fg_AC = {};
@@ -43,7 +36,7 @@ export class AppComponent implements OnInit {
   //Default Values
   selmuni: string = "45900";
   selNivel: string = "AC";  
-  public oneAtATime: boolean = true; //Accordion
+  uniqueAccordion: boolean = true;
   
 
   constructor(private cubocuotaService: CuboCuotaService) {
@@ -70,44 +63,33 @@ export class AppComponent implements OnInit {
     for (var i = 0, j = this.cuboCuotaInicial.length; i !== j; i++) {
       for (var x = 0, y = this.columnsGroup.length; x != y; x++){
         if(this.cuboCuotaInicial[i][this.columnsGroup[x].id])
-          this.columnsGroup[x].filters[this.cuboCuotaInicial[i][this.columnsGroup[x].id]] = 1;
+          this.columnsGroup[x].values[this.cuboCuotaInicial[i][this.columnsGroup[x].id]] = 1;
       }
     }
           
-      /*this.dg_AC[this.cuboCuotaInicial[i].AC] = 1;
-      this.dg_TIPO_CIF[this.cuboCuotaInicial[i].TIPO_CIF] = 1;
-      this.dg_TALLA[this.cuboCuotaInicial[i].TALLA] = 1;
-      this.dg_IP[this.cuboCuotaInicial[i].IP] = 1;
-      this.dg_IPP[this.cuboCuotaInicial[i].IPP] = 1;
-
-    delete this.dg_AC[null];
-    delete this.dg_TIPO_CIF[null];
-    delete this.dg_TALLA[null];
-    delete this.dg_IP[null];
-    delete this.dg_IPP[null];*/
-    console.log(this.columnsGroup);
-    this.displayCubo();
+    //console.log(this.keys(this.columnsGroup[1].values));
+    this.__displayResumen();
   }
 
-  onChange(elem) {
-    //let reg = this.columnsGroup.find((item) => item.id === elem.target.id);
-    //reg.selected = elem.target.checked; 
+  updateColumns(result : Array<IColumns>){
+    //Verificar porque repite esta funcion 2 veces
+    if(result.length > 0) {
+        this.columnsGroup = result;
+        //console.log("new listGroup");
+        //console.log(this.columnsGroup);
+
+        //refresh display filter
+        this.cuboCuotaFiltrado = this.__updateTablacubo();
+    }
     
-    this.displayCubo();
-  }
-
-  updateColumns(result){
-    this.columnsGroup = result;
-    console.log("new listGroup");
-    console.log(this.columnsGroup);
   }
 
   onClick(event) {
-    let dictCurrent = {};
+    let dictCurrent = this.columnsGroup.find((col) => col.id === event.target.name).filters;
     
-    switch(event.target.name) {
+    /*switch(event.target.name) {
       case "AC": 
-        dictCurrent = this.fg_AC;
+        dictCurrent = this.columnsGroup[x].filters;
         break;
       case "TIPO_CIF":
         dictCurrent = this.fg_TIPO_CIF;
@@ -121,7 +103,7 @@ export class AppComponent implements OnInit {
       case "IPP":
         dictCurrent = this.fg_IPP;
         break;
-    }
+    }*/
 
     if (dictCurrent.hasOwnProperty(event.target.id)){
       delete dictCurrent[event.target.id];
@@ -133,45 +115,55 @@ export class AppComponent implements OnInit {
     }
 
     //refresh display filter
-    this.cuboCuotaFiltrado = this.applyFilter(this.cuboCuotaInicial);
+    this.cuboCuotaFiltrado = this.__updateTablacubo();
   }
 
   
 
-  displayCubo() {
-    let resumen = this.cuboCuotaInicial.filter(f => 
-            { return f.AC === null &&
-                      f.IP === null &&
-                      f.IPP === null &&
-                      f.TALLA === null &&
-                      f.TIPO_CIF === null 
-            });
+  __displayResumen() {
+
+    let resumen = []; 
+    for (var i = 0, j = this.cuboCuotaInicial.length; i !== j; i++) {
+      let flag = true;
+      for (var x = 0, y = this.columnsGroup.length; x != y; x++){
+        if(this.cuboCuotaInicial[i][this.columnsGroup[x].id] !== null){
+          flag = false;
+          break;
+          }
+      }
+      if(flag)
+        resumen.push(this.cuboCuotaInicial[i]);
+    }
     
-    this.cuboCuotaResumen = resumen[0];
-    this.cuboCuotaFiltrado = this.applyFilter(this.cuboCuotaInicial);
+    //console.log(resumen[0]);
+    this.cuboCuotaResumen = resumen[0];    
+    this.cuboCuotaFiltrado = this.__updateTablacubo();    
   }
 
-  private applyFilter(DataCube){
-    let res = [];
+  __updateTablacubo() {
+    let result = [];
+    let cube = this.cuboCuotaInicial;
 
-    for (var i = 0, j = DataCube.length; i !== j; i++) {
-      if(  
-          (this.columnsGroup[0].display ? DataCube[i].AC !== null : DataCube[i].AC === null) &&
-          (Object.getOwnPropertyNames(this.fg_AC).length === 0 || this.fg_AC[DataCube[i].AC]) && 
-          (this.columnsGroup[1].display ? DataCube[i].TIPO_CIF !== null : DataCube[i].TIPO_CIF === null) &&
-          (Object.getOwnPropertyNames(this.fg_TIPO_CIF).length === 0 || this.fg_TIPO_CIF[DataCube[i].TIPO_CIF]) &&
-          (this.columnsGroup[2].display ? DataCube[i].TALLA !== null : DataCube[i].TALLA === null) &&
-          (Object.getOwnPropertyNames(this.fg_TALLA).length === 0 || this.fg_TALLA[DataCube[i].TALLA]) &&
-          (this.columnsGroup[3].display ? DataCube[i].IP !== null : DataCube[i].IP === null) &&
-          (Object.getOwnPropertyNames(this.fg_IP).length === 0 || this.fg_IP[DataCube[i].IP]) &&
-          (this.columnsGroup[4].display ? DataCube[i].IPP !== null : DataCube[i].IPP === null) &&
-          (Object.getOwnPropertyNames(this.fg_IPP).length === 0 || this.fg_IPP[DataCube[i].IPP])
-          )  
-          { res.push(DataCube[i]); }
+    for (var i = 0, j = cube.length; i !== j; i++) {
+      let flag = false;
+      for (var x = 0, y = this.columnsGroup.length; x != y; x++){
+        if(
+            (this.columnsGroup[x].display ? cube[i][this.columnsGroup[x].id] !== null : cube[i][this.columnsGroup[x].id] === null) &&
+            (Object.getOwnPropertyNames(this.columnsGroup[x].filters).length === 0 || 
+              this.columnsGroup[x].filters[cube[i][this.columnsGroup[x].id]])
+          )
+          flag = true;
+        else { 
+          flag = false;
+          break;
+        }  
+      }
+      if(flag)
+        result.push(this.cuboCuotaInicial[i]);
     }
 
-    //console.log(res.length);
-    return res;
+    console.log(result.length);
+    return result;
   }
 
   

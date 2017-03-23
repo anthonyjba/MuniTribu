@@ -1,12 +1,12 @@
 <label>A nivel de:</label>
 <ul class="list-group" dnd-sortable-container [sortableData]="sortColumns">
-    <li *ngFor="let item of sortColumns; let i = index" class="list-group-item" dnd-sortable (onDragSuccess)="refresh($event)" [sortableIndex]="i">{{item.name}}
+    <li *ngFor="let item of sortColumns; let i = index" class="list-group-item" dnd-sortable (onDragSuccess)="refresh()" [sortableIndex]="i">{{item.name}}
         <label class="switch">
-        <input type="checkbox" id="item.id" [checked]="item.selected" (change)="onChange($event)">
+        <input type="checkbox" id="{{item.id}}" [checked]="item.display" (change)="toggle($event.target)">
         <div class="slider round"></div>
         </label>
     </li>
 </ul>
 
-My prefences:<br/>
-<span *ngFor="let item of sortColumns; let i = index">{{i + 1}}) {{item.name}}<br/></span>
+<!--My prefences:<br/>
+<span *ngFor="let item of sortColumns; let i = index">{{i + 1}}) {{item.name}}<br/></span>-->

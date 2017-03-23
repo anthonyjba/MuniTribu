@@ -20,17 +20,15 @@ export class SortableGroupComponent implements OnInit {
   ngOnInit() {
   }
 
-  refresh(event: any){
+  refresh(){
     this.change.emit(this.sortColumns);
   }
 
-  onChange(elem) {
-    console.log(elem);
+  toggle(target: any) {
+    let reg = this.sortColumns.find((item) => item.id === target.id);
+    reg.display = target.checked; 
     
-    /*let reg = this.sortColumns.find((item) => item.id === elem.target.id);
-    reg.selected = elem.target.checked; 
-    
-    this.displayCubo();*/
+    this.change.emit(this.sortColumns);
   }
 
 }
