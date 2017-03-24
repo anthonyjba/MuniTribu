@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
   cuboCuotaInicial: Array<ICubo_Couta>;
   cuboCuotaFiltrado: Array<ICubo_Couta>;
   cuboCuotaResumen: ICubo_Couta;
-  cultivos: Array<IDefault>;
   columnsGroup: Array<IColumns> = Columns;
+  //cultivos: Array<IDefault>;
   
   //Default Values
   selmuni: string = "45900";
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
                 error => console.log(error),
                 () => this.extractDictionary());
     
-    this.cultivos = DictionaryModule.getDictionary(Dictionary.Cultivos);
+    //this.cultivos = DictionaryModule.getDictionary(Dictionary.Cultivos);
   }
 
   keys(currentDict: any) : Array<string> {
@@ -107,7 +107,6 @@ export class AppComponent implements OnInit {
         resumen.push(this.cuboCuotaInicial[i]);
     }
     
-    //console.log(resumen[0]);
     this.cuboCuotaResumen = resumen[0];    
     this.cuboCuotaFiltrado = this.__updateTablacubo();    
   }
@@ -134,11 +133,9 @@ export class AppComponent implements OnInit {
         result.push(this.cuboCuotaInicial[i]);
     }
 
-    console.log(result.length);
+    //console.log(result.length);
     return result;
   }
 
-  
-  
 
 }

@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { ICubo_Couta } from '../interfaces';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
 @Injectable()
