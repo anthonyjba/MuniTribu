@@ -7,12 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ChartBarComponent implements OnInit {
   private _ds: any[] = [{data: [], label: 'Series A'}];
+  private _names: any[] = [];
 
   constructor() { }
 
   ngOnInit(){
-    this.barChartData = this._ds;
-    console.log(this.barChartData);
+    //this.barChartData = this._ds;
+    //console.log(this.barChartData);
   }
 
   @Input()
@@ -21,27 +22,37 @@ export class ChartBarComponent implements OnInit {
   }
   get dataset(): any[] { return this._ds; }
 
+  @Input()
+  set dataLabels(names: any []) {
+    this._names = names;
+  }
+  get dataLabels(): any[] { return this._names; }
 
   public barChartOptions:any = {
     scaleShowVerticalLines: false,
     responsive: true
   };
 
-  @Input()
+  
   public barChartLabels:string[] = []; //['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
   public barChartType:string = 'horizontalBar';
   public barChartLegend:boolean = true;
  
- /*public datasets: any[] = [{ data: [
+ public barChartData: any[] = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'}
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
-  ] }];*/
+    //,{data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
+  ];
 
-  public barChartData: any[]= [];
+  //public barChartData: any[]= [];
  
   // events
-  public chartReload(clone) {
-    this.barChartData = clone;
+  public chartReload(container) {
+    console.log("Reload");
+    console.log(container.names);
+    //console.log(this.barChartData);
+    
+    this.barChartData = container.series;
+    this.barChartLabels = container.names;
   }
 
   public chartClicked(e:any):void {
@@ -62,9 +73,9 @@ export class ChartBarComponent implements OnInit {
       56,
       (Math.random() * 100),
       40];
-    //let clone = JSON.parse(JSON.stringify(this.barChartData));
-    //clone[0].data = data;
-    //this.barChartData = clone;
+    let clone = JSON.parse(JSON.stringify(this.barChartData));
+    clone[0].data = data;
+    this.barChartData = clone;
     /**
      * (My guess), for Angular to recognize the change in the dataset
      * it has to change the dataset variable directly,

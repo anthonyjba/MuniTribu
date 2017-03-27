@@ -83,11 +83,16 @@ export class AppComponent implements OnInit {
     for (var i = 0, j = this.cuboCuotaFiltrado.length; i !== j; i++) {
       values.push(this.cuboCuotaFiltrado[i]['SUM_HECT']);
     }
-    series.push({data: values, label: 'Series A'});
-    this.datasetChart = series;
-    console.log(this.datasetChart);
+    series.push({data: values, label: 'Series ABC'});
+    //this.datasetChart = series;
+    //console.log(this.datasetChart);
 
-    this.chartbar.chartReload(this.datasetChart);
+    let containerChart = { 
+          names : this.keys(this.columnsGroup[0].values), 
+          series:  series
+        }
+    
+    this.chartbar.chartReload(containerChart);
   }
 
   onClick(event) {
