@@ -2,7 +2,6 @@
 export interface IDefault {
     id: string,
     name: string
-    selected: boolean
 }
 
 export interface IColumns {
@@ -11,11 +10,6 @@ export interface IColumns {
     display?: boolean,
     values?: {},
     filters?: {};
-}
-
-export interface IMunicipio {
-    id: string,
-    name: string
 }
 
 export interface ICubo_Couta {

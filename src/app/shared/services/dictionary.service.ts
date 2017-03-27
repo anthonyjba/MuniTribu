@@ -1,6 +1,6 @@
 //App
 import { dict_municipios, dict_cultivos } from '../static-data';
-import { IMunicipio, IDefault } from '../interfaces'; 
+import { IDefault } from '../interfaces'; 
 import { Dictionary } from '../enums';
 
 
@@ -18,7 +18,7 @@ export function getDictionary(type: Dictionary){
     }
 
     for (var key in data) {
-        DictionaryList.push({ id: key, name: data[key], selected : false }) 
+        DictionaryList.push({ id: key, name: data[key] }) 
     }
     return DictionaryList;
 }

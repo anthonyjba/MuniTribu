@@ -1,12 +1,14 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 //app
-import { IMunicipio, IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
+import { IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
 import * as DictionaryModule from './shared/services/dictionary.service';
 import { CuboCuotaService } from './shared/services/cubo-cuota.service';
 import { Dictionary } from './shared/enums';
 import { Columns  } from './shared/config';
+
+import { ChartBarComponent } from './chart-bar/chart-bar.component';
 
 @Component({
   selector: 'app-root',
@@ -19,16 +21,18 @@ export class AppComponent implements OnInit {
   title = 'Cuota del Valor Calculado!';
 
   //Declarations Properties
-  municipios: Array<IMunicipio>
+  municipios: Array<IDefault>
   cuboCuotaInicial: Array<ICubo_Couta>;
   cuboCuotaFiltrado: Array<ICubo_Couta>;
   cuboCuotaResumen: ICubo_Couta;
   columnsGroup: Array<IColumns> = Columns;
+  datasetChart: any[] = [ {data: [] }];
   //cultivos: Array<IDefault>;
-  
+
+  @ViewChild(ChartBarComponent) chartbar : ChartBarComponent;
+
   //Default Values
   selmuni: string = "45900";
-  selNivel: string = "AC";  
   uniqueAccordion: boolean = true;
   public customClass: string = 'customClass';
 
@@ -69,9 +73,21 @@ export class AppComponent implements OnInit {
         this.columnsGroup = result;
 
         //refresh display filter
-        this.cuboCuotaFiltrado = this.__updateTablacubo();
+        this.__refreshAll();
+    }    
+  }
+
+  parseChart() {
+    let series: any[] = [];
+    let values :any[] = [];
+    for (var i = 0, j = this.cuboCuotaFiltrado.length; i !== j; i++) {
+      values.push(this.cuboCuotaFiltrado[i]['SUM_HECT']);
     }
-    
+    series.push({data: values, label: 'Series A'});
+    this.datasetChart = series;
+    console.log(this.datasetChart);
+
+    this.chartbar.chartReload(this.datasetChart);
   }
 
   onClick(event) {
@@ -87,10 +103,13 @@ export class AppComponent implements OnInit {
     }
 
     //refresh display filter
-    this.cuboCuotaFiltrado = this.__updateTablacubo();
+    this.__refreshAll();
   }
 
-  
+  __refreshAll(){
+     this.cuboCuotaFiltrado = this.__updateTablacubo();
+     this.parseChart();
+  }
 
   __displayResumen() {
 
@@ -108,7 +127,7 @@ export class AppComponent implements OnInit {
     }
     
     this.cuboCuotaResumen = resumen[0];    
-    this.cuboCuotaFiltrado = this.__updateTablacubo();    
+    this.__refreshAll();    
   }
 
   __updateTablacubo() {
@@ -133,7 +152,7 @@ export class AppComponent implements OnInit {
         result.push(this.cuboCuotaInicial[i]);
     }
 
-    //console.log(result.length);
+    //console.log(result.length);    
     return result;
   }
 

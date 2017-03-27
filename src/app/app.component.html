@@ -171,6 +171,14 @@
                             </div>
 
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <chart-bar [barChartLabels]="keys(columnsGroup[0].values)"
+                                        [dataset]="datasetChart" ></chart-bar>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <!-- Tabla -->
                         <div class="col-md-12">
