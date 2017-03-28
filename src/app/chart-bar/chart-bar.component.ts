@@ -1,20 +1,58 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'chart-bar',
   templateUrl: './chart-bar.component.html',
   styleUrls: ['./chart-bar.component.css']
 })
-export class ChartBarComponent implements OnInit {
+export class ChartBarComponent implements OnChanges {
   private _ds: any[] = [{data: [], label: 'Series A'}];
-  private _names: any[] = [];
+  private _names: string[] = [];
+  @ViewChild( BaseChartDirective ) chart : BaseChartDirective;
+
+  
 
   constructor() { }
 
-  ngOnInit(){
-    //this.barChartData = this._ds;
-    //console.log(this.barChartData);
+  OnInit(){
+    this.barChartData = [
+                          {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'}
+                          //,{data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
+                        ];
+      this.barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    
+    //this.refresh_chart();
+
+    /*if(this.dataset && this.dataLabels){
+      console.log("onChange");
+      this.barChartData = this.dataset.slice();
+      this.barChartLabels = this.dataLabels.slice();      
+    }*/
+ 
+  }
+
+
+  refresh_chart() {
+    setTimeout(() => {
+        
+        //&& this.chart.chart && this.chart.chart.config
+        if (this.chart) {
+          console.log(this.dataset);
+          this.chart.datasets = this.dataset;
+          this.chart.labels = this.dataLabels;
+          this.chart.ngOnChanges({});
+            //this.chart.chart.config.data.labels = this.dataLabels;
+            //this.chart.chart.config.data.datasets = this.dataset;
+            //this.chart.chart.update();
+        }
+    });
+}
+
 
   @Input()
   set dataset(data: any[]) {
@@ -23,10 +61,10 @@ export class ChartBarComponent implements OnInit {
   get dataset(): any[] { return this._ds; }
 
   @Input()
-  set dataLabels(names: any []) {
+  set dataLabels(names: string[]) {
     this._names = names;
   }
-  get dataLabels(): any[] { return this._names; }
+  get dataLabels(): string[] { return this._names; }
 
   public barChartOptions:any = {
     scaleShowVerticalLines: false,
@@ -34,25 +72,31 @@ export class ChartBarComponent implements OnInit {
   };
 
   
-  public barChartLabels:string[] = []; //['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartLabels:string[]; //= []; //['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartData: any[];
   public barChartType:string = 'horizontalBar';
   public barChartLegend:boolean = true;
  
- public barChartData: any[] = [
+ /*public barChartData: any[] = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'}
     //,{data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
-  ];
+  ];*/
 
   //public barChartData: any[]= [];
  
   // events
-  public chartReload(container) {
+  public chartReload() {
     console.log("Reload");
-    console.log(container.names);
+    //console.log(container.names);
+
+    //this.dataLabels = container.names
     //console.log(this.barChartData);
+    //this.barChartData = container.series;
+    //this.barChartLabels = container.names;
+    //this.chart.ngOnChanges({} as SimpleChanges);
+
+    this.refresh_chart();
     
-    this.barChartData = container.series;
-    this.barChartLabels = container.names;
   }
 
   public chartClicked(e:any):void {

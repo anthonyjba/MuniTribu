@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   cuboCuotaFiltrado: Array<ICubo_Couta>;
   cuboCuotaResumen: ICubo_Couta;
   columnsGroup: Array<IColumns> = Columns;
-  datasetChart: any[] = [ {data: [] }];
+  containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
   //cultivos: Array<IDefault>;
 
   @ViewChild(ChartBarComponent) chartbar : ChartBarComponent;
@@ -77,23 +77,7 @@ export class AppComponent implements OnInit {
     }    
   }
 
-  parseChart() {
-    let series: any[] = [];
-    let values :any[] = [];
-    for (var i = 0, j = this.cuboCuotaFiltrado.length; i !== j; i++) {
-      values.push(this.cuboCuotaFiltrado[i]['SUM_HECT']);
-    }
-    series.push({data: values, label: 'Series ABC'});
-    //this.datasetChart = series;
-    //console.log(this.datasetChart);
-
-    let containerChart = { 
-          names : this.keys(this.columnsGroup[0].values), 
-          series:  series
-        }
-    
-    this.chartbar.chartReload(containerChart);
-  }
+  
 
   onClick(event) {
     let dictCurrent = this.columnsGroup.find((col) => col.id === event.target.name).filters;
@@ -159,6 +143,44 @@ export class AppComponent implements OnInit {
 
     //console.log(result.length);    
     return result;
+  }
+
+  parseChart() {
+    let indexColumn : number = -1; 
+    for (var a = 0, b = this.columnsGroup.length; a < b; a++) {
+      if (this.columnsGroup[a].display) { indexColumn = a; break; } 
+    } 
+     
+    if (indexColumn !== -1) {
+      let keysColumns = this.keys(this.columnsGroup[indexColumn].values);
+      let series: any[] = [];
+      let values :any[] = [];
+      
+      for (var i = 0, j = keysColumns.length; i !== j; i++) {
+        let num = 0;
+        for (var x = 0, y = this.cuboCuotaFiltrado.length; x != y; x++){          
+          if(keysColumns[i] === this.cuboCuotaFiltrado[x][this.columnsGroup[indexColumn].id]) {
+            num = this.cuboCuotaFiltrado[x]['SUM_HECT'];            
+            break;
+          }
+        }
+        values.push(num);
+      }
+      series.push({data: values, label: 'Series ABC'});
+      
+      this.containerChart = { 
+            names : this.keys(this.columnsGroup[0].values), 
+            series:  series
+          }
+      
+      this.chartbar.dataLabels = this.containerChart.names;
+      this.chartbar.dataset = this.containerChart.series;
+
+      this.chartbar.chartReload();
+
+    }
+
+    
   }
 
 
