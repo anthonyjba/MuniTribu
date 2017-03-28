@@ -173,10 +173,17 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
+                        <div class="col-md-8 col-md-offset-1">
                             <chart-bar [dataLabels]="containerChart.names" [dataset]="containerChart.series"></chart-bar>
-                            <!--<chart-bar [barChartLabels]="keys(columnsGroup[0].values)"
+                            <!--<chart-bar [barChartLabels]="keys(columnsGroup[0].values)" 
                                         [dataset]="datasetChart" ></chart-bar>-->
+                        </div>
+                        <div class="col-md-3 sidebar">
+                            <ul class="nav nav-sidebar">
+                                <li *ngFor="let type of colsQuantity" (click)="changeTypeQuantity(type.id)" >
+                                    <a href="#">{{ type.name }}</a>
+                                </li>                                
+                            </ul>                            
                         </div>
                     </div>
 

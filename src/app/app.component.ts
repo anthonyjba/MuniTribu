@@ -6,7 +6,7 @@ import { IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
 import * as DictionaryModule from './shared/services/dictionary.service';
 import { CuboCuotaService } from './shared/services/cubo-cuota.service';
 import { Dictionary } from './shared/enums';
-import { Columns  } from './shared/config';
+import { Columns, ColumnsQuantity  } from './shared/config';
 
 import { ChartBarComponent } from './chart-bar/chart-bar.component';
 
@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
   cuboCuotaFiltrado: Array<ICubo_Couta>;
   cuboCuotaResumen: ICubo_Couta;
   columnsGroup: Array<IColumns> = Columns;
+  colsQuantity = ColumnsQuantity;
   containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
   //cultivos: Array<IDefault>;
 
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
 
   //Default Values
   selmuni: string = "45900";
+  colQuantActive: string = "N_SUBPARC";
   uniqueAccordion: boolean = true;
   public customClass: string = 'customClass';
 
@@ -77,7 +79,11 @@ export class AppComponent implements OnInit {
     }    
   }
 
-  
+  changeTypeQuantity(currentType) {
+    console.log(currentType);
+    this.colQuantActive = currentType;
+    this.parseChart();
+  }
 
   onClick(event) {
     let dictCurrent = this.columnsGroup.find((col) => col.id === event.target.name).filters;
@@ -160,7 +166,7 @@ export class AppComponent implements OnInit {
         let num = 0;
         for (var x = 0, y = this.cuboCuotaFiltrado.length; x != y; x++){          
           if(keysColumns[i] === this.cuboCuotaFiltrado[x][this.columnsGroup[indexColumn].id]) {
-            num = this.cuboCuotaFiltrado[x]['SUM_HECT'];            
+            num = this.cuboCuotaFiltrado[x][this.colQuantActive];
             break;
           }
         }
