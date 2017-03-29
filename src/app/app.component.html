@@ -174,16 +174,41 @@
 
                     <div class="row">
                         <div class="col-md-8 col-md-offset-1">
-                            <chart-bar [dataLabels]="containerChart.names" [dataset]="containerChart.series"></chart-bar>
-                            <!--<chart-bar [barChartLabels]="keys(columnsGroup[0].values)" 
-                                        [dataset]="datasetChart" ></chart-bar>-->
+                            <chart charType='horizontalBar'></chart>                            
                         </div>
                         <div class="col-md-3 sidebar">
-                            <ul class="nav nav-sidebar">
-                                <li *ngFor="let type of colsQuantity" (click)="changeTypeQuantity(type.id)" >
+                            <ul class="nav nav-sidebar quantity">
+                                <li *ngFor="let type of colsQuantity; let i = index"
+                                    (click)="changeTypeQuantity(type.id)">
                                     <a href="#">{{ type.name }}</a>
                                 </li>                                
                             </ul>                            
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div style="display: block">
+                                <chart charType='bar'></chart>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div style="display: block">
+                                <chart charType='pie'></chart>
+                            </div>                            
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-md-offset-1">
+                            <div style="display: block">
+                                <chart charType='doughnut'></chart>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-md-offset-1">
+                            <div style="display: block">
+                                <chart charType='radar'></chart>
+                            </div>                            
                         </div>
                     </div>
 

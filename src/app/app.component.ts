@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 //app
@@ -7,8 +7,8 @@ import * as DictionaryModule from './shared/services/dictionary.service';
 import { CuboCuotaService } from './shared/services/cubo-cuota.service';
 import { Dictionary } from './shared/enums';
 import { Columns, ColumnsQuantity  } from './shared/config';
+import { ChartComponent } from './chart/chart.component';
 
-import { ChartBarComponent } from './chart-bar/chart-bar.component';
 
 @Component({
   selector: 'app-root',
@@ -28,9 +28,8 @@ export class AppComponent implements OnInit {
   columnsGroup: Array<IColumns> = Columns;
   colsQuantity = ColumnsQuantity;
   containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
-  //cultivos: Array<IDefault>;
 
-  @ViewChild(ChartBarComponent) chartbar : ChartBarComponent;
+  @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
 
   //Default Values
   selmuni: string = "45900";
@@ -50,8 +49,6 @@ export class AppComponent implements OnInit {
         .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
                 error => console.log(error),
                 () => this.extractDictionary());
-    
-    //this.cultivos = DictionaryModule.getDictionary(Dictionary.Cultivos);
   }
 
   keys(currentDict: any) : Array<string> {
@@ -80,7 +77,6 @@ export class AppComponent implements OnInit {
   }
 
   changeTypeQuantity(currentType) {
-    console.log(currentType);
     this.colQuantActive = currentType;
     this.parseChart();
   }
@@ -156,34 +152,35 @@ export class AppComponent implements OnInit {
     for (var a = 0, b = this.columnsGroup.length; a < b; a++) {
       if (this.columnsGroup[a].display) { indexColumn = a; break; } 
     } 
-     
+    
     if (indexColumn !== -1) {
       let keysColumns = this.keys(this.columnsGroup[indexColumn].values);
       let series: any[] = [];
       let values :any[] = [];
-      
+
       for (var i = 0, j = keysColumns.length; i !== j; i++) {
         let num = 0;
         for (var x = 0, y = this.cuboCuotaFiltrado.length; x != y; x++){          
-          if(keysColumns[i] === this.cuboCuotaFiltrado[x][this.columnsGroup[indexColumn].id]) {
+          if(keysColumns[i] == this.cuboCuotaFiltrado[x][this.columnsGroup[indexColumn].id]) {
             num = this.cuboCuotaFiltrado[x][this.colQuantActive];
             break;
           }
         }
         values.push(num);
       }
-      series.push({data: values, label: 'Series ABC'});
+      series.push({data: values, label: this.columnsGroup[indexColumn].name });
       
       this.containerChart = { 
-            names : this.keys(this.columnsGroup[0].values), 
+            names : this.keys(this.columnsGroup[indexColumn].values).map((el) => { return el.substring(0, 40) }), 
             series:  series
           }
+
+      this.charts.forEach((charting) => {
+        charting.dataLabels = this.containerChart.names;
+        charting.dataset = this.containerChart.series;
+        charting.refresh();
+      });
       
-      this.chartbar.dataLabels = this.containerChart.names;
-      this.chartbar.dataset = this.containerChart.series;
-
-      this.chartbar.chartReload();
-
     }
 
     

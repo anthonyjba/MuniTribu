@@ -10,14 +10,14 @@ import { DndModule } from 'ng2-dnd';
 import { TruncatePipe } from './shared/truncate.pipe';
 import { SortableGroupComponent } from './sortable-group/sortable-group.component';
 import { ChartsModule } from 'ng2-charts';
-import { ChartBarComponent } from './chart-bar/chart-bar.component';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TruncatePipe,
     SortableGroupComponent,
-    ChartBarComponent
+    ChartComponent
   ],
   imports: [
     BrowserModule,

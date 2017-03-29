@@ -9,8 +9,8 @@ export const Columns: Array<IColumns> = [
                 ];
 
 export const ColumnsQuantity: Array<IDefault> = [
-                  { id: 'N_SUBPARC', name:'SubParcelas' },
-                  { id: 'N_PROPIETARIOS', name:'Propietarios' },
+                  { id: 'N_SUBPARC', name:'#SubParcelas' },
+                  { id: 'N_PROPIETARIOS', name:'#Propietarios' },
                   { id: 'SUM_HECT', name:'Hectáreas' },
                   { id: 'SUM_V_CATASTR', name:'Valor Catastral' },
                   { id: 'SUM_CUOTA', name:'Cuota' }

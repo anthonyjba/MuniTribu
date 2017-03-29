@@ -41,6 +41,16 @@ div.panel-heading {
     border: none;
 }
 
+/* aside Types columns*/
+.quantity > li > a:hover {
+  background: transparent;
+}
+
+.quantity > li > a:focus {
+  background: transparent;
+  color: greenyellow;
+}
+
 /* Panel of Accordion */
 .card.customClass,
 .card.customClass .card-header,
