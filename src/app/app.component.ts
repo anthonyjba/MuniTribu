@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
   cuboCuotaFiltrado: Array<ICubo_Couta>;
   cuboCuotaResumen: ICubo_Couta;
   columnsGroup: Array<IColumns> = Columns;
+  seriesQuantity: string[] = [];
   colsQuantity = ColumnsQuantity;
   containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
 
@@ -33,13 +34,16 @@ export class AppComponent implements OnInit {
 
   //Default Values
   selmuni: string = "45900";
-  colQuantActive: string = "N_SUBPARC";
+  colQuantActive: string = "N_SUBPARC";   
   uniqueAccordion: boolean = true;
-  public customClass: string = 'customClass';
+  customClass: string = 'customClass';
 
   constructor(private cubocuotaService: CuboCuotaService) {
       this.cuboCuotaResumen = { MUNI: this.selmuni, AC: null, IP: null, IPP: null, TALLA: null, TIPO_CIF: null, 
               N_SUBPARC: 0, N_PROPIETARIOS: 0, SUM_HECT: 0, SUM_V_CATASTR: 0, TIPO_GRAVAMEN: 0, SUM_CUOTA: 0};
+
+      this.seriesQuantity.push("N_SUBPARC");
+      this.seriesQuantity.push("N_PROPIETARIOS");
   }
 
   ngOnInit(){
@@ -49,10 +53,6 @@ export class AppComponent implements OnInit {
         .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
                 error => console.log(error),
                 () => this.extractDictionary());
-  }
-
-  keys(currentDict: any) : Array<string> {
-    return Object.keys(currentDict);
   }
 
   extractDictionary(){
@@ -148,33 +148,43 @@ export class AppComponent implements OnInit {
   }
 
   parseChart() {
-    let indexColumn : number = -1; 
-    for (var a = 0, b = this.columnsGroup.length; a < b; a++) {
-      if (this.columnsGroup[a].display) { indexColumn = a; break; } 
-    } 
-    
-    if (indexColumn !== -1) {
-      let keysColumns = this.keys(this.columnsGroup[indexColumn].values);
-      let series: any[] = [];
-      let values :any[] = [];
+    let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })
 
-      for (var i = 0, j = keysColumns.length; i !== j; i++) {
-        let num = 0;
+    this.charts.forEach((charting) => {
+      console.log(charting);
+      //add unique serie to this.seriesQuantity
+    });
+    
+    if (indexGroup !== -1) {
+      let keysColumns = this.keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
+      let series: any[] = [];
+
+      //Adding a Serie
+      let currentLabel = this.columnsGroup[indexGroup].name;
+      this.seriesQuantity.forEach((serie) => {
+        series.push({data: Array.from({length: keysColumns.length}, () => 0), 
+                     label: currentLabel + " - " + serie, column: serie }); //Sum_Cuota, etc...
+      });
+
+      for (var rowCol = 0, j = keysColumns.length; rowCol !== j; rowCol++) {
         for (var x = 0, y = this.cuboCuotaFiltrado.length; x != y; x++){          
-          if(keysColumns[i] == this.cuboCuotaFiltrado[x][this.columnsGroup[indexColumn].id]) {
-            num = this.cuboCuotaFiltrado[x][this.colQuantActive];
+          if(keysColumns[rowCol] == this.cuboCuotaFiltrado[x][this.columnsGroup[indexGroup].id]) {
+            //Update "Quantity Value"
+            series.forEach((serie) => {
+                serie.data[rowCol] = this.cuboCuotaFiltrado[x][serie.column];
+            });
             break;
           }
         }
-        values.push(num);
       }
-      series.push({data: values, label: this.columnsGroup[indexColumn].name });
-      
+
+      //Adding to container
       this.containerChart = { 
-            names : this.keys(this.columnsGroup[indexColumn].values).map((el) => { return el.substring(0, 40) }), 
+            names : this.keys(this.columnsGroup[indexGroup].values).map((el) => { return el.substring(0, 40) }), 
             series:  series
           }
-
+      
+      //Refresh all Chart
       this.charts.forEach((charting) => {
         charting.dataLabels = this.containerChart.names;
         charting.dataset = this.containerChart.series;
@@ -182,9 +192,10 @@ export class AppComponent implements OnInit {
       });
       
     }
-
-    
   }
 
+  keys(currentDict: any) : Array<string> {
+    return Object.keys(currentDict);
+  }
 
 }

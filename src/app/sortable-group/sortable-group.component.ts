@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, ViewEncapsulation, Output, EventEmitter, ViewChild } from '@angular/core';
 
 import { Columns  } from '../shared/config'; 
 
@@ -8,7 +8,7 @@ import { Columns  } from '../shared/config';
   templateUrl: './sortable-group.component.html',
   styleUrls: ['./sortable-group.component.css']
 })
-export class SortableGroupComponent implements OnInit {
+export class SortableGroupComponent {
 
   sortColumns = Columns;
 
@@ -16,9 +16,6 @@ export class SortableGroupComponent implements OnInit {
   change: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
   refresh(){
     this.change.emit(this.sortColumns);

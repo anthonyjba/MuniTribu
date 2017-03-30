@@ -30,10 +30,16 @@ export class ChartComponent {
   get dataLabels(): string[] { return this._names; }
   
   @Input()
+  Id: string;
+
+  @Input()
   charType: string = this._chartType;
   
   @Input()
-  public legend:boolean = this._legend;
+  legend: boolean = this._legend;
+
+  @Input()
+  series: string[];
 
   public options:any = {
     scaleShowVerticalLines: false,
@@ -42,7 +48,8 @@ export class ChartComponent {
 
   refresh() {
         if (this.chart) {
-          console.log(this.charType);          
+          //console.log(this.charType);
+          //Validar series para cada componente chart
           this.chart.datasets = this.dataset;
           this.chart.labels = this.dataLabels;
           this.chart.ngOnChanges({});
