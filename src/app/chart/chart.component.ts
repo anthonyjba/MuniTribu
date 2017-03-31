@@ -16,6 +16,7 @@ export class ChartComponent {
   private _names: string[] = [];
   private _chartType: string = 'bar';
   private _legend: boolean = true;
+  private _id: string = '';
 
   @Input()
   set dataset(data: any[]) {
@@ -30,7 +31,7 @@ export class ChartComponent {
   get dataLabels(): string[] { return this._names; }
   
   @Input()
-  Id: string;
+  id: string = this._id;
 
   @Input()
   charType: string = this._chartType;
@@ -39,7 +40,7 @@ export class ChartComponent {
   legend: boolean = this._legend;
 
   @Input()
-  series: string[];
+  series: any[];
 
   public options:any = {
     scaleShowVerticalLines: false,
@@ -48,9 +49,14 @@ export class ChartComponent {
 
   refresh() {
         if (this.chart) {
-          //console.log(this.charType);
+          //console.log(this.charType + " - " + this.series);
+          /*if(this.series){
+            var list = this.dataset.filter((c) => { return this.series.indexOf(c.column) > -1 });
+            console.log(list);
+          }*/
           //Validar series para cada componente chart
-          this.chart.datasets = this.dataset;
+          this.chart.datasets = !this.series ?  this.dataset : 
+                                this.dataset.filter((c) => { return this.series.indexOf(c.column) > -1 });
           this.chart.labels = this.dataLabels;
           this.chart.ngOnChanges({});
         }

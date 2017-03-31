@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-9">
+                <div class="col-md-9">                    
                     <div class="row">
 
                             <!-- Resumen -->
@@ -174,22 +174,27 @@
 
                     <div class="row">
                         <div class="col-md-9">
-                            <chart charType='horizontalBar' [series]="['N_SUBPARC','N_PROPIETARIOS']"></chart>                            
+                            <chart id="chart1" charType='horizontalBar' [series]="['N_SUBPARC','N_PROPIETARIOS']"></chart>                            
                         </div>
                         <div class="col-md-3 sidebar">
-                            <ul class="nav nav-sidebar quantity">
+                            <select id="selchart1" multiple (change)="changeSeries($event.target)" 
+                                class="selectpicker show-menu-arrow form-control">
+                                <option selected>N_SUBPARC</option>
+                                <option selected>N_PROPIETARIOS</option>
+                            </select>
+                            <!--<ul class="nav nav-sidebar quantity">
                                 <li *ngFor="let type of colsQuantity; let i = index"
                                     (click)="changeTypeQuantity(type.id)">
                                     <a href="#">{{ type.name }}</a>
                                 </li>                                
-                            </ul>                            
+                            </ul>-->                            
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-7">
                             <div style="display: block">
-                                <chart charType='bar'></chart>
+                                <chart id="chart2" charType='bar' [series]="['SUM_HECT']"></chart>
                             </div>
                         </div>
                         <div class="col-md-5">

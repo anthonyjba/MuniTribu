@@ -76,6 +76,14 @@ export class AppComponent implements OnInit {
     }    
   }
 
+  changeSeries(event) {
+    let opts = event.selectedOptions;
+    console.log(opts);
+    let currentChart = this.charts.find((c) => c.id === "chart1");
+    //currentChart.series = foreach options
+    console.log(currentChart.series);
+  }
+
   changeTypeQuantity(currentType) {
     this.colQuantActive = currentType;
     this.parseChart();
@@ -143,25 +151,28 @@ export class AppComponent implements OnInit {
         result.push(this.cuboCuotaInicial[i]);
     }
 
-    //console.log(result.length);    
     return result;
   }
 
   parseChart() {
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })
+    let series: any[] = [];
 
+    //add unique serie to this.seriesQuantity
+    let uniqueSeries = {};
     this.charts.forEach((charting) => {
-      console.log(charting);
-      //add unique serie to this.seriesQuantity
+      if(charting.series){
+        charting.series.forEach((s) => { uniqueSeries[s] = 1; })
+      }
+      
     });
     
     if (indexGroup !== -1) {
       let keysColumns = this.keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
-      let series: any[] = [];
-
+      
       //Adding a Serie
       let currentLabel = this.columnsGroup[indexGroup].name;
-      this.seriesQuantity.forEach((serie) => {
+      Object.keys(uniqueSeries).forEach((serie) => {
         series.push({data: Array.from({length: keysColumns.length}, () => 0), 
                      label: currentLabel + " - " + serie, column: serie }); //Sum_Cuota, etc...
       });
@@ -184,6 +195,8 @@ export class AppComponent implements OnInit {
             series:  series
           }
       
+      console.log(series);
+
       //Refresh all Chart
       this.charts.forEach((charting) => {
         charting.dataLabels = this.containerChart.names;
