@@ -67,12 +67,16 @@ export class AppComponent implements OnInit {
     }    
   }
 
-  onChangeSeries(event) {
-    let opts = event.selectedOptions;
-    console.log(opts);
-    let currentChart = this.charts.find((c) => c.id === "chart1");
-    //currentChart.series = foreach options
+  onChangeSeries(options, chartId) {
+    let series = Array.apply(null,options)
+      .filter(option => option.selected)
+      .map(option => option.value)
+
+    let currentChart = this.charts.find((c) => c.id === chartId);
+    currentChart.series = Array.apply(null,series);
     console.log(currentChart.series);
+
+    this.parseChart();
   }
 
   /*changeTypeQuantity(currentType) {

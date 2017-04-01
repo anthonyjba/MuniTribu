@@ -17,5 +17,6 @@
         "src/assets/.gitkeep": true,
         ".editorconfig": true,
         "**/*.spec.ts": true
-    }
+    },
+    "vsicons.presets.angular": true
 }
