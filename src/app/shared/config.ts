@@ -1,6 +1,6 @@
 import { IColumns, IDefault } from './interfaces';
 
-export const Columns: Array<IColumns> = [
+export const COLUMNS_GROUP : Array<IColumns> = [
                   { id: 'AC', name:'Cultivo', display: true, values: {}, filters : {} }, 
                   { id: 'TIPO_CIF', name:'Propietario', display: false, values: {}, filters : {} },
                   { id: 'TALLA', name:'Tamaño', display: false, values: {}, filters : {} },
@@ -8,7 +8,7 @@ export const Columns: Array<IColumns> = [
                   { id: 'IPP', name:'IPP', display: false, values: {}, filters : {} }
                 ];
 
-export const ColumnsQuantity: Array<IDefault> = [
+export const COLUMNS_QUANTITY: Array<IDefault> = [
                   { id: 'N_SUBPARC', name:'#SubParcelas' },
                   { id: 'N_PROPIETARIOS', name:'#Propietarios' },
                   { id: 'SUM_HECT', name:'Hectáreas' },

@@ -6,7 +6,7 @@ import { IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
 import * as DictionaryModule from './shared/services/dictionary.service';
 import { CuboCuotaService } from './shared/services/cubo-cuota.service';
 import { Dictionary } from './shared/enums';
-import { Columns, ColumnsQuantity  } from './shared/config';
+import { COLUMNS_GROUP, COLUMNS_QUANTITY  } from './shared/config';
 import { ChartComponent } from './chart/chart.component';
 
 
@@ -25,9 +25,9 @@ export class AppComponent implements OnInit {
   cuboCuotaInicial: Array<ICubo_Couta>;
   cuboCuotaFiltrado: Array<ICubo_Couta>;
   cuboCuotaResumen: ICubo_Couta;
-  columnsGroup: Array<IColumns> = Columns;
+  columnsGroup: Array<IColumns> = COLUMNS_GROUP;
+  columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   seriesQuantity: string[] = [];
-  colsQuantity = ColumnsQuantity;
   containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
 
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   uniqueAccordion: boolean = true;
   customClass: string = 'customClass';
 
-  constructor(private cubocuotaService: CuboCuotaService) {
+  constructor(private _cubocuotaService: CuboCuotaService) {
       this.cuboCuotaResumen = { MUNI: this.selmuni, AC: null, IP: null, IPP: null, TALLA: null, TIPO_CIF: null, 
               N_SUBPARC: 0, N_PROPIETARIOS: 0, SUM_HECT: 0, SUM_V_CATASTR: 0, TIPO_GRAVAMEN: 0, SUM_CUOTA: 0};
 
@@ -49,24 +49,15 @@ export class AppComponent implements OnInit {
   ngOnInit(){
     
     this.municipios = DictionaryModule.getDictionary(Dictionary.Municipio);
-    this.cubocuotaService.getCubo()
+    this._cubocuotaService.getCubo()
         .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
                 error => console.log(error),
-                () => this.extractDictionary());
+                () => this.__extractDictionary());
   }
 
-  extractDictionary(){
-    for (var i = 0, j = this.cuboCuotaInicial.length; i !== j; i++) {
-      for (var x = 0, y = this.columnsGroup.length; x != y; x++){
-        if(this.cuboCuotaInicial[i][this.columnsGroup[x].id])
-          this.columnsGroup[x].values[this.cuboCuotaInicial[i][this.columnsGroup[x].id]] = 1;
-      }
-    }
-          
-    this.__displayResumen();
-  }
+  /** Eventos **/
 
-  updateColumns(result : Array<IColumns>){
+  onUpdateColumns(result : Array<IColumns>){
     //Verificar porque repite esta funcion 2 veces
     if(result.length > 0) {
         this.columnsGroup = result;
@@ -76,7 +67,7 @@ export class AppComponent implements OnInit {
     }    
   }
 
-  changeSeries(event) {
+  onChangeSeries(event) {
     let opts = event.selectedOptions;
     console.log(opts);
     let currentChart = this.charts.find((c) => c.id === "chart1");
@@ -84,10 +75,10 @@ export class AppComponent implements OnInit {
     console.log(currentChart.series);
   }
 
-  changeTypeQuantity(currentType) {
+  /*changeTypeQuantity(currentType) {
     this.colQuantActive = currentType;
     this.parseChart();
-  }
+  }*/
 
   onClick(event) {
     let dictCurrent = this.columnsGroup.find((col) => col.id === event.target.name).filters;
@@ -105,12 +96,24 @@ export class AppComponent implements OnInit {
     this.__refreshAll();
   }
 
-  __refreshAll(){
+  /** Private Methods ***/
+  private __extractDictionary(){
+    for (var i = 0, j = this.cuboCuotaInicial.length; i !== j; i++) {
+      for (var x = 0, y = this.columnsGroup.length; x != y; x++){
+        if(this.cuboCuotaInicial[i][this.columnsGroup[x].id])
+          this.columnsGroup[x].values[this.cuboCuotaInicial[i][this.columnsGroup[x].id]] = 1;
+      }
+    }
+          
+    this.__displayResumen();
+  }
+
+  private __refreshAll(){
      this.cuboCuotaFiltrado = this.__updateTablacubo();
      this.parseChart();
   }
 
-  __displayResumen() {
+  private __displayResumen() {
 
     let resumen = []; 
     for (var i = 0, j = this.cuboCuotaInicial.length; i !== j; i++) {
@@ -129,7 +132,7 @@ export class AppComponent implements OnInit {
     this.__refreshAll();    
   }
 
-  __updateTablacubo() {
+  private __updateTablacubo() {
     let result = [];
     let cube = this.cuboCuotaInicial;
 
@@ -154,7 +157,7 @@ export class AppComponent implements OnInit {
     return result;
   }
 
-  parseChart() {
+  private parseChart() {
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })
     let series: any[] = [];
 

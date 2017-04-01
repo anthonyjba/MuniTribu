@@ -1,7 +1,8 @@
 //App
-import { dict_municipios, dict_cultivos } from '../static-data';
 import { IDefault } from '../interfaces'; 
 import { Dictionary } from '../enums';
+
+import { MUNICIPIOS, CULTIVOS } from '../dictionary-data';
 
 
 export function getDictionary(type: Dictionary){
@@ -10,10 +11,10 @@ export function getDictionary(type: Dictionary){
     
     switch(type) {
         case Dictionary.Municipio:
-            data = dict_municipios;
+            data = MUNICIPIOS;
             break;
         case Dictionary.Cultivos:
-            data = dict_cultivos;
+            data = CULTIVOS;
             break;
     }
 

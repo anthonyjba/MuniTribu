@@ -1,5 +1,5 @@
 
-export var dict_cultivos = {
+export const CULTIVOS = {
     'ARZ': 'Arrozal', 							
     'CBP': 'Invernaderos y cultivos bajo plástico',
     'CIT': 'Cítricos',								
@@ -31,7 +31,7 @@ export var dict_cultivos = {
 };
  
 
-export var dict_municipios = {
+export const MUNICIPIOS = {
     "02001": "Abengibre",
     "02002": "Alatoz",
     "02004": "Albatana",

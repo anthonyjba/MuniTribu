@@ -49,7 +49,7 @@
                             </select>
                             <hr>
                                     
-                            <sortable-group (change)="updateColumns($event)"></sortable-group>
+                            <sortable-group (change)="onUpdateColumns($event)"></sortable-group>
 
                             <accordion [closeOthers]="uniqueAccordion">                                
                                 <accordion-group *ngFor="let col of columnsGroup" [panelClass]="customClass">
@@ -177,13 +177,13 @@
                             <chart id="chart1" charType='horizontalBar' [series]="['N_SUBPARC','N_PROPIETARIOS']"></chart>                            
                         </div>
                         <div class="col-md-3 sidebar">
-                            <select id="selchart1" multiple (change)="changeSeries($event.target)" 
+                            <select id="selchart1" multiple (change)="onChangeSeries($event.target)" 
                                 class="selectpicker show-menu-arrow form-control">
                                 <option selected>N_SUBPARC</option>
                                 <option selected>N_PROPIETARIOS</option>
                             </select>
                             <!--<ul class="nav nav-sidebar quantity">
-                                <li *ngFor="let type of colsQuantity; let i = index"
+                                <li *ngFor="let type of columnsQuantity; let i = index"
                                     (click)="changeTypeQuantity(type.id)">
                                     <a href="#">{{ type.name }}</a>
                                 </li>                                

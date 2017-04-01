@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, Output, EventEmitter, ViewChild } from '@angular/core';
 
-import { Columns  } from '../shared/config'; 
+import { COLUMNS_GROUP  } from '../shared/config'; 
 
 @Component({
   selector: 'sortable-group',
@@ -10,7 +10,7 @@ import { Columns  } from '../shared/config';
 })
 export class SortableGroupComponent {
 
-  sortColumns = Columns;
+  sortColumns = COLUMNS_GROUP;
 
   @Output()
   change: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
