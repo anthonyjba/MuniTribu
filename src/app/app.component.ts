@@ -27,14 +27,13 @@ export class AppComponent implements OnInit {
   cuboCuotaResumen: ICubo_Couta;
   columnsGroup: Array<IColumns> = COLUMNS_GROUP;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
-  seriesQuantity: string[] = [];
   containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
+  optsChart1: any[] = this.columnsQuantity;
 
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
 
   //Default Values
   selmuni: string = "45900";
-  colQuantActive: string = "N_SUBPARC";   
   uniqueAccordion: boolean = true;
   customClass: string = 'customClass';
 
@@ -42,8 +41,9 @@ export class AppComponent implements OnInit {
       this.cuboCuotaResumen = { MUNI: this.selmuni, AC: null, IP: null, IPP: null, TALLA: null, TIPO_CIF: null, 
               N_SUBPARC: 0, N_PROPIETARIOS: 0, SUM_HECT: 0, SUM_V_CATASTR: 0, TIPO_GRAVAMEN: 0, SUM_CUOTA: 0};
 
-      this.seriesQuantity.push("N_SUBPARC");
-      this.seriesQuantity.push("N_PROPIETARIOS");
+      this.optsChart1.map((s) => s.selected = true);
+      console.log(this.optsChart1);
+//      .push("N_SUBPARC");
   }
 
   ngOnInit(){
@@ -53,6 +53,10 @@ export class AppComponent implements OnInit {
         .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
                 error => console.log(error),
                 () => this.__extractDictionary());
+  }
+
+  ngAfterViewInit() {
+    console.log("AfterView")
   }
 
   /** Eventos **/
@@ -165,13 +169,12 @@ export class AppComponent implements OnInit {
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })
     let series: any[] = [];
 
-    //add unique serie to this.seriesQuantity
+    //add only unique series
     let uniqueSeries = {};
     this.charts.forEach((charting) => {
       if(charting.series){
         charting.series.forEach((s) => { uniqueSeries[s] = 1; })
-      }
-      
+      }      
     });
     
     if (indexGroup !== -1) {
