@@ -8,11 +8,14 @@ import { BaseChartDirective } from 'ng2-charts';
 export class ChartComponent {
   @ViewChild( BaseChartDirective ) chart : BaseChartDirective;
 
+  SERIE_DEFAULT = [{data: [], label: 'Sin Series'}];
+
   constructor() {
+    this._ds =  this.SERIE_DEFAULT;
    }
 
   /* Default Values */
-  private _ds: any[] = [{data: [], label: 'Series A'}];
+  private _ds: any[] = this.SERIE_DEFAULT;
   private _names: string[] = [];
   private _chartType: string = 'bar';
   private _legend: boolean = true;
@@ -49,15 +52,14 @@ export class ChartComponent {
 
   refresh() {
         if (this.chart) {
-          //console.log(this.charType + " - " + this.series);
-          /*if(this.series){
-            var list = this.dataset.filter((c) => { return this.series.indexOf(c.column) > -1 });
-            console.log(list);
-          }*/
-          //Validar series para cada componente chart
-          this.chart.datasets = !this.series ?  this.dataset : 
-                                this.dataset.filter((c) => { return this.series.indexOf(c.column) > -1 });
+          console.log(this.charType + " - " + this.series);
+          //Valida las series de cada componente chart
+          this.chart.datasets = !this.series ? this.dataset : 
+                                this.series.length > 0 ? this.dataset.filter((c) => { return this.series.indexOf(c.column) > -1 }) :
+                                this.SERIE_DEFAULT;
           this.chart.labels = this.dataLabels;
+
+          // poner { data :  } para hacer un update y que no vaya a refresh
           this.chart.ngOnChanges({});
         }
   }
