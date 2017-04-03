@@ -50,17 +50,21 @@ export class ChartComponent {
     responsive: true
   };
 
-  refresh() {
+  refresh(container) {
         if (this.chart) {
-          console.log(this.charType + " - " + this.series);
-          //Valida las series de cada componente chart
-          this.chart.datasets = !this.series ? this.dataset : 
-                                this.series.length > 0 ? this.dataset.filter((c) => { return this.series.indexOf(c.column) > -1 }) :
-                                this.SERIE_DEFAULT;
-          this.chart.labels = this.dataLabels;
 
-          // poner { data :  } para hacer un update y que no vaya a refresh
-          this.chart.ngOnChanges({});
+          //Valida las series de cada componente chart
+          this.dataset = !this.series ? container.series : 
+                                this.series.length > 0 ? 
+                                container.series.filter((c) => { return this.series.join(',').indexOf(c.column) > -1 }) :
+                                this.SERIE_DEFAULT;
+          this.chart.datasets = this.dataset;
+          
+          //this.chart.labels
+          this.dataLabels = container.names;
+          this.chart.labels =this.dataLabels; 
+          
+          this.chart.ngOnChanges( {} );
         }
   }
 

@@ -28,9 +28,12 @@ export class AppComponent implements OnInit {
   columnsGroup: Array<IColumns> = COLUMNS_GROUP;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
-  optsChart1: any[] = this.columnsQuantity;
+  optsChart1: any[]= this.columnsQuantity.slice(0,2);
+  optsChart2: any[]= this.columnsQuantity.slice(2);
+  optsChart3: any[]= this.columnsQuantity.slice(0);
 
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
+  @ViewChildren('select') selectElRef;
 
   //Default Values
   selmuni: string = "45900";
@@ -41,9 +44,6 @@ export class AppComponent implements OnInit {
       this.cuboCuotaResumen = { MUNI: this.selmuni, AC: null, IP: null, IPP: null, TALLA: null, TIPO_CIF: null, 
               N_SUBPARC: 0, N_PROPIETARIOS: 0, SUM_HECT: 0, SUM_V_CATASTR: 0, TIPO_GRAVAMEN: 0, SUM_CUOTA: 0};
 
-      this.optsChart1.map((s) => s.selected = true);
-      console.log(this.optsChart1);
-//      .push("N_SUBPARC");
   }
 
   ngOnInit(){
@@ -55,10 +55,24 @@ export class AppComponent implements OnInit {
                 () => this.__extractDictionary());
   }
 
-  ngAfterViewInit() {
-    console.log("AfterView")
-  }
+  ngAfterContentInit() { console.log("ngAfterContentInit"); }
 
+  ngAfterViewInit() { console.log("ngAfterViewInit"); 
+    
+
+    this.selectElRef.forEach((el) => {
+      let options = el.nativeElement.options;
+      if( el.nativeElement.id ){
+        let currentChart = this.charts.find((c) => c.id === el.nativeElement.id.substr(2));
+        for(let i=0; i < options.length; i++) {
+          options[i].selected = currentChart.series.join(',').indexOf(options[i].value) > -1;
+        }
+      }
+    });
+     
+}
+
+  
   /** Eventos **/
 
   onUpdateColumns(result : Array<IColumns>){
@@ -71,22 +85,17 @@ export class AppComponent implements OnInit {
     }    
   }
 
-  onChangeSeries(options, chartId) {
-    let series = Array.apply(null,options)
+  onChangeSeries(el) {
+    console.log("onChangeSeries");
+
+    let currentChart = this.charts.find((c) => c.id === el.id.substr(2));
+
+    currentChart.series = Array.apply(null, el.options)
       .filter(option => option.selected)
       .map(option => option.value)
-
-    let currentChart = this.charts.find((c) => c.id === chartId);
-    currentChart.series = Array.apply(null,series);
-    console.log(currentChart.series);
-
-    this.parseChart();
+    
+    currentChart.refresh(this.containerChart);
   }
-
-  /*changeTypeQuantity(currentType) {
-    this.colQuantActive = currentType;
-    this.parseChart();
-  }*/
 
   onClick(event) {
     let dictCurrent = this.columnsGroup.find((col) => col.id === event.target.name).filters;
@@ -169,22 +178,23 @@ export class AppComponent implements OnInit {
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })
     let series: any[] = [];
 
-    //add only unique series
+    /*add only unique series
     let uniqueSeries = {};
     this.charts.forEach((charting) => {
       if(charting.series){
         charting.series.forEach((s) => { uniqueSeries[s] = 1; })
       }      
-    });
+    });*/
     
     if (indexGroup !== -1) {
       let keysColumns = this.keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
       
       //Adding a Serie
       let currentLabel = this.columnsGroup[indexGroup].name;
-      Object.keys(uniqueSeries).forEach((serie) => {
+
+      this.columnsQuantity.forEach((serie) => {
         series.push({data: Array.from({length: keysColumns.length}, () => 0), 
-                     label: currentLabel + " - " + serie, column: serie }); //Sum_Cuota, etc...
+                     label: currentLabel + " - " + serie.id, column: serie.id }); //Sum_Cuota, etc...
       });
 
       for (var rowCol = 0, j = keysColumns.length; rowCol !== j; rowCol++) {
@@ -205,13 +215,9 @@ export class AppComponent implements OnInit {
             series:  series
           }
       
-      console.log(series);
-
       //Refresh all Chart
       this.charts.forEach((charting) => {
-        charting.dataLabels = this.containerChart.names;
-        charting.dataset = this.containerChart.series;
-        charting.refresh();
+        charting.refresh(this.containerChart);
       });
       
     }

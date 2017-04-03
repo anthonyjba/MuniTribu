@@ -174,10 +174,10 @@
 
                     <div class="row">
                         <div class="col-md-9">
-                            <chart id="chart1" charType='horizontalBar' [series]="['N_SUBPARC','N_PROPIETARIOS']"></chart>                            
+                            <chart id="chart1" charType='horizontalBar' [series]="['N_SUBPARC']" ></chart>                            
                         </div>
                         <div class="col-md-3 sidebar">
-                            <select #select multiple (change)="onChangeSeries($event.target.options,'chart1')"
+                            <select id="s_chart1" #select multiple (change)="onChangeSeries($event.target)"
                                 class="selectpicker show-menu-arrow form-control">
                                 <option *ngFor="let item of optsChart1" [value]="item.id" selected="item.selected" >
                                     {{item.name}}
@@ -188,26 +188,38 @@
 
                     <div class="row">
                         <div class="col-md-7">
-                            <div style="display: block">
+                            <select id="s_chart2" #select multiple (change)="onChangeSeries($event.target)"
+                                    class="selectpicker show-menu-arrow form-control">
+                                    <option *ngFor="let item of optsChart2" [value]="item.id" selected="item.selected" >
+                                        {{item.name}}
+                                    </option>
+                                </select>
+                            <div style="display: block">        
                                 <chart id="chart2" charType='bar' [series]="['SUM_HECT']"></chart>
                             </div>
                         </div>
                         <div class="col-md-5">
+                            <select id="s_chart3" #select multiple (change)="onChangeSeries($event.target)"
+                                    class="selectpicker show-menu-arrow form-control">
+                                    <option *ngFor="let item of optsChart3" [value]="item.id" selected="item.selected" >
+                                        {{item.name}}
+                                    </option>
+                                </select>
                             <div style="display: block">
-                                <chart charType='pie'></chart>
+                                <chart id="chart3" charType='pie' [series]="['N_SUBPARC','N_PROPIETARIOS']"></chart>
                             </div>                            
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-7">                            
                             <div style="display: block">
-                                <chart charType='line'></chart>
+                                <chart charType='line' [series]="['N_SUBPARC']"></chart>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div style="display: block">
-                                <chart charType='radar'></chart>
+                                <chart id="chart4" charType='radar' [series]="['N_SUBPARC']"></chart>
                             </div>                            
                         </div>
                     </div>
