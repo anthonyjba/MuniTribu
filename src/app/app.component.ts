@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   cuboCuotaResumen: ICubo_Couta;
   columnsGroup: Array<IColumns> = COLUMNS_GROUP;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
+  TipoGravamen: number = 0.6;
   containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
   optsChart1: any[]= this.columnsQuantity.slice(0,2);
   optsChart2: any[]= this.columnsQuantity.slice(2);
@@ -202,6 +203,7 @@ export class AppComponent implements OnInit {
           if(keysColumns[rowCol] == this.cuboCuotaFiltrado[x][this.columnsGroup[indexGroup].id]) {
             //Update "Quantity Value"
             series.forEach((serie) => {
+                //Validar si la columna es "SUM_CUOTA" para aplicar el gravamen
                 serie.data[rowCol] = this.cuboCuotaFiltrado[x][serie.column];
             });
             break;

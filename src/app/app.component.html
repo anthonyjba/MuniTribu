@@ -173,6 +173,15 @@
                     </div>
 
                     <div class="row">
+                        <div class="col-md-3">
+                            <input type="range" #tgrv min="0" max="1" step="0.1" [(ngModel)]="TipoGravamen" />
+                            <label style="position:absolute; right:10px;">{{ TipoGravamen }}</label>
+                            <!-- <input type="range" #ref (change)="changeZoom(ref.value)"/>
+                            changeZoom(value: number) { ... }-->
+                        </div>
+                        
+                    </div>
+                    <div class="row">
                         <div class="col-md-9">
                             <chart id="chart1" charType='horizontalBar' [series]="['N_SUBPARC']" ></chart>                            
                         </div>
