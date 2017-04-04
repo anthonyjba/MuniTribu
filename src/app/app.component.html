@@ -149,17 +149,8 @@
                                                           
                     </div>
 
-                    <!-- Range del Gravamen -->
-                    <div class="row">
-                        <div class="col-md-3 col-offset-1">
-                            <div style="display: inline-block;">Modifique el tipo de Gravamen:</div>
-                            <div style="display: inline-block;"> 
-                                <input type="range" #tgrv min="0" max="1" step="0.1" 
-                                    [(ngModel)]="tipoGravamen" (change)="onChangeTipoGrav(tgrv.value)" />
-                                <label style="position:absolute; right:10px;">{{ tipoGravamen }}</label>
-                            </div>
-                        </div>                        
-                    </div>
+                    
+                    
 
                     <div class="row">
                         <hr>
@@ -210,11 +201,16 @@
                                     <div class="details">
                                         <div class="number">
                                             <div>
-                                                {{ resumenFiltrado.TIPO_GRAVAMEN }}
+                                                {{ tipoGravamen }}
                                             </div>
                                         </div>
                                         <div class="desc">Gravamen</div>
                                     </div>
+                                </div>
+                                <!-- Range del Gravamen -->
+                                <div>
+                                    <input type="range" #tgrv min="0" max="1" step="0.1" 
+                                    [(ngModel)]="tipoGravamen" (change)="onChangeTipoGrav(tgrv.value)" />                                
                                 </div>
                             </div>
 

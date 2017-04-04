@@ -186,6 +186,8 @@ export class AppComponent implements OnInit {
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })
     let series: any[] = [];
 
+    console.log(indexGroup);
+
     /*add only unique series
     let uniqueSeries = {};
     this.charts.forEach((charting) => {
@@ -230,7 +232,7 @@ export class AppComponent implements OnInit {
         }
       }
 
-      console.log(this.resumenFiltrado);
+      //console.log(this.resumenFiltrado);
 
       //Adding to container
       this.containerChart = { 

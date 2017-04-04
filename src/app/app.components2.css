@@ -348,7 +348,7 @@ chart-tooltip,
 
 /**Counter component*/
 .counter {
-    height: 100px;
+    height: 80px;
     text-align: right;
 }
 .counter .icon {
