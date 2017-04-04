@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { ICubo_Couta } from '../interfaces';
+import { ICubo_Couta } from '../shared/interfaces';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 

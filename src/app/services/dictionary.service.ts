@@ -1,8 +1,8 @@
 //App
-import { IDefault } from '../interfaces'; 
-import { Dictionary } from '../enums';
+import { IDefault } from '../shared/interfaces'; 
+import { Dictionary } from '../shared/enums';
 
-import { MUNICIPIOS, CULTIVOS } from '../dictionary-data';
+import { MUNICIPIOS, CULTIVOS } from '../shared/dictionary-data';
 
 
 export function getDictionary(type: Dictionary){

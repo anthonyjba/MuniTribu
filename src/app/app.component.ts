@@ -3,11 +3,11 @@ import { FormsModule } from '@angular/forms';
 
 //app
 import { IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
-import * as DictionaryModule from './shared/services/dictionary.service';
-import { CuboCuotaService } from './shared/services/cubo-cuota.service';
+import * as DictionaryModule from './services/dictionary.service';
+import { CuboCuotaService } from './services/cubo-cuota.service';
 import { Dictionary } from './shared/enums';
 import { COLUMNS_GROUP, COLUMNS_QUANTITY  } from './shared/config';
-import { ChartComponent } from './chart/chart.component';
+import { ChartComponent } from './components/chart/chart.component';
 
 
 @Component({

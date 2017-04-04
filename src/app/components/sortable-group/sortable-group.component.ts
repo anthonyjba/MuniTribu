@@ -1,9 +1,9 @@
 import { Component, ViewEncapsulation, Output, EventEmitter, ViewChild } from '@angular/core';
 
-import { COLUMNS_GROUP  } from '../shared/config'; 
+import { COLUMNS_GROUP  } from '../../shared/config'; 
 
 @Component({
-  selector: 'sortable-group',
+  selector: 'cat-sortable-group',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './sortable-group.component.html',
   styleUrls: ['./sortable-group.component.css']

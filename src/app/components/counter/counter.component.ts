@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'counter',
+    selector: 'cat-counter',
     templateUrl: 'counter.component.html'
 })
 export class CounterComponent {

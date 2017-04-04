@@ -49,7 +49,7 @@
                             </select>
                             <hr>
                                     
-                            <sortable-group (change)="onUpdateColumns($event)"></sortable-group>
+                            <cat-sortable-group (change)="onUpdateColumns($event)"></cat-sortable-group>
 
                             <accordion [closeOthers]="uniqueAccordion">                                
                                 <accordion-group *ngFor="let col of columnsGroup" [panelClass]="customClass">
@@ -133,18 +133,18 @@
 
 
                             <div class="col-md-3">
-                                <counter description="Hectáreas" 
-                                [value]="resumenMunicipio.SUM_HECT"></counter>                                
+                                <cat-counter description="Hectáreas" 
+                                [value]="resumenMunicipio.SUM_HECT"></cat-counter>                                
                             </div>
 
                             <div class="col-md-3">
-                                <counter description="Valor Catastral" 
-                                [value]="resumenMunicipio.SUM_V_CATASTR"></counter>                                
+                                <cat-counter description="Valor Catastral" 
+                                [value]="resumenMunicipio.SUM_V_CATASTR"></cat-counter>                                
                             </div>
 
                             <div class="col-md-3">
-                                <counter description="Valor Cuota" 
-                                [value]="resumenMunicipio.SUM_CUOTA"></counter>                                
+                                <cat-counter description="Valor Cuota" 
+                                [value]="resumenMunicipio.SUM_CUOTA"></cat-counter>                                
                             </div>
                                                           
                     </div>
@@ -216,18 +216,18 @@
 
 
                             <div class="col-md-3">
-                                <counter description="Hectáreas" 
-                                [value]="resumenFiltrado.SUM_HECT"></counter>                                
+                                <cat-counter description="Hectáreas" 
+                                [value]="resumenFiltrado.SUM_HECT"></cat-counter>                                
                             </div>
 
                             <div class="col-md-3">
-                                <counter description="Valor Catastral" 
-                                [value]="resumenFiltrado.SUM_V_CATASTR"></counter>                                
+                                <cat-counter description="Valor Catastral" 
+                                [value]="resumenFiltrado.SUM_V_CATASTR"></cat-counter>                                
                             </div>
 
                             <div class="col-md-3">
-                                <counter description="Valor Cuota" 
-                                [value]="resumenFiltrado.SUM_CUOTA"></counter>                                
+                                <cat-counter description="Valor Cuota" 
+                                [value]="resumenFiltrado.SUM_CUOTA"></cat-counter>                                
                             </div>
 
                     </div>
@@ -237,7 +237,7 @@
 
                     <div class="row">
                         <div class="col-md-9">
-                            <chart id="chart1" charType='horizontalBar' [series]="['N_SUBPARC']" ></chart>                            
+                            <cat-chart id="chart1" charType='horizontalBar' [series]="['N_SUBPARC']" ></cat-chart>
                         </div>
                         <div class="col-md-3 sidebar">
                             <select id="s_chart1" #select multiple (change)="onChangeSeries($event.target)"
@@ -258,7 +258,7 @@
                                     </option>
                                 </select>
                             <div style="display: block">        
-                                <chart id="chart2" charType='bar' [series]="['SUM_HECT']"></chart>
+                                <cat-chart id="chart2" charType='bar' [series]="['SUM_HECT']"></cat-chart>
                             </div>
                         </div>
                         <div class="col-md-5">
@@ -269,7 +269,7 @@
                                     </option>
                                 </select>
                             <div style="display: block">
-                                <chart id="chart3" charType='pie' [series]="['N_SUBPARC','N_PROPIETARIOS']"></chart>
+                                <cat-chart id="chart3" charType='pie' [series]="['N_SUBPARC','N_PROPIETARIOS']"></cat-chart>
                             </div>                            
                         </div>
                     </div>
@@ -277,12 +277,12 @@
                     <div class="row">
                         <div class="col-md-7">                            
                             <div style="display: block">
-                                <chart charType='line' [series]="['N_SUBPARC']"></chart>
+                                <cat-chart charType='line' [series]="['N_SUBPARC']"></cat-chart>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div style="display: block">
-                                <chart id="chart4" charType='radar' [series]="['N_SUBPARC']"></chart>
+                                <cat-chart id="chart4" charType='radar' [series]="['N_SUBPARC']"></cat-chart>
                             </div>                            
                         </div>
                     </div>

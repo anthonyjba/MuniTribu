@@ -15,5 +15,3 @@ export const COLUMNS_QUANTITY: Array<IDefault> = [
                   { id: 'SUM_V_CATASTR', name:'Valor Catastral' },
                   { id: 'SUM_CUOTA', name:'Cuota' }
                   ];
-
-// 'AC','TIPO_CIF','TALLA','IP','IPP'];

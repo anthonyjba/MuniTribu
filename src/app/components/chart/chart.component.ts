@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
-  selector: 'chart',
+  selector: 'cat-chart',
   templateUrl: './chart.component.html'
 })
 export class ChartComponent {
