@@ -41,9 +41,6 @@ body {
 .card-block {
     padding: .875rem;
 }
-.counter {
-    color: #fff; 
-}
 
 /*dnd*/
 .dnd-drag-start {

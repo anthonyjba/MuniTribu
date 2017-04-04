@@ -78,109 +78,167 @@
                     </div>
                 </div>
 
-                <div class="col-md-9">                    
+                <div class="col-md-9">
+                    <!-- Resumen del Municipio -->                   
                     <div class="row">
+                            
+                            <div class="col-md-1">
 
-                            <!-- Resumen -->
-                            <div class="col-md-3">
-                                <div class="col-md-6">
-                                    <div>
-                                        <div>
-                                            <i class="fa fa-home" style="font-size:2em"></i>
-                                        </div>
-                                        <div>
-                                            <div class="number">
-                                                <div class="counter" style="font-size:3em">
-                                                    {{ cuboCuotaResumen.N_SUBPARC }}
-                                                </div>
-                                            </div>
-                                            <div>SubParcelas</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div>
-                                        <div>
-                                            <i class="fa fa-group" style="font-size:2em"></i>
-                                        </div>
-                                        <div class="details">
-                                            <div class="number">
-                                                <div class="counter" style="font-size:3em">
-                                                    {{ cuboCuotaResumen.N_PROPIETARIOS }}
-                                                </div>
-                                            </div>
-                                            <div class="desc">Propietarios</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-3">
-                                <div class="dashboard-stat yellow-lemon" style="border-radius: 4px;">
-                                    <div class="visual">
-                                        <i class="fa fa-meh-o"></i>
+                                <div class="counter">
+                                    <div class="icon">
+                                        <i class="fa fa-home"></i>
                                     </div>
                                     <div class="details">
                                         <div class="number">
-                                            <div class="counter">
-                                                {{ cuboCuotaResumen.SUM_HECT | number : '1.2-2' }}
+                                            <div>
+                                                {{ resumenMunicipio.N_SUBPARC }}
                                             </div>
                                         </div>
-                                        <div class="desc">Hectáreas</div>
+                                        <div class="desc">SubParcelas</div>
                                     </div>
-
-                                    <a class="more" href="">Ver más<i class="fa fa-share"></i></a>
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="dashboard-stat green-jungle" style="border-radius: 4px;">
-                                    <div class="visual">
-                                        <i class="fa fa-smile-o"></i>
+                            <div class="col-md-1">
+                                <div class="counter">
+                                    <div class="icon">
+                                        <i class="fa fa-group"></i>
                                     </div>
                                     <div class="details">
                                         <div class="number">
-                                            <div class="counter">
-                                                {{ cuboCuotaResumen.SUM_V_CATASTR | number : '1.2-2' }}
+                                            <div>
+                                                {{ resumenMunicipio.N_PROPIETARIOS }}
                                             </div>
                                         </div>
-                                        <div class="desc">Valor Catastral</div>
+                                        <div class="desc">Propietarios</div>
                                     </div>
-
-                                    <a class="more" href="">Ver más<i class="fa fa-share"></i></a>
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="dashboard-stat red-thunderbird" style="border-radius: 4px;">
-                                    <div class="visual">
-                                        <i class="fa fa-frown-o"></i>
+                            <div class="col-md-1">
+                                <div class="counter">
+                                    <div class="icon">
+                                        <i class="fa fa-calculator"></i>
                                     </div>
                                     <div class="details">
                                         <div class="number">
-                                            <div class="counter">
-                                                {{ cuboCuotaResumen.SUM_CUOTA | number : '1.2-3' }}
+                                            <div>
+                                                {{ resumenMunicipio.TIPO_GRAVAMEN }}
                                             </div>
                                         </div>
-                                        <div class="desc">Cuota</div>
+                                        <div class="desc">Gravamen</div>
                                     </div>
-                                    <a class="more" href="">ver más<i class="fa fa-share"></i></a>
                                 </div>
                             </div>
 
+
+                            <div class="col-md-3">
+                                <counter description="Hectáreas" 
+                                [value]="resumenMunicipio.SUM_HECT"></counter>                                
+                            </div>
+
+                            <div class="col-md-3">
+                                <counter description="Valor Catastral" 
+                                [value]="resumenMunicipio.SUM_V_CATASTR"></counter>                                
+                            </div>
+
+                            <div class="col-md-3">
+                                <counter description="Valor Cuota" 
+                                [value]="resumenMunicipio.SUM_CUOTA"></counter>                                
+                            </div>
+                                                          
+                    </div>
+
+                    <!-- Range del Gravamen -->
+                    <div class="row">
+                        <div class="col-md-3 col-offset-1">
+                            <div style="display: inline-block;">Modifique el tipo de Gravamen:</div>
+                            <div style="display: inline-block;"> 
+                                <input type="range" #tgrv min="0" max="1" step="0.1" 
+                                    [(ngModel)]="tipoGravamen" (change)="onChangeTipoGrav(tgrv.value)" />
+                                <label style="position:absolute; right:10px;">{{ tipoGravamen }}</label>
+                            </div>
+                        </div>                        
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">
-                            <input type="range" #tgrv min="0" max="1" step="0.1" [(ngModel)]="TipoGravamen" />
-                            <label style="position:absolute; right:10px;">{{ TipoGravamen }}</label>
-                            <!-- <input type="range" #ref (change)="changeZoom(ref.value)"/>
-                            changeZoom(value: number) { ... }-->
-                        </div>
-                        
+                        <hr>
                     </div>
+
+                    
+
+                    <!-- Resumen del Filtrado -->
+                    <div class="row">                           
+                            <div class="col-md-1 col-offset-1">
+
+                                <div class="counter">
+                                    <div class="icon">
+                                        <i class="fa fa-home"></i>
+                                    </div>
+                                    <div class="details">
+                                        <div class="number">
+                                            <div>
+                                                {{ resumenFiltrado.N_SUBPARC }}
+                                            </div>
+                                        </div>
+                                        <div class="desc">SubParcelas</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-offset-1">
+                                <div class="counter">
+                                    <div class="icon">
+                                        <i class="fa fa-group"></i>
+                                    </div>
+                                    <div class="details">
+                                        <div class="number">
+                                            <div>
+                                                {{ resumenFiltrado.N_PROPIETARIOS }}
+                                            </div>
+                                        </div>
+                                        <div class="desc">Propietarios</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div class="counter">
+                                    <div class="icon">
+                                        <i class="fa fa-calculator"></i>
+                                    </div>
+                                    <div class="details">
+                                        <div class="number">
+                                            <div>
+                                                {{ resumenFiltrado.TIPO_GRAVAMEN }}
+                                            </div>
+                                        </div>
+                                        <div class="desc">Gravamen</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <counter description="Hectáreas" 
+                                [value]="resumenFiltrado.SUM_HECT"></counter>                                
+                            </div>
+
+                            <div class="col-md-3">
+                                <counter description="Valor Catastral" 
+                                [value]="resumenFiltrado.SUM_V_CATASTR"></counter>                                
+                            </div>
+
+                            <div class="col-md-3">
+                                <counter description="Valor Cuota" 
+                                [value]="resumenFiltrado.SUM_CUOTA"></counter>                                
+                            </div>
+
+                    </div>
+                    
+
+                    
+
                     <div class="row">
                         <div class="col-md-9">
                             <chart id="chart1" charType='horizontalBar' [series]="['N_SUBPARC']" ></chart>                            

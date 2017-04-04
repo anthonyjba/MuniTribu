@@ -346,6 +346,37 @@ chart-tooltip,
     color: #fff!important
 }
 
+/**Counter component*/
+.counter {
+    height: 100px;
+    text-align: right;
+}
+.counter .icon {
+    display: block;
+    font-size:2em;
+    line-height: 10px; 
+    right: 15px; 
+}
+.counter .details {
+    position: absolute;
+    right: 15px;    
+}
+.counter .details .number {
+    color: #fff;
+    font-size: 28px;    
+    letter-spacing: -1px;
+    margin-bottom: 0;
+}
+.counter .details .desc {
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 10px;
+}
+/**finish component*/
+
+
+
+
 .dashboard-stat .visual {
     width: 80px;
     height: 80px;
@@ -354,15 +385,25 @@ chart-tooltip,
     padding-top: 5px;
     padding-left: 45px;
     margin-bottom: 15px;
-    font-size: 35px;
+    /*font-size: 35px;*/
     line-height: 35px
 }
 
 .dashboard-stat .visual>i {
      margin-left:-35px; 
-     font-size:110px; 
+     font-size:90px; 
      line-height:110px 
 }
+
+/*.dashboard-stat .details .number {
+    color: #fff
+}
+
+.dashboard-stat .details .desc {
+    color: #fff;
+    opacity: 1;
+    filter: alpha(opacity=100)
+}*/
 
 .dashboard-stat .details {
     position: absolute;
@@ -371,9 +412,10 @@ chart-tooltip,
 }
 
 .dashboard-stat .details .number {
+    color: #fff;
     padding-top: 25px;
     text-align: right;
-    font-size: 28px;
+    font-size: 25px;
     line-height: 36px;
     letter-spacing: -1px;
     margin-bottom: 0;
@@ -381,10 +423,17 @@ chart-tooltip,
 }
 
 .dashboard-stat .details .desc {
+    color: #fff;
     text-align: right;
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: 0;
     font-weight: 300
+}
+
+.dashboard-stat .visual>i {
+    color: #fff;
+    opacity: .2;
+    filter: alpha(opacity=10)
 }
 
 .dashboard-stat .more {
@@ -1406,22 +1455,13 @@ chart-tooltip,
 .dashboard-stat.red-thunderbird.dashboard-stat-light:hover {
     background-color: #c71b16
 }
-
+/*
 .dashboard-stat.red-thunderbird .visual>i {
     color: #fff;
     opacity: .1;
     filter: alpha(opacity=10)
 }
-
-.dashboard-stat.red-thunderbird .details .number {
-    color: #fff
-}
-
-.dashboard-stat.red-thunderbird .details .desc {
-    color: #fff;
-    opacity: 1;
-    filter: alpha(opacity=100)
-}
+*/
 
 .dashboard-stat.red-thunderbird .more {
     color: #fff;

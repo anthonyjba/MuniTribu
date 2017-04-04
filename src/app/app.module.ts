@@ -11,13 +11,15 @@ import { TruncatePipe } from './shared/truncate.pipe';
 import { SortableGroupComponent } from './sortable-group/sortable-group.component';
 import { ChartsModule } from 'ng2-charts';
 import { ChartComponent } from './chart/chart.component';
+import { CounterComponent } from './counter/counter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TruncatePipe,
     SortableGroupComponent,
-    ChartComponent
+    ChartComponent,
+    CounterComponent
   ],
   imports: [
     BrowserModule,

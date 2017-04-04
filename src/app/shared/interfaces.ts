@@ -13,12 +13,12 @@ export interface IColumns {
 }
 
 export interface ICubo_Couta {
-    MUNI: string,
-    AC: string,
-    IP: number,
-    IPP: number,
-    TALLA: string
-    TIPO_CIF: string,
+    MUNI?: string,
+    AC?: string,
+    IP?: number,
+    IPP?: number,
+    TALLA?: string
+    TIPO_CIF?: string,
     N_SUBPARC: number,
     N_PROPIETARIOS: number,
     SUM_HECT: number,
