@@ -10,7 +10,6 @@
         "src/tsconfig.*.json": true,
         "references.d.ts": true,
         "tslint.json": true,
-        ".angular-cli.json": true,
         "**/typings.d.ts": true,
         "src/polyfills.ts": true,
         "src/test.ts": true,

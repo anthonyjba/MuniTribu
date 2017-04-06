@@ -7,10 +7,16 @@ import { Component, Input } from '@angular/core';
 export class CounterComponent {
 
     @Input()
-    value: number = 100.25;
+    value: number;
 
     @Input()
-    description: string = 'test';
+    format: string;
+
+    @Input()
+    fontIcon: string;
+
+    @Input()
+    description: string;
 
     constructor() {}
 }

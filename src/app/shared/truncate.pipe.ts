@@ -8,7 +8,7 @@ export class TruncatePipe implements PipeTransform {
   transform(value: string, limit: number, trail: string, position: string): string {
     if (!value) return value;
 
-    //value = value || '';  // handle undefined/null value
+    //value = value || '';  // handle undefined/null
     limit = limit || 10;
     trail = trail || '...';
     position = position || 'right';

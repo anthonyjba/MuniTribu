@@ -40,12 +40,9 @@ export class AppComponent implements OnInit {
   //Default Values
   selmuni: string = "45900";
   uniqueAccordion: boolean = true;
-  customClass: string = 'customClass';
-  RESUMEM_DEFAULT = { MUNI: this.selmuni, 
-              N_SUBPARC: 0, N_PROPIETARIOS: 0, SUM_HECT: 0, SUM_V_CATASTR: 0, TIPO_GRAVAMEN: 0, SUM_CUOTA: 0};
 
   constructor(private _cubocuotaService: CuboCuotaService) {
-      this.resumenMunicipio = this.resumenFiltrado = Object.assign({}, this.RESUMEM_DEFAULT ); 
+      this.resumenMunicipio = this.resumenFiltrado = _cubocuotaService.getDefaultResumen(); 
   }
 
   ngOnInit(){
@@ -205,7 +202,7 @@ export class AppComponent implements OnInit {
       });
 
       //recalculate el resumen para el actual Filtrado
-      this.resumenFiltrado = Object.assign({}, this.RESUMEM_DEFAULT );
+      this.resumenFiltrado = this._cubocuotaService.getDefaultResumen();
       this.resumenFiltrado.TIPO_GRAVAMEN = this.tipoGravamen;
 
       for (var rowCol = 0, j = keysColumns.length; rowCol !== j; rowCol++) {

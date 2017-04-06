@@ -1,11 +1,11 @@
 <div class="counter">
     <div class="icon">
-        <i class="fa fa-eur"></i>
+        <i [ngClass]="fontIcon"></i>
     </div>
     <div class="details">
         <div class="number">
             <div>
-                {{ value | number : '1.2-2' }}
+                {{ value | number : format }}
             </div>
         </div>
         <div class="desc">{{ description }}</div>

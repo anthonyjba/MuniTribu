@@ -52,7 +52,7 @@
                             <cat-sortable-group (change)="onUpdateColumns($event)"></cat-sortable-group>
 
                             <accordion [closeOthers]="uniqueAccordion">                                
-                                <accordion-group *ngFor="let col of columnsGroup" [panelClass]="customClass">
+                                <accordion-group *ngFor="let col of columnsGroup" [panelClass]="'customClass'">
                                     <div accordion-heading>{{ col.name }}
                                         
                                         <i class="pull-right float-xs-right glyphicon"
@@ -83,151 +83,77 @@
                     <div class="row">
                             
                             <div class="col-md-1">
-
-                                <div class="counter">
-                                    <div class="icon">
-                                        <i class="fa fa-home"></i>
-                                    </div>
-                                    <div class="details">
-                                        <div class="number">
-                                            <div>
-                                                {{ resumenMunicipio.N_SUBPARC }}
-                                            </div>
-                                        </div>
-                                        <div class="desc">SubParcelas</div>
-                                    </div>
-                                </div>
+                                <cat-counter description="SubParcelas" fontIcon="fa fa-home" 
+                                [value]="resumenMunicipio.N_SUBPARC"></cat-counter>
                             </div>
 
                             <div class="col-md-1">
-                                <div class="counter">
-                                    <div class="icon">
-                                        <i class="fa fa-group"></i>
-                                    </div>
-                                    <div class="details">
-                                        <div class="number">
-                                            <div>
-                                                {{ resumenMunicipio.N_PROPIETARIOS }}
-                                            </div>
-                                        </div>
-                                        <div class="desc">Propietarios</div>
-                                    </div>
-                                </div>
+                                <cat-counter description="Propietarios" fontIcon="fa fa-group" 
+                                [value]="resumenMunicipio.N_PROPIETARIOS"></cat-counter>
                             </div>
 
                             <div class="col-md-1">
-                                <div class="counter">
-                                    <div class="icon">
-                                        <i class="fa fa-calculator"></i>
-                                    </div>
-                                    <div class="details">
-                                        <div class="number">
-                                            <div>
-                                                {{ resumenMunicipio.TIPO_GRAVAMEN }}
-                                            </div>
-                                        </div>
-                                        <div class="desc">Gravamen</div>
-                                    </div>
-                                </div>
+                                <cat-counter description="Gravamen" fontIcon="fa fa-calculator" 
+                                [value]="resumenMunicipio.TIPO_GRAVAMEN"></cat-counter>
                             </div>
-
 
                             <div class="col-md-3">
-                                <cat-counter description="Hectáreas" 
+                                <cat-counter description="Hectáreas" format='1.2-2' fontIcon="fa fa-eur" 
                                 [value]="resumenMunicipio.SUM_HECT"></cat-counter>                                
                             </div>
 
                             <div class="col-md-3">
-                                <cat-counter description="Valor Catastral" 
+                                <cat-counter description="Valor Catastral" format='1.2-2' fontIcon="fa fa-eur"
                                 [value]="resumenMunicipio.SUM_V_CATASTR"></cat-counter>                                
                             </div>
 
                             <div class="col-md-3">
-                                <cat-counter description="Valor Cuota" 
+                                <cat-counter description="Valor Cuota" format='1.2-2' fontIcon="fa fa-eur"
                                 [value]="resumenMunicipio.SUM_CUOTA"></cat-counter>                                
                             </div>
                                                           
                     </div>
 
-                    
-                    
-
                     <div class="row">
                         <hr>
                     </div>
 
-                    
-
                     <!-- Resumen del Filtrado -->
                     <div class="row">                           
-                            <div class="col-md-1 col-offset-1">
-
-                                <div class="counter">
-                                    <div class="icon">
-                                        <i class="fa fa-home"></i>
-                                    </div>
-                                    <div class="details">
-                                        <div class="number">
-                                            <div>
-                                                {{ resumenFiltrado.N_SUBPARC }}
-                                            </div>
-                                        </div>
-                                        <div class="desc">SubParcelas</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-1 col-offset-1">
-                                <div class="counter">
-                                    <div class="icon">
-                                        <i class="fa fa-group"></i>
-                                    </div>
-                                    <div class="details">
-                                        <div class="number">
-                                            <div>
-                                                {{ resumenFiltrado.N_PROPIETARIOS }}
-                                            </div>
-                                        </div>
-                                        <div class="desc">Propietarios</div>
-                                    </div>
-                                </div>
+                            <div class="col-md-1">
+                                <cat-counter description="SubParcelas" fontIcon="fa fa-home"
+                                [value]="resumenFiltrado.N_SUBPARC"></cat-counter>
                             </div>
 
                             <div class="col-md-1">
-                                <div class="counter">
-                                    <div class="icon">
-                                        <i class="fa fa-calculator"></i>
-                                    </div>
-                                    <div class="details">
-                                        <div class="number">
-                                            <div>
-                                                {{ tipoGravamen }}
-                                            </div>
-                                        </div>
-                                        <div class="desc">Gravamen</div>
-                                    </div>
-                                </div>
+                                <cat-counter description="Propietarios" fontIcon="fa fa-group"
+                                [value]="resumenFiltrado.N_PROPIETARIOS"></cat-counter>
+                            </div>
+
+                            <div class="col-md-1">
+                                <cat-counter description="Gravamen" fontIcon="fa fa-calculator"
+                                [value]="tipoGravamen"></cat-counter>
+
                                 <!-- Range del Gravamen -->
                                 <div>
                                     <input type="range" #tgrv min="0" max="1" step="0.1" 
-                                    [(ngModel)]="tipoGravamen" (change)="onChangeTipoGrav(tgrv.value)" />                                
+                                    [(ngModel)]="tipoGravamen" (change)="onChangeTipoGrav(tgrv.value)" />
                                 </div>
                             </div>
 
-
                             <div class="col-md-3">
-                                <cat-counter description="Hectáreas" 
-                                [value]="resumenFiltrado.SUM_HECT"></cat-counter>                                
+                                <cat-counter description="Hectáreas" format='1.2-2' fontIcon="fa fa-eur"
+                                [value]="resumenFiltrado.SUM_HECT"></cat-counter>
                             </div>
 
                             <div class="col-md-3">
-                                <cat-counter description="Valor Catastral" 
-                                [value]="resumenFiltrado.SUM_V_CATASTR"></cat-counter>                                
+                                <cat-counter description="Valor Catastral" format='1.2-2' fontIcon="fa fa-eur"
+                                [value]="resumenFiltrado.SUM_V_CATASTR"></cat-counter>
                             </div>
 
                             <div class="col-md-3">
-                                <cat-counter description="Valor Cuota" 
-                                [value]="resumenFiltrado.SUM_CUOTA"></cat-counter>                                
+                                <cat-counter description="Valor Cuota" format='1.2-2' fontIcon="fa fa-eur"
+                                [value]="resumenFiltrado.SUM_CUOTA"></cat-counter>
                             </div>
 
                     </div>

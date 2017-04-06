@@ -20,10 +20,10 @@ import { SortableGroupComponent } from './components/sortable-group/sortable-gro
 @NgModule({
   declarations: [
     AppComponent,
-    TruncatePipe,
     SortableGroupComponent,
     ChartComponent,
-    CounterComponent
+    CounterComponent,
+    TruncatePipe    
   ],
   imports: [
     BrowserModule,
