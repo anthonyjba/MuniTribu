@@ -163,7 +163,7 @@
 
                     <div class="row">
                         <div class="col-md-9">
-                            <cat-chart id="chart1" charType='horizontalBar' [series]="['N_SUBPARC']" ></cat-chart>
+                            <cat-chart id="chart1" charType='horizontalBar' [displaySeries]="['N_SUBPARC']" ></cat-chart>
                         </div>
                         <div class="col-md-3 sidebar">
                             <select id="s_chart1" #select multiple (change)="onChangeSeries($event.target)"
@@ -184,7 +184,7 @@
                                     </option>
                                 </select>
                             <div style="display: block">        
-                                <cat-chart id="chart2" charType='bar' [series]="['SUM_HECT']"></cat-chart>
+                                <cat-chart id="chart2" charType='bar' [displaySeries]="['SUM_HECT']"></cat-chart>
                             </div>
                         </div>
                         <div class="col-md-5">
@@ -195,7 +195,7 @@
                                     </option>
                                 </select>
                             <div style="display: block">
-                                <cat-chart id="chart3" charType='pie' [series]="['N_SUBPARC','N_PROPIETARIOS']"></cat-chart>
+                                <cat-chart id="chart3" charType='pie' [displaySeries]="['N_SUBPARC','N_PROPIETARIOS']"></cat-chart>
                             </div>                            
                         </div>
                     </div>
@@ -203,12 +203,12 @@
                     <div class="row">
                         <div class="col-md-7">                            
                             <div style="display: block">
-                                <cat-chart charType='line' [series]="['N_SUBPARC']"></cat-chart>
+                                <cat-chart charType='line' [displaySeries]="['N_SUBPARC']"></cat-chart>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div style="display: block">
-                                <cat-chart id="chart4" charType='radar' [series]="['N_SUBPARC']"></cat-chart>
+                                <cat-chart id="chart4" charType='radar' [displaySeries]="['N_SUBPARC']"></cat-chart>
                             </div>                            
                         </div>
                     </div>

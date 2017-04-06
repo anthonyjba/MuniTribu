@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
       if( el.nativeElement.id ){
         let currentChart = this.charts.find((c) => c.id === el.nativeElement.id.substr(2));
         for(let i=0; i < options.length; i++) {
-          options[i].selected = currentChart.series.join(',').indexOf(options[i].value) > -1;
+          options[i].selected = currentChart.displaySeries.join(',').indexOf(options[i].value) > -1;
         }
       }
     });
@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
 
     let currentChart = this.charts.find((c) => c.id === el.id.substr(2));
 
-    currentChart.series = Array.apply(null, el.options)
+    currentChart.displaySeries = Array.apply(null, el.options)
       .filter(option => option.selected)
       .map(option => option.value)
     

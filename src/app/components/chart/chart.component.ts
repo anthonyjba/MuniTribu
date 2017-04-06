@@ -8,18 +8,15 @@ import { BaseChartDirective } from 'ng2-charts';
 export class ChartComponent {
   @ViewChild( BaseChartDirective ) chart : BaseChartDirective;
 
-  SERIE_DEFAULT = [{data: [], label: 'Sin Series'}];
+  DEFAULT_SERIE = [{data: [], label: 'Sin Series'}];
 
   constructor() {
-    this._ds =  this.SERIE_DEFAULT;
+    this._ds =  this.DEFAULT_SERIE;
    }
 
   /* Default Values */
-  private _ds: any[] = this.SERIE_DEFAULT;
+  private _ds: any[] = this.DEFAULT_SERIE;
   private _names: string[] = [];
-  private _chartType: string = 'bar';
-  private _legend: boolean = true;
-  private _id: string = '';
 
   @Input()
   set dataset(data: any[]) {
@@ -34,16 +31,16 @@ export class ChartComponent {
   get dataLabels(): string[] { return this._names; }
   
   @Input()
-  id: string = this._id;
+  id: string;
 
   @Input()
-  charType: string = this._chartType;
+  charType: string;
   
   @Input()
-  legend: boolean = this._legend;
+  legend: boolean = true;
 
   @Input()
-  series: any[];
+  displaySeries: any[];
 
   public options:any = {
     scaleShowVerticalLines: false,
@@ -53,12 +50,14 @@ export class ChartComponent {
   refresh(container) {
         if (this.chart) {
 
-          //Valida las series de cada componente chart
-          this.dataset = !this.series ? container.series : 
-                                this.series.length > 0 ? 
-                                container.series.filter((c) => { return this.series.join(',').indexOf(c.column) > -1 }) :
-                                this.SERIE_DEFAULT;
+          //Valida las series a mostrar de cada componente chart
+          this.dataset = !this.displaySeries ? container.series : 
+                                this.displaySeries.length > 0 ? 
+                                container.series.filter((c) => { return this.displaySeries.join(',').indexOf(c.column) > -1 }) :
+                                this.DEFAULT_SERIE;
           this.chart.datasets = this.dataset;
+
+          //añadir la propeiedad orden y lanzar por un evento para ordenar por una serie elegida
           
           //this.chart.labels
           this.dataLabels = container.names;
