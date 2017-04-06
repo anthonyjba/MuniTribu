@@ -2,11 +2,11 @@ import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList } from '@
 import { FormsModule } from '@angular/forms';
 
 //app
+import { COLUMNS_GROUP, COLUMNS_QUANTITY  } from './shared/config';
+import { Dictionary } from './shared/enums';
 import { IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
 import * as DictionaryModule from './services/dictionary.service';
 import { CuboCuotaService } from './services/cubo-cuota.service';
-import { Dictionary } from './shared/enums';
-import { COLUMNS_GROUP, COLUMNS_QUANTITY  } from './shared/config';
 import { ChartComponent } from './components/chart/chart.component';
 
 
@@ -100,7 +100,6 @@ export class AppComponent implements OnInit {
   }
 
   onChangeTipoGrav(value: number) {
-    console.log(value);
     this.parseChart();
   }
 
@@ -185,8 +184,6 @@ export class AppComponent implements OnInit {
   private parseChart() {
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })
     let series: any[] = [];
-
-    console.log(indexGroup);
 
     /*add only unique series
     let uniqueSeries = {};

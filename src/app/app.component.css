@@ -57,9 +57,13 @@ div.panel-heading {
 .panel.customClass {
   background-color: #292A2F;
   color: #ddd;
+  border: 1px solid #ddd;  
 }
 .panel.customClass .panel-body {
   padding: 0px;
+}
+.panel.customClass {
+  margin-bottom: 20px;
 }
 
 /* Slot of Accordion*/
