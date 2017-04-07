@@ -1,7 +1,3 @@
-/*div.panel-heading {
-   font-size: x-large; 
-}*/
-
 .panel-footer {
     padding: 30px 15px;
     color:#999;
@@ -39,16 +35,6 @@
 .list-group-item.widget {
     background-color: #1B1C1F;
     border: none;
-}
-
-/* aside Types columns*/
-.quantity > li > a:hover {
-  background: transparent;
-}
-
-.quantity > li > a:focus {
-  background: transparent;
-  color: greenyellow;
 }
 
 /* Panel of Accordion */

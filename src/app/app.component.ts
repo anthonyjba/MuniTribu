@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+
 //app
 import { COLUMNS_GROUP, COLUMNS_QUANTITY  } from './shared/config';
 import { Dictionary } from './shared/enums';
@@ -14,7 +15,7 @@ import { ChartComponent } from './components/chart/chart.component';
   selector: 'app-root',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css', './app.components2.css']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit { 
   errorMessage: string;

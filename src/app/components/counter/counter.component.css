@@ -1,0 +1,25 @@
+.counter {
+    height: 80px;
+    text-align: right;
+}
+.counter .icon {
+    display: block;
+    font-size:2em;
+    line-height: 10px; 
+    right: 15px; 
+}
+.counter .details {
+    position: absolute;
+    right: 15px;    
+}
+.counter .details .number {
+    color: #fff;
+    font-size: 28px;    
+    letter-spacing: -1px;
+    margin-bottom: 0;
+}
+.counter .details .desc {
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 10px;
+}
