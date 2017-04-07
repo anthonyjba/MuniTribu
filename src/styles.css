@@ -9,14 +9,6 @@ body {
     font-size: 12px;
 }
 
-.fa-2 {
-    font-size: 2em;
-}
-
-.fa-3 {
-    font-size: 2em;
-}
-
 .form-control.black {
     color: gainsboro;
     background-color: #1B1C1F;
@@ -42,7 +34,7 @@ body {
     padding: .875rem;
 }
 
-/*dnd*/
+/* dnd directive */
 .dnd-drag-start {
     -moz-transform:scale(0.8);
     -webkit-transform:scale(0.8);
