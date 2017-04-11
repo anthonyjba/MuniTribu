@@ -6,7 +6,9 @@
 */
 import { ActionReducer, Action } from '@ngrx/store';
 
-export const serieReducer = (state = [], action: Action ) => {
+
+//export const serieReducer = (state = [], action: Action ) => {
+export function serieReducer(state = [], action: Action): any {
     switch(action.type) {
         case "ADD_SERIE":
             return [
@@ -20,3 +22,4 @@ export const serieReducer = (state = [], action: Action ) => {
     }
     
 }
+
