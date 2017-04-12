@@ -1,28 +1,42 @@
 //import { Action } from '@ngrx/store'
-import { LoadAction } from '../actions/cuboCollection';
+import * as cubo from '../actions/cuboCollection';
 
 import { ICubo_Couta } from '../shared/interfaces'
 
 
 export interface State {
   //ids: string[];
-  entities: { [id: string]: Array<ICubo_Couta> };
+  entities: Array<ICubo_Couta> ;
   selectedCuboId: string | null;
 };
 
-export const initialState: State = {
+const initialState: State = {
   //ids: [],
-  entities: {},
-  selectedCuboId: null,
+  entities: [],
+  selectedCuboId: null
 };
 
 
-export function reducer(state : State, action: LoadAction) : any {
+export function reducer(state = initialState, action: cubo.Actions) : State {
     switch(action.type){
-        case "LOAD":
-            const cubocuota = action.payload;            
-            return Object.assign({}, [ ...cubocuota ]);
+        case cubo.ActionTypes.LOAD_CUBO : {
+            const cubo = action.payload;
+            console.log("Reducer");
 
+            return  { 
+                entities: Object.assign({}, [ ...cubo ]),
+                selectedCuboId: "INI" 
+                };
+            }
+        case "FITLERED": {
+            const cubo = action.payload;
+            const newCubo = cubo.filter(items => items["AC"]==="CON");
+
+            return { 
+                entities: Object.assign({}, [ ...newCubo ]),
+                selectedCuboId: "FILTRADO" 
+                };
+            }
         default:
             return state;
     }

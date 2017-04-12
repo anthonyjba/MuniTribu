@@ -4,22 +4,23 @@ import { createSelector } from 'reselect';
 
 import * as fromCuboCuota from './cubo-cuota'
 
-const reducers = {
-  cubos: fromCuboCuota.reducer
-};
+
 
 export interface State {
-  cuboMunicipio: fromCuboCuota.State
+  cubo: fromCuboCuota.State
 }
 
+const reducers = {
+  cubo: fromCuboCuota.reducer
+};
 
 const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
 export function reducer(state: any, action: any) {
-    return reducers;
+    return productionReducer(state, action);
 }
 
-export const getCuboMunicipio = (state: State) => state.cuboMunicipio;
+export const getCuboMunicipio = (state: State) => state.cubo;
 
 /**
  * Every reducer module exports selector functions, however child reducers

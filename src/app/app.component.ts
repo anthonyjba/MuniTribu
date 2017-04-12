@@ -9,12 +9,11 @@ import { IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
 import * as DictionaryModule from './services/dictionary.service';
 import { CuboCuotaService } from './services/cubo-cuota.service';
 import { ChartComponent } from './components/chart/chart.component';
-import * as Cubo from './actions/cuboCollection';
+import * as cubo from './actions/cuboCollection';
 
 
 import * as fromRoot from './reducers';
 import { Observable } from 'rxjs/Observable';
-
 
 
 @Component({
@@ -52,7 +51,7 @@ export class AppComponent implements OnInit {
 
 
   constructor(private _cubocuotaService: CuboCuotaService,
-              private store: Store<fromRoot.State>) {
+              private _store: Store<fromRoot.State>) {
       this.resumenMunicipio = this.resumenFiltrado = _cubocuotaService.getDefaultResumen();
        
   }
@@ -61,17 +60,20 @@ export class AppComponent implements OnInit {
     
     //this.municipios = DictionaryModule.getDictionary(Dictionary.Municipio);
 
-    this._cubocuotaService.getCubo()
-        .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
-                error => console.log(error),
-                () => this.__extractDictionary());
-
-
     /*this._cubocuotaService.getCubo()
         .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
                 error => console.log(error),
+                () => this.__extractDictionary());*/
+
+    this._cubocuotaService.getCuboNgrx();
+
+    this._store.select(fromRoot.getCuboEntities)
+    .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
+                error => console.log(error),
                 () => this.__extractDictionary());
-   */
+
+
+
   }
 
   ngAfterContentInit() { console.log("ngAfterContentInit"); }
@@ -151,13 +153,12 @@ export class AppComponent implements OnInit {
   }
 
   private __ejectDispatchInitial(){
-      this.store.dispatch(new Cubo.LoadAction(this.cuboCuotaInicial));
+      this._store.dispatch(new cubo.LoadCuboAction(this.cuboCuotaInicial));
   }
 
   private __refreshAll(){
 
-     debugger;
-     this.cubo$ = this.store.select(fromRoot.getCuboEntities);
+     //this.cubo$ = this.store.select(fromRoot.getCuboEntities);
 
      this.cuboCuotaFiltrado = this._cubocuotaService.getCuboFiltrado(
        this.cuboCuotaInicial,

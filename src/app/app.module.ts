@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 //import { Store, provideStore } from '@ngrx/store';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, INITIAL_STATE } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
 //Modules vendors
@@ -46,6 +46,7 @@ import { SortableGroupComponent } from './components/sortable-group/sortable-gro
     DndModule.forRoot(),
     AccordionModule.forRoot(),
     StoreModule.provideStore(reducer),
+    
     StoreDevtoolsModule.instrumentOnlyWithExtension({
       maxAge: 5
     })
