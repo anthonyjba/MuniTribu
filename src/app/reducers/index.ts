@@ -2,14 +2,16 @@ import { ActionReducer } from '@ngrx/store';
 import { combineReducers } from '@ngrx/store';
 import { createSelector } from 'reselect';
 
-import * as fromCuboCuota from './cubo-cuota'
+//import * as fromCuboCuota from './cubo-cuota'
 
 import { counterReducer } from './counter-reducer';
 import { curseReducer } from './curse-reducer';
+import { cuboReducer } from './cubo-cuota';
 
 export default combineReducers({
   counter: counterReducer,
-  curse: curseReducer
+  curse: curseReducer,
+  cubo: cuboReducer
 });
 
 /*

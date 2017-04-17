@@ -1,4 +1,4 @@
-//import { Action } from '@ngrx/store'
+import { ActionReducer } from '@ngrx/store'
 import * as cubo from '../actions/cuboCollection';
 
 import { ICubo_Couta } from '../shared/interfaces'
@@ -16,8 +16,8 @@ const initialState: State = {
   selectedCuboId: null
 };
 
-
-export function reducer(state = initialState, action: cubo.Actions) : State {
+export const cuboReducer: ActionReducer<State> = (state = initialState, action) => {
+//export function reducer(state = initialState, action: cubo.Actions) : State {
     switch(action.type){
         case cubo.ActionTypes.LOAD_CUBO : {
             const cubo = action.payload;
