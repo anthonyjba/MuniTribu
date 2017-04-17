@@ -24,7 +24,7 @@ export function reducer(state = initialState, action: cubo.Actions) : State {
             console.log("Reducer");
 
             return  { 
-                entities: Object.assign({}, [ ...cubo ]),
+                entities: [ ...cubo ],  //Object.assign({}, 
                 selectedCuboId: "INI" 
                 };
             }
@@ -33,7 +33,7 @@ export function reducer(state = initialState, action: cubo.Actions) : State {
             const newCubo = cubo.filter(items => items["AC"]==="CON");
 
             return { 
-                entities: Object.assign({}, [ ...newCubo ]),
+                entities: [ ...newCubo ], //Object.assign({}, [ ...newCubo ]),
                 selectedCuboId: "FILTRADO" 
                 };
             }

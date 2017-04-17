@@ -10,11 +10,12 @@ import * as DictionaryModule from './services/dictionary.service';
 import { CuboCuotaService } from './services/cubo-cuota.service';
 import { ChartComponent } from './components/chart/chart.component';
 import * as cubo from './actions/cuboCollection';
-
+import { ChartListComponent } from './components/chart/chart-list'
 
 import * as fromRoot from './reducers';
 import { Observable } from 'rxjs/Observable';
 
+//import { SimpleNgrx } from './containers/app-container';
 
 @Component({
   selector: 'app-root',
@@ -47,32 +48,37 @@ export class AppComponent implements OnInit {
   selmuni: string = "45900";
   uniqueAccordion: boolean = true;
 
-  cubo$: Observable<any>;
+  cubo$: Observable<Array<ICubo_Couta>>;
 
 
-  constructor(private _cubocuotaService: CuboCuotaService,
-              private _store: Store<fromRoot.State>) {
+  constructor(private _cubocuotaService: CuboCuotaService //private _store: Store<fromRoot.State>
+              ) {
       this.resumenMunicipio = this.resumenFiltrado = _cubocuotaService.getDefaultResumen();
-       
+
+
+      //this._cubocuotaService.getCuboNgrx();
+          
+
+      
   }
 
   ngOnInit(){
     
     //this.municipios = DictionaryModule.getDictionary(Dictionary.Municipio);
 
-    /*this._cubocuotaService.getCubo()
+    this._cubocuotaService.getCubo()
         .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
-                error => console.log(error),
-                () => this.__extractDictionary());*/
-
-    this._cubocuotaService.getCuboNgrx();
-
-    this._store.select(fromRoot.getCuboEntities)
-    .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
                 error => console.log(error),
                 () => this.__extractDictionary());
 
+    //this.cubo$ = this._store.select(fromRoot.getCuboEntities); 
+    //this.cubo$.subscribe((data : Array<ICubo_Couta>) => 
+    //            { this.__extractDictionary(data); });
 
+    /*this._store.select(fromRoot.getCuboEntities)
+    .subscribe((data : Array<ICubo_Couta>) => 
+                { this.cuboCuotaInicial = data; });
+    */
 
   }
 
@@ -90,6 +96,8 @@ export class AppComponent implements OnInit {
         }
       }
     });
+
+    
      
 }
 
@@ -140,20 +148,37 @@ export class AppComponent implements OnInit {
 
   /** Private Methods ***/
   private __extractDictionary(){
+    if(this.cuboCuotaInicial.length === 0) return;
+
     for (var i = 0, j = this.cuboCuotaInicial.length; i !== j; i++) {
       for (var x = 0, y = this.columnsGroup.length; x != y; x++){
         if(this.cuboCuotaInicial[i][this.columnsGroup[x].id])
           this.columnsGroup[x].values[this.cuboCuotaInicial[i][this.columnsGroup[x].id]] = 1;
       }
     }
-          
-    this.__displayResumen();
-    this.__ejectDispatchInitial();
     
+    //Resumen
+    this.resumenMunicipio = this._cubocuotaService.getResumenMunicipio(
+                              this.cuboCuotaInicial,this.columnsGroup);
+    this.tipoGravamen = this.resumenMunicipio.TIPO_GRAVAMEN;
+    //this.__refreshAll();
+
+    let c = this.charts.find((c) => c.id === 'chart1');
+    //this._store.dispatch(new cubo.FilteredCuboAction(this.cuboCuotaInicial));
+    
+    //this.cubo$ = this._store.select(fromRoot.getCuboEntities);
+
+    //this.cubo$.subscribe((data : Array<ICubo_Couta>) => 
+    //            { console.log(data); });
+
+    //console.log(c);
+
   }
 
+  
+
   private __ejectDispatchInitial(){
-      this._store.dispatch(new cubo.LoadCuboAction(this.cuboCuotaInicial));
+      //this._store.dispatch(new cubo.LoadCuboAction(this.cuboCuotaInicial));
   }
 
   private __refreshAll(){
@@ -167,25 +192,7 @@ export class AppComponent implements OnInit {
      this.parseChart();
   }
 
-  private __displayResumen() {
-
-    let resumen = []; 
-    for (var i = 0, j = this.cuboCuotaInicial.length; i !== j; i++) {
-      let flag = true;
-      for (var x = 0, y = this.columnsGroup.length; x != y; x++){
-        if(this.cuboCuotaInicial[i][this.columnsGroup[x].id] !== null){
-          flag = false;
-          break;
-          }
-      }
-      if(flag)
-        resumen.push(this.cuboCuotaInicial[i]);
-    }
-    
-    this.resumenMunicipio = resumen[0];
-    this.tipoGravamen = this.resumenMunicipio.TIPO_GRAVAMEN;
-    this.__refreshAll();    
-  }
+  
 
   private parseChart() {
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })

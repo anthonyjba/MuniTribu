@@ -4,8 +4,15 @@ import { createSelector } from 'reselect';
 
 import * as fromCuboCuota from './cubo-cuota'
 
+import { counterReducer } from './counter-reducer';
+import { curseReducer } from './curse-reducer';
 
+export default combineReducers({
+  counter: counterReducer,
+  curse: curseReducer
+});
 
+/*
 export interface State {
   cubo: fromCuboCuota.State
 }
@@ -22,6 +29,8 @@ export function reducer(state: any, action: any) {
 
 export const getCuboMunicipio = (state: State) => state.cubo;
 
+export const getItems = fromCuboCuota.getEntities;*/
+
 /**
  * Every reducer module exports selector functions, however child reducers
  * have no knowledge of the overall state tree. To make them useable, we
@@ -32,7 +41,7 @@ export const getCuboMunicipio = (state: State) => state.cubo;
  * The created selectors can also be composed together to select different
  * pieces of state.
  */
- export const getCuboEntities = createSelector(getCuboMunicipio, fromCuboCuota.getEntities);
+ //export const getCuboEntities = createSelector(getCuboMunicipio, fromCuboCuota.getEntities);
 
 /*export const getCuboCollection = createSelector(getCuboEntities, (entities, ids) => {
   return ids.map(id => entities[id]);
