@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChildren, ViewChild, QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
@@ -10,12 +10,12 @@ import * as DictionaryModule from './services/dictionary.service';
 import { CuboCuotaService } from './services/cubo-cuota.service';
 import { ChartComponent } from './components/chart/chart.component';
 import * as cubo from './actions/cuboCollection';
-import { ChartListComponent } from './components/chart/chart-list'
+//import { ChartListComponent } from './components/chart/chart-list'
 
 import * as fromRoot from './reducers';
 import { Observable } from 'rxjs/Observable';
 
-//import { SimpleNgrx } from './containers/app-container';
+import { SimpleNgrx } from './containers/chart.container';
 
 @Component({
   selector: 'app-root',
@@ -43,12 +43,13 @@ export class AppComponent implements OnInit {
 
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
   @ViewChildren('select') selectElRef;
+  @ViewChild(SimpleNgrx) appContainer: SimpleNgrx;
 
   //Default Values
   selmuni: string = "45900";
   uniqueAccordion: boolean = true;
 
-  cubo$: Observable<Array<ICubo_Couta>>;
+  //cubo$: Observable<Array<ICubo_Couta>>;
 
 
   constructor(private _cubocuotaService: CuboCuotaService //private _store: Store<fromRoot.State>
@@ -161,13 +162,16 @@ export class AppComponent implements OnInit {
     this.resumenMunicipio = this._cubocuotaService.getResumenMunicipio(
                               this.cuboCuotaInicial,this.columnsGroup);
     this.tipoGravamen = this.resumenMunicipio.TIPO_GRAVAMEN;
-    //this.__refreshAll();
 
-    let c = this.charts.find((c) => c.id === 'chart1');
-    //this._store.dispatch(new cubo.FilteredCuboAction(this.cuboCuotaInicial));
     
-    //this.cubo$ = this._store.select(fromRoot.getCuboEntities);
 
+    this.appContainer.loadCuboInicial(this.cuboCuotaInicial, this.columnsGroup);
+
+    this.__refreshAll();
+
+    //let c = this.charts.find((c) => c.id === 'chart1');
+    //this._store.dispatch(new cubo.FilteredCuboAction(this.cuboCuotaInicial));
+    //this.cubo$ = this._store.select(fromRoot.getCuboEntities);
     //this.cubo$.subscribe((data : Array<ICubo_Couta>) => 
     //            { console.log(data); });
 

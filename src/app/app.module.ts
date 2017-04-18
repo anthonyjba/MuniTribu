@@ -27,7 +27,7 @@ import { CuboCuotaService } from './services/cubo-cuota.service'
 //Catastro Components
 import { ChartComponent } from './components/chart/chart.component';
 import { ChartListComponent } from './components/chart/chart-list';
-import { SimpleNgrx } from './containers/app-container'
+import { SimpleNgrx } from './containers/chart.container'
 
 import { Counter } from './components/counter-component'
 

@@ -142,11 +142,14 @@
 
                     </div>
 
-
+                    <div class="row">
+                        <cat-chart id="chart1" charType='horizontalBar' [displaySeries]="['N_SUBPARC']"></cat-chart>
+                    </div>
 
                     <div class="row">
                         <simple-ngrx></simple-ngrx>
-                    </div>
+                    </div>                    
+                    <!--
                     <div class="row">
                         <div class="col-md-9">
                             <div class="panel panel-default">
@@ -155,7 +158,6 @@
                                     <i class="pull-right fa fa-sort-amount-desc" aria-hidden="true"></i>
                                 </div>
                                 <div class="panel-body">
-                                    <!--<chart-list [cubos]="cubo$ | async"></chart-list>-->                                    
                                     <cat-chart id="chart1" charType='horizontalBar' [displaySeries]="['N_SUBPARC']"></cat-chart>
                                 </div>
                             </div>
@@ -200,6 +202,7 @@
                             <cat-chart id="chart4" charType='radar' [displaySeries]="['N_SUBPARC']"></cat-chart>
                         </div>
                     </div>
+                    -->
 
                     <div class="row">
                         <!-- Tabla -->
