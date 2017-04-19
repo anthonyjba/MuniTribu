@@ -9,14 +9,18 @@ import { cuboState } from '../models/cubo-state';
 
 const initialState: cuboState = {
   //ids: [],
-  entities: [{N_SUBPARC: 1,
-    N_PROPIETARIOS: 100,
-    SUM_HECT: 111,
-    SUM_V_CATASTR: 645,
-    TIPO_GRAVAMEN: 545,
-    SUM_CUOTA: 5656}],
-  columnsGroup: [],
-  selectedCuboId: null
+  entities: [
+      { N_SUBPARC: 1,
+        N_PROPIETARIOS: 100,
+        SUM_HECT: 111,
+        SUM_V_CATASTR: 645,
+        TIPO_GRAVAMEN: 545,
+        SUM_CUOTA: 5656
+      }
+    ],
+  niveles: [],
+  series: [],
+  columnsGroup: []
 };
 
 export const cuboReducer: ActionReducer<cuboState> = (state = initialState, action) => {

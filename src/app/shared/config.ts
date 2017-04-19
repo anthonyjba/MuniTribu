@@ -15,3 +15,11 @@ export const COLUMNS_QUANTITY: Array<IDefault> = [
                   { id: 'SUM_V_CATASTR', name:'Valor Catastral' },
                   { id: 'SUM_CUOTA', name:'Cuota' }
                   ];
+
+export const COLUMNS_LEVEL : Array<IDefault> = [
+                  { id: 'AC', name:'Cultivo' }, 
+                  { id: 'TIPO_CIF', name:'Propietario' },
+                  { id: 'TALLA', name:'Tamaño' },
+                  { id: 'IP', name:'IP' },
+                  { id: 'IPP', name:'IPP' }
+                ];

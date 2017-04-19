@@ -8,7 +8,7 @@ import { Dictionary } from './shared/enums';
 import { IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
 import * as DictionaryModule from './services/dictionary.service';
 import { CuboCuotaService } from './services/cubo-cuota.service';
-import { ChartComponent } from './components/chart/chart.component';
+//import { ChartComponent } from './components/chart/chart.component';
 import * as cubo from './actions/cuboCollection';
 //import { ChartListComponent } from './components/chart/chart-list'
 
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
   optsChart2: any[]= this.columnsQuantity.slice(2);
   optsChart3: any[]= this.columnsQuantity.slice(0);
 
-  @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
+  //@ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
   @ViewChildren('select') selectElRef;
   @ViewChild(SimpleNgrx) appContainer: SimpleNgrx;
 
@@ -87,7 +87,7 @@ export class AppComponent implements OnInit {
 
   ngAfterViewInit() { console.log("ngAfterViewInit"); 
     
-
+/*
     this.selectElRef.forEach((el) => {
       let options = el.nativeElement.options;
       if( el.nativeElement.id ){
@@ -97,7 +97,7 @@ export class AppComponent implements OnInit {
         }
       }
     });
-
+*/
     
      
 }
@@ -118,7 +118,7 @@ export class AppComponent implements OnInit {
   onChangeSeries(el) {
     console.log("onChangeSeries");
 
-    let currentChart = this.charts.find((c) => c.id === el.id.substr(2));
+    let currentChart = null; //this.charts.find((c) => c.id === el.id.substr(2));
 
     currentChart.displaySeries = Array.apply(null, el.options)
       .filter(option => option.selected)
@@ -167,7 +167,7 @@ export class AppComponent implements OnInit {
 
     this.appContainer.loadCuboInicial(this.cuboCuotaInicial, this.columnsGroup);
 
-    this.__refreshAll();
+    //this.__refreshAll();
 
     //let c = this.charts.find((c) => c.id === 'chart1');
     //this._store.dispatch(new cubo.FilteredCuboAction(this.cuboCuotaInicial));
@@ -191,7 +191,8 @@ export class AppComponent implements OnInit {
 
      this.cuboCuotaFiltrado = this._cubocuotaService.getCuboFiltrado(
        this.cuboCuotaInicial,
-       this.columnsGroup
+       this.columnsGroup,
+       ['AC']
      );
      this.parseChart();
   }
@@ -255,9 +256,9 @@ export class AppComponent implements OnInit {
           }
       
       //Refresh all Chart
-      this.charts.forEach((charting) => {
-        charting.refresh(this.containerChart);
-      });
+      //this.charts.forEach((charting) => {
+      //  charting.refresh(this.containerChart);
+      //});
       
     }
   }

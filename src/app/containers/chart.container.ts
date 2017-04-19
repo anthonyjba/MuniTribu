@@ -12,8 +12,8 @@ import reducer from '../reducers/index';
 import { cuboState } from '../models/cubo-state'
 
 import { CuboCuotaService } from '../services/cubo-cuota.service';
-import { COLUMNS_GROUP, COLUMNS_QUANTITY  } from '../shared/config';
-import { IDefault } from '../shared/interfaces';
+import { COLUMNS_QUANTITY  } from '../shared/config';
+import { IColumns, IDefault } from '../shared/interfaces';
 
 @Component({
   selector: 'simple-ngrx',
@@ -24,7 +24,9 @@ export class SimpleNgrx {
   counter$: Observable<number>;
   curse$: Observable<number>;
   chart1$: Observable<cuboState>
+  columnsGroup: Array<IColumns>
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
+  //optsChart1: any[]= this.columnsQuantity.slice(0,2);
 
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
 
@@ -40,28 +42,40 @@ export class SimpleNgrx {
       
     }
 
-  loadCuboInicial(cubo, columns): void{
+  loadCuboInicial(cuboMunicipio, nivelesMunicipio): void{
     
+    this.columnsGroup = nivelesMunicipio;
+    let nivelesChart = ['AC'];
+    let seriesChart = ['N_SUBPARC'];
+
     let chart1Dataset = this._cuboCuotaService.getCuboFiltrado(
-       cubo,
-       columns
+       cuboMunicipio,
+       nivelesMunicipio,
+       nivelesChart
      );
 
-    this.chartActions.loadCubo(chart1Dataset, columns);
+    //Refresh all Chart
+    this.charts.forEach((charting) => {
+      
+      this.chartActions.loadCubo(chart1Dataset, nivelesChart, seriesChart, nivelesMunicipio);
+      let newContainer = this.getChartContainer(chart1Dataset);
 
-    this.parseChart(cubo, columns)
+      charting.refresh(newContainer);      
+    });  
+
+    
     //[dataset]="chart1$"
   }
 
-  private parseChart(cuboFiltrado, columnsGroup) {
-    let indexGroup : number = columnsGroup.findIndex((idx) => { return idx.display === true })
+  private getChartContainer(cuboFiltrado) {
+    let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })
     let series: any[] = [];
 
     if (indexGroup !== -1) {
-      let keysColumns = this.keys(columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
+      let keysColumns = this.keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
       
       //Adding a Serie
-      let currentLabel = columnsGroup[indexGroup].name;
+      let currentLabel = this.columnsGroup[indexGroup].name;
 
       this.columnsQuantity.forEach((serie) => {
         series.push({data: Array.from({length: keysColumns.length}, () => 0), 
@@ -70,7 +84,7 @@ export class SimpleNgrx {
 
       for (var rowCol = 0, j = keysColumns.length; rowCol !== j; rowCol++) {
         for (var x = 0, y = cuboFiltrado.length; x != y; x++){          
-          if(keysColumns[rowCol] == cuboFiltrado[x][columnsGroup[indexGroup].id]) {
+          if(keysColumns[rowCol] == cuboFiltrado[x][this.columnsGroup[indexGroup].id]) {
 
             //Update "Quantity Value"
             series.forEach((serie) => {
@@ -91,15 +105,11 @@ export class SimpleNgrx {
 
       //Adding to container
       let containerChart = { 
-            names : this.keys(columnsGroup[indexGroup].values).map((el) => { return el.substring(0, 40) }), 
+            names : this.keys(this.columnsGroup[indexGroup].values).map((el) => { return el.substring(0, 40) }), 
             series:  series
           }
       
-      //Refresh all Chart
-      this.charts.forEach((charting) => {
-        charting.refresh(containerChart);
-      });
-      
+      return containerChart;      
     }
   }
 

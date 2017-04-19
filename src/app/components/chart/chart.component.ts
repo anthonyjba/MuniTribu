@@ -1,6 +1,9 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 
+import { COLUMNS_LEVEL, COLUMNS_QUANTITY  } from '../../shared/config';
+import { IDefault  } from '../../shared/interfaces';
+
 @Component({
   selector: 'cat-chart',
   templateUrl: './chart.component.html'
@@ -8,10 +11,13 @@ import { BaseChartDirective } from 'ng2-charts';
 export class ChartComponent {
   @ViewChild( BaseChartDirective ) chart : BaseChartDirective;
 
-  //DEFAULT_SERIE = [{data: [], label: 'Sin Series'}];
+  DEFAULT_SERIE = [{data: [], label: 'Sin Series'}];
 
-  DEFAULT_SERIE = [{data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}];
+  columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
+  columnsLevel: Array<IDefault> = COLUMNS_LEVEL;
+
+  //DEFAULT_SERIE = [{data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
+  //  {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}];
 
   constructor() {
     this._ds =  this.DEFAULT_SERIE;
@@ -19,7 +25,7 @@ export class ChartComponent {
 
   /* Default Values */
   private _ds: any[] = this.DEFAULT_SERIE;
-  private _names: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012']; //[];
+  private _names: string[] = []; //['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
 
   @Input()
   set dataset(data: any[]) {
@@ -52,7 +58,6 @@ export class ChartComponent {
 
   refresh(container) {
         if (this.chart) {
-          console.log("sasa");
 
           //Valida las series a mostrar de cada componente chart
           this.dataset = !this.displaySeries ? container.series : 
@@ -66,7 +71,6 @@ export class ChartComponent {
           //this.chart.labels
           this.dataLabels = container.names;
           this.chart.labels =this.dataLabels; 
-          
           this.chart.ngOnChanges( {} );
         }
   }

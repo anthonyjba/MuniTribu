@@ -61,7 +61,34 @@ export class CuboCuotaService {
       return resumen;
     }
 
-    getCuboFiltrado(cuboMunicipio, niveles) {
+    getCuboFiltrado(cuboMunicipio, columnsGroup, nivelesChart: string[]) {
+      let result = [];
+    
+      for (var i = 0, j = cuboMunicipio.length; i !== j; i++) {
+        let flag = false;
+        for (var x = 0, y = columnsGroup.length; x != y; x++){
+          if(
+              (nivelesChart.indexOf(columnsGroup[x].id) === -1 ? 
+                      cuboMunicipio[i][columnsGroup[x].id] === null :
+                      cuboMunicipio[i][columnsGroup[x].id] !== null) 
+                      &&
+              (Object.getOwnPropertyNames(columnsGroup[x].filters).length === 0 || 
+                columnsGroup[x].filters[cuboMunicipio[i][columnsGroup[x].id]])
+            )
+            flag = true;
+          else { 
+            flag = false;
+            break;
+          }  
+        }
+        if(flag)
+          result.push(cuboMunicipio[i]);
+      }
+
+      return result;
+    }
+
+    /*getCuboFiltradoOld(cuboMunicipio, niveles) {
       let result = [];
     
       for (var i = 0, j = cuboMunicipio.length; i !== j; i++) {
@@ -83,6 +110,6 @@ export class CuboCuotaService {
       }
 
       return result;
-    }
+    }*/
 
   }

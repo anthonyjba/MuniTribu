@@ -25,15 +25,13 @@ import rootReducer from './reducers/index';
 import { CuboCuotaService } from './services/cubo-cuota.service'
 
 //Catastro Components
-import { ChartComponent } from './components/chart/chart.component';
-import { ChartListComponent } from './components/chart/chart-list';
 import { SimpleNgrx } from './containers/chart.container'
-
-import { Counter } from './components/counter-component'
-
+import { ChartComponent } from './components/chart/chart.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { SortableGroupComponent } from './components/sortable-group/sortable-group.component';
 
+//import { ChartListComponent } from './components/chart/chart-list';
+import { Counter } from './components/counter-component'
 
 //, [provideStore({ sortSerie: serieReducer })]
 @NgModule({
@@ -43,7 +41,7 @@ import { SortableGroupComponent } from './components/sortable-group/sortable-gro
     SimpleNgrx,
     Counter,
     ChartComponent,
-    ChartListComponent,
+    //ChartListComponent,
     CounterComponent,
     TruncatePipe    
   ],
@@ -63,6 +61,6 @@ import { SortableGroupComponent } from './components/sortable-group/sortable-gro
   providers: [
     CuboCuotaService
   ],
-  bootstrap: [AppComponent,  SimpleNgrx]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
