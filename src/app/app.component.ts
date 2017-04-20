@@ -115,7 +115,7 @@ export class AppComponent implements OnInit {
     }    
   }
 
-  onChangeSeries(el) {
+  /*onChangeSeries(el) {
     console.log("onChangeSeries");
 
     let currentChart = null; //this.charts.find((c) => c.id === el.id.substr(2));
@@ -125,7 +125,7 @@ export class AppComponent implements OnInit {
       .map(option => option.value)
     
     currentChart.refresh(this.containerChart);
-  }
+  }*/
 
   onChangeTipoGrav(value: number) {
     this.parseChart();

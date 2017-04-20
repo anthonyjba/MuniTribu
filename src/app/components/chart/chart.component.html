@@ -1,19 +1,21 @@
-<!--<div  style="display: block">   (change)="onChangeSeries($event.target)"-->
+<!--<div  style="display: block">-->
 <div class="panel panel-default">
     <div class="panel-heading">
         Chart
         <div class="pull-right">
             <div>
         Niveles:
-        <select id="l_{{id}}" #select multiple  class="selectpicker show-menu-arrow form-control" width="200px">
-            <option *ngFor="let item of columnsLevel" [value]="item.id" selected="item.selected" >
+        <select id="l_{{id}}" #optsLevel multiple 
+            class="selectpicker show-menu-arrow form-control" width="200px">
+            <option *ngFor="let item of columnsLevel" [value]="item.id" >
                 {{item.name}}
             </option>
         </select></div>
         <div>
         Series:
-        <select id="q_{{id}}" #select multiple  class="selectpicker show-menu-arrow form-control" width="200px">
-            <option *ngFor="let item of columnsQuantity" [value]="item.id" selected="item.selected" >
+        <select id="q_{{id}}" #optsSerie multiple (change)="onChangeSeries($event.target)"
+            class="selectpicker show-menu-arrow form-control" width="200px">
+            <option *ngFor="let item of columnsQuantity" [value]="item.id" >
                 {{item.name}}
             </option>
         </select>
@@ -24,13 +26,13 @@
         
     </div>
     <div class="panel-body">        
-        <canvas baseChart [id]="id"
-                [datasets]="dataset"
-                [labels]="dataLabels"           
+        <canvas baseChart [id]="id"                           
                 [options]="options"
                 [legend]="legend"
                 [chartType]="charType">
         </canvas>        
     </div>
 </div>
-<!--</div>-->
+<!--</div>
+[datasets]="dataset"
+                [labels]="dataLabels"-->

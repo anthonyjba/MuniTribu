@@ -14,13 +14,13 @@ export const ActionTypes = {
 export class Chart1Actions {
   constructor(private store: Store<cuboState>) {}
 
-  public loadCubo(cubo, niveles, series, columns) {
+  public loadCubo(cubo, niveles, series, resumen) {
 
     let payload: cuboState = { 
       entities: [...cubo],
       niveles: niveles,
       series: series,
-      columnsGroup: columns };
+      resumen: resumen };
 
     this.store.dispatch(
       { type: ActionTypes.LOAD_CUBO,

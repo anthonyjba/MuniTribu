@@ -26,7 +26,6 @@ export class SimpleNgrx {
   chart1$: Observable<cuboState>
   columnsGroup: Array<IColumns>
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
-  //optsChart1: any[]= this.columnsQuantity.slice(0,2);
 
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
 
@@ -45,36 +44,38 @@ export class SimpleNgrx {
   loadCuboInicial(cuboMunicipio, nivelesMunicipio): void{
     
     this.columnsGroup = nivelesMunicipio;
-    let nivelesChart = ['AC'];
-    let seriesChart = ['N_SUBPARC'];
-
-    let chart1Dataset = this._cuboCuotaService.getCuboFiltrado(
-       cuboMunicipio,
-       nivelesMunicipio,
-       nivelesChart
-     );
-
+    
     //Refresh all Chart
     this.charts.forEach((charting) => {
+      let nivelesChart = charting.levels;
+      let seriesChart = charting.displaySeries;
+
+      let chart1Dataset = this._cuboCuotaService.getCuboFiltrado(
+        cuboMunicipio,
+        nivelesMunicipio,
+        nivelesChart
+      );
       
-      this.chartActions.loadCubo(chart1Dataset, nivelesChart, seriesChart, nivelesMunicipio);
-      let newContainer = this.getChartContainer(chart1Dataset);
+      let newContainer = this.getChartContainer(chart1Dataset, nivelesChart[0]);
+      this.chartActions.loadCubo(chart1Dataset, nivelesChart, seriesChart, newContainer.resumen);
 
-      charting.refresh(newContainer);      
-    });  
+      charting.dataset = newContainer.data.series;
+      charting.dataLabels = newContainer.data.names; 
+      charting.refresh();
+    });
 
-    
-    //[dataset]="chart1$"
   }
 
-  private getChartContainer(cuboFiltrado) {
-    let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })
+  private getChartContainer(cuboFiltrado, labelColumn: string) {
+        
     let series: any[] = [];
+    let resumenFiltrado = this._cuboCuotaService.getDefaultResumen();
+    let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.id === labelColumn })
+    let keysColumns = this.keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
 
-    if (indexGroup !== -1) {
-      let keysColumns = this.keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
+    //if (indexGroup !== -1) {
       
-      //Adding a Serie
+      //Adding Series
       let currentLabel = this.columnsGroup[indexGroup].name;
 
       this.columnsQuantity.forEach((serie) => {
@@ -96,7 +97,7 @@ export class SimpleNgrx {
                   //this.resumenFiltrado.SUM_CUOTA += datoColumn;
                 }*/
                 serie.data[rowCol] = datoColumn;
-                //this.resumenFiltrado[serie.column] += datoColumn; 
+                resumenFiltrado[serie.column] += datoColumn; 
             });
             break;
           }
@@ -105,12 +106,12 @@ export class SimpleNgrx {
 
       //Adding to container
       let containerChart = { 
-            names : this.keys(this.columnsGroup[indexGroup].values).map((el) => { return el.substring(0, 40) }), 
+            names : keysColumns.map((el) => { return el.substring(0, 40) }), 
             series:  series
           }
       
-      return containerChart;      
-    }
+      return { data: containerChart, resumen: resumenFiltrado };      
+    //}
   }
 
   keys(currentDict: any) : Array<string> {

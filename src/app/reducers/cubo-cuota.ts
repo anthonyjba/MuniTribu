@@ -8,7 +8,6 @@ import { cuboState } from '../models/cubo-state';
 
 
 const initialState: cuboState = {
-  //ids: [],
   entities: [
       { N_SUBPARC: 1,
         N_PROPIETARIOS: 100,
@@ -20,7 +19,7 @@ const initialState: cuboState = {
     ],
   niveles: [],
   series: [],
-  columnsGroup: []
+  resumen: {}
 };
 
 export const cuboReducer: ActionReducer<cuboState> = (state = initialState, action) => {

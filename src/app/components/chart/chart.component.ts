@@ -10,6 +10,8 @@ import { IDefault  } from '../../shared/interfaces';
 })
 export class ChartComponent {
   @ViewChild( BaseChartDirective ) chart : BaseChartDirective;
+  @ViewChild( 'optsLevel' ) optionsLevel;
+  @ViewChild( 'optsSerie' ) optionsSerie; 
 
   DEFAULT_SERIE = [{data: [], label: 'Sin Series'}];
 
@@ -19,13 +21,18 @@ export class ChartComponent {
   //DEFAULT_SERIE = [{data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
   //  {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}];
 
+  /* Default Values */
+  private _ds: any[] = this.DEFAULT_SERIE;
+  private _names: string[] = []; //['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+
   constructor() {
     this._ds =  this.DEFAULT_SERIE;
    }
 
-  /* Default Values */
-  private _ds: any[] = this.DEFAULT_SERIE;
-  private _names: string[] = []; //['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  ngAfterViewInit() { 
+    this.optionsSelected(this.optionsLevel, this.levels);
+    this.optionsSelected(this.optionsSerie, this.displaySeries);
+   }
 
   @Input()
   set dataset(data: any[]) {
@@ -49,27 +56,47 @@ export class ChartComponent {
   legend: boolean = true;
 
   @Input()
-  displaySeries: any[];
+  levels: string[];
+
+  @Input()
+  displaySeries: string[];
 
   public options:any = {
     scaleShowVerticalLines: false,
     responsive: true
   };
 
-  refresh(container) {
+  private optionsSelected(input, values) {
+      let options = input.nativeElement.options;
+      for(let i=0; i < options.length; i++) {
+          options[i].selected = values.join(',').indexOf(options[i].value) > -1;
+      }
+  }
+
+  onChangeSeries(el) {
+    console.log("onChangeSeries");
+
+    this.displaySeries = Array.apply(null, el.options)
+      .filter(option => option.selected)
+      .map(option => option.value)
+    
+    this.refresh();
+  }
+
+  refresh() {
         if (this.chart) {
 
           //Valida las series a mostrar de cada componente chart
-          this.dataset = !this.displaySeries ? container.series : 
+          this.chart.datasets = !this.displaySeries ? this.dataset : 
                                 this.displaySeries.length > 0 ? 
-                                container.series.filter((c) => { return this.displaySeries.join(',').indexOf(c.column) > -1 }) :
+                                this.dataset.filter((c) => { return this.displaySeries.join(',').indexOf(c.column) > -1 }) :
                                 this.DEFAULT_SERIE;
-          this.chart.datasets = this.dataset;
+          //this.chart.datasets = this.dataset;
 
           //añadir la propeiedad orden y lanzar por un evento para ordenar por una serie elegida
           
           //this.chart.labels
-          this.dataLabels = container.names;
+          //this.dataLabels = this.dataLabels;
           this.chart.labels =this.dataLabels; 
           this.chart.ngOnChanges( {} );
         }

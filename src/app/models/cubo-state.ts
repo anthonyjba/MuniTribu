@@ -5,7 +5,7 @@ export interface cuboState {
   entities: Array<ICubo_Couta>;
   niveles: string[],
   series: string[],
-  columnsGroup: Array<IColumns>;
+  resumen: {};
   //selectedCuboId: string | null;
 };
 
