@@ -1,4 +1,4 @@
-<label>A nivel de:</label>
+<label>Niveles del gráfico a mostrar:</label>
 <ul class="list-group" dnd-sortable-container [sortableData]="sortColumns">
     <li *ngFor="let item of sortColumns; let i = index" class="list-group-item" dnd-sortable (onDragSuccess)="refresh()" [sortableIndex]="i">{{item.name}}
         <label class="switch">
@@ -7,6 +7,3 @@
         </label>
     </li>
 </ul>
-
-<!--My prefences:<br/>
-<span *ngFor="let item of sortColumns; let i = index">{{i + 1}}) {{item.name}}<br/></span>-->

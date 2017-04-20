@@ -28,53 +28,18 @@
             <hr>
             <hr>
             <p></p>
+
             <div class="row">
                 <div class="col-md-3">
-
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-294173" href="#panel-element-290912">Análisis de Cuota</a>
-                        </div>
-                        <div class="panel-collapse">
-                            <div class="panel-body">
-
-
-                                <label>Municipio:</label>
-                                <select [(ngModel)]="selmuni" id="Municipios" class="form-control main">
-                                <option value="45900">Toledo</option>
-                                <!--<option *ngFor="let muni of municipios"
-                                    [value]="muni.id">                    
-                                        {{muni.name}}
-                                </option>-->
-                            </select>
-                                <hr>
-
-                                <cat-sortable-group (change)="onUpdateColumns($event)"></cat-sortable-group>
-
-                                <accordion [closeOthers]="uniqueAccordion">
-                                    <accordion-group *ngFor="let col of columnsGroup" [panelClass]="'customClass'">
-                                        <div accordion-heading>{{ col.name }}                                            
-                                            <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': true }"></i>
-                                        </div>
-                                        <div class="fixed-panel">
-                                            <ul class="list-group slot">
-                                                <li *ngFor="let key of keys(col.values);" class="list-group-item widget">
-                                                    <div class="color-line"></div>
-                                                    <div class="slot-content">
-                                                        <button type="button" [id]="key" name="{{ col.id }}" class="btn-widget" (click)="onClick($event)">
-                                                    {{ key }}</button>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </accordion-group>
-                                </accordion>
-
-                            </div>
-                        </div>
-                    </div>
+                    <label>Municipio:</label>
+                    <select [(ngModel)]="selmuni" id="Municipios" class="form-control main">
+                        <option value="45900">Toledo</option>
+                        <!--<option *ngFor="let muni of municipios"
+                            [value]="muni.id">                    
+                                {{muni.name}}
+                        </option>-->
+                    </select>
                 </div>
-
                 <div class="col-md-9">
                     <!-- Resumen del Municipio -->
                     <div class="row">
@@ -104,10 +69,52 @@
                         </div>
 
                     </div>
+                </div>
 
-                    <div class="row">
-                        <hr>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-3">
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-294173" href="#panel-element-290912">Opciones del Gráfico</a>
+                        </div>
+                        <div class="panel-collapse">
+                            <div class="panel-body">
+
+
+                                <cat-sortable-group (change)="onUpdateColumns($event)"></cat-sortable-group>
+
+                                <label>Valores a filtrar por:</label>
+                                <accordion [closeOthers]="uniqueAccordion">
+                                    <accordion-group *ngFor="let col of columnsGroup" [panelClass]="'customClass'" style="display:none">
+                                        <div accordion-heading>{{ col.name }}                                            
+                                            <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': true }"></i>
+                                        </div>
+                                        <div class="fixed-panel">
+                                            <ul class="list-group slot">
+                                                <li *ngFor="let key of keys(col.values);" class="list-group-item widget">
+                                                    <div class="color-line"></div>
+                                                    <div class="slot-content">
+                                                        <button type="button" [id]="key" name="{{ col.id }}" class="btn-widget" (click)="onClick($event)">
+                                                    {{ key }}</button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </accordion-group>
+                                </accordion>
+
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <div class="col-md-9">
+                    
 
                     <!-- Resumen del Filtrado -->
                     <div class="row">
@@ -143,68 +150,11 @@
                     </div>
 
                     <div class="row">
-                        <!--<cat-chart id="chart20" charType='horizontalBar' [displaySeries]="['N_SUBPARC']"></cat-chart>-->
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-12">
                         <simple-ngrx></simple-ngrx>
                         </div>
                     </div>                    
-                    <!--
-                    <div class="row">
-                        <div class="col-md-9">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Chart
-                                    <i class="pull-right fa fa-sort-amount-desc" aria-hidden="true"></i>
-                                </div>
-                                <div class="panel-body">
-                                    <cat-chart id="chart1" charType='horizontalBar' [displaySeries]="['N_SUBPARC']"></cat-chart>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 sidebar">
-                            <select id="s_chart1" #select multiple (change)="onChangeSeries($event.target)" class="selectpicker show-menu-arrow form-control">
-                                <option *ngFor="let item of optsChart1" [value]="item.id" selected="item.selected" >
-                                    {{item.name}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-7">
-                            <select id="s_chart2" #select multiple (change)="onChangeSeries($event.target)" class="selectpicker show-menu-arrow form-control">
-                                    <option *ngFor="let item of optsChart2" [value]="item.id" selected="item.selected" >
-                                        {{item.name}}
-                                    </option>
-                                </select>
-                            <div>
-                                <cat-chart id="chart2" charType='bar' [displaySeries]="['SUM_HECT']"></cat-chart>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <select id="s_chart3" #select multiple (change)="onChangeSeries($event.target)" class="selectpicker show-menu-arrow form-control">
-                                    <option *ngFor="let item of optsChart3" [value]="item.id" selected="item.selected" >
-                                        {{item.name}}
-                                    </option>
-                                </select>
-                            <div>
-                                <cat-chart id="chart3" charType='pie' [displaySeries]="['N_SUBPARC','N_PROPIETARIOS']"></cat-chart>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-7">
-                            <cat-chart charType='line' [displaySeries]="['N_SUBPARC']"></cat-chart>
-                        </div>
-                        <div class="col-md-5">
-                            <cat-chart id="chart4" charType='radar' [displaySeries]="['N_SUBPARC']"></cat-chart>
-                        </div>
-                    </div>
-                    -->
+                    
 
                     <div class="row">
                         <!-- Tabla -->

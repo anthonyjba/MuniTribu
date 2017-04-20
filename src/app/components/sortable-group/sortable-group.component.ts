@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, Output, EventEmitter, ViewChild } from '@angular/core';
 
-import { COLUMNS_GROUP  } from '../../shared/config'; 
+import { COLUMNS_GROUP, COLUMNS_LEVEL  } from '../../shared/config'; 
 
 @Component({
   selector: 'cat-sortable-group',
@@ -15,15 +15,18 @@ export class SortableGroupComponent {
   @Output()
   change: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
 
-  constructor() { }
+  constructor() {
+   }
 
   refresh(){
+
     this.change.emit(this.sortColumns);
   }
 
   toggle(target: any) {
+    debugger;
     let reg = this.sortColumns.find((item) => item.id === target.id);
-    reg.display = target.checked; 
+    //reg.display = target.checked; 
     
     this.change.emit(this.sortColumns);
   }

@@ -23,7 +23,7 @@ import { IColumns, IDefault } from '../shared/interfaces';
 export class SimpleNgrx {
   counter$: Observable<number>;
   curse$: Observable<number>;
-  chart1$: Observable<cuboState>
+  cubo$: Observable<cuboState>
   columnsGroup: Array<IColumns>
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
 
@@ -37,7 +37,7 @@ export class SimpleNgrx {
     store: Store<any>) {
       this.counter$ = store.select('counter');
       this.curse$ = store.select('curse');
-      this.chart1$ = store.select('cubo')
+      this.cubo$ = store.select('cubo')
       
     }
 
@@ -50,14 +50,14 @@ export class SimpleNgrx {
       let nivelesChart = charting.levels;
       let seriesChart = charting.displaySeries;
 
-      let chart1Dataset = this._cuboCuotaService.getCuboFiltrado(
+      let chartDataset = this._cuboCuotaService.getCuboFiltrado(
         cuboMunicipio,
         nivelesMunicipio,
         nivelesChart
       );
       
-      let newContainer = this.getChartContainer(chart1Dataset, nivelesChart[0]);
-      this.chartActions.loadCubo(chart1Dataset, nivelesChart, seriesChart, newContainer.resumen);
+      let newContainer = this.getChartContainer(chartDataset, nivelesChart[0]);
+      this.chartActions.loadCubo(chartDataset, nivelesChart, seriesChart, newContainer.resumen);
 
       charting.dataset = newContainer.data.series;
       charting.dataLabels = newContainer.data.names; 

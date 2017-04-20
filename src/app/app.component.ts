@@ -37,12 +37,12 @@ export class AppComponent implements OnInit {
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   tipoGravamen: number = 0;
   containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
-  optsChart1: any[]= this.columnsQuantity.slice(0,2);
+  /*optsChart1: any[]= this.columnsQuantity.slice(0,2);
   optsChart2: any[]= this.columnsQuantity.slice(2);
-  optsChart3: any[]= this.columnsQuantity.slice(0);
+  optsChart3: any[]= this.columnsQuantity.slice(0);*/
 
   //@ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
-  @ViewChildren('select') selectElRef;
+  //@ViewChildren('select') selectElRef;
   @ViewChild(SimpleNgrx) appContainer: SimpleNgrx;
 
   //Default Values
@@ -85,33 +85,18 @@ export class AppComponent implements OnInit {
 
   ngAfterContentInit() { console.log("ngAfterContentInit"); }
 
-  ngAfterViewInit() { console.log("ngAfterViewInit"); 
-    
-/*
-    this.selectElRef.forEach((el) => {
-      let options = el.nativeElement.options;
-      if( el.nativeElement.id ){
-        let currentChart = this.charts.find((c) => c.id === el.nativeElement.id.substr(2));
-        for(let i=0; i < options.length; i++) {
-          options[i].selected = currentChart.displaySeries.join(',').indexOf(options[i].value) > -1;
-        }
-      }
-    });
-*/
-    
-     
-}
+  ngAfterViewInit() { console.log("ngAfterViewInit APP"); }
 
   
   /** Eventos **/
 
-  onUpdateColumns(result : Array<IColumns>){
+  onUpdateColumns(result : Array<any>){
     //Verificar porque repite esta funcion 2 veces
     if(result.length > 0) {
         this.columnsGroup = result;
 
         //refresh display filter
-        this.__refreshAll();
+        //this.__refreshAll();
     }    
   }
 
@@ -132,6 +117,8 @@ export class AppComponent implements OnInit {
   }
 
   onClick(event) {
+
+    /***** asignar del redux store ******/
     let dictCurrent = this.columnsGroup.find((col) => col.id === event.target.name).filters;
 
     if (dictCurrent.hasOwnProperty(event.target.id)){
@@ -180,10 +167,6 @@ export class AppComponent implements OnInit {
   }
 
   
-
-  private __ejectDispatchInitial(){
-      //this._store.dispatch(new cubo.LoadCuboAction(this.cuboCuotaInicial));
-  }
 
   private __refreshAll(){
 
