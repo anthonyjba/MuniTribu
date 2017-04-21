@@ -4,15 +4,15 @@
         Chart
         <div class="pull-right">
             <div>
-        Niveles:
+        <!--Niveles:
         <select id="l_{{id}}" #optsLevel multiple 
             class="selectpicker show-menu-arrow form-control" width="200px">
             <option *ngFor="let item of columnsLevel" [value]="item.id" >
                 {{item.name}}
             </option>
-        </select></div>
+        </select>-->
+        </div>
         <div>
-        Series:
         <select id="q_{{id}}" #optsSerie multiple (change)="onChangeSeries($event.target)"
             class="selectpicker show-menu-arrow form-control" width="200px">
             <option *ngFor="let item of columnsQuantity" [value]="item.id" >

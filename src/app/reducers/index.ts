@@ -1,5 +1,4 @@
-import { ActionReducer } from '@ngrx/store';
-import { combineReducers } from '@ngrx/store';
+import { ActionReducer, combineReducers } from '@ngrx/store';
 import { createSelector } from 'reselect';
 
 //import * as fromCuboCuota from './cubo-cuota'

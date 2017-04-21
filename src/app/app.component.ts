@@ -8,9 +8,7 @@ import { Dictionary } from './shared/enums';
 import { IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
 import * as DictionaryModule from './services/dictionary.service';
 import { CuboCuotaService } from './services/cubo-cuota.service';
-//import { ChartComponent } from './components/chart/chart.component';
 import * as cubo from './actions/cuboCollection';
-//import { ChartListComponent } from './components/chart/chart-list'
 
 import * as fromRoot from './reducers';
 import { Observable } from 'rxjs/Observable';
@@ -32,15 +30,11 @@ export class AppComponent implements OnInit {
   cuboCuotaInicial: Array<ICubo_Couta>;
   cuboCuotaFiltrado: Array<ICubo_Couta>;
   resumenMunicipio: ICubo_Couta;
-  resumenFiltrado: ICubo_Couta;
   columnsGroup: Array<IColumns> = COLUMNS_GROUP;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   tipoGravamen: number = 0;
   containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
-  /*optsChart1: any[]= this.columnsQuantity.slice(0,2);
-  optsChart2: any[]= this.columnsQuantity.slice(2);
-  optsChart3: any[]= this.columnsQuantity.slice(0);*/
-
+  
   //@ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
   //@ViewChildren('select') selectElRef;
   @ViewChild(SimpleNgrx) appContainer: SimpleNgrx;
@@ -54,7 +48,7 @@ export class AppComponent implements OnInit {
 
   constructor(private _cubocuotaService: CuboCuotaService //private _store: Store<fromRoot.State>
               ) {
-      this.resumenMunicipio = this.resumenFiltrado = _cubocuotaService.getDefaultResumen();
+      this.resumenMunicipio = _cubocuotaService.getDefaultResumen();
 
 
       //this._cubocuotaService.getCuboNgrx();
@@ -90,15 +84,23 @@ export class AppComponent implements OnInit {
   
   /** Eventos **/
 
-  onUpdateColumns(result : Array<any>){
+  onSortingItems(result : Array<any>){
     //Verificar porque repite esta funcion 2 veces
     if(result.length > 0) {
         this.columnsGroup = result;
 
         //refresh display filter
         //this.__refreshAll();
-    }    
+    }
+    
   }
+  
+  onSwitchNiveles(id: string) {
+    console.log(id);
+    //let reg = this.columnsGroup.find((item) => item.id === id);
+    //reg.display = target.checked; 
+  }
+
 
   /*onChangeSeries(el) {
     console.log("onChangeSeries");
@@ -113,7 +115,7 @@ export class AppComponent implements OnInit {
   }*/
 
   onChangeTipoGrav(value: number) {
-    this.parseChart();
+    //this.parseChart();
   }
 
   onClick(event) {
@@ -131,7 +133,7 @@ export class AppComponent implements OnInit {
     }
 
     //refresh display filter
-    this.__refreshAll();
+    //this.__refreshAll();
   }
 
   /** Private Methods ***/
@@ -177,22 +179,22 @@ export class AppComponent implements OnInit {
        this.columnsGroup,
        ['AC']
      );
-     this.parseChart();
+     //this.parseChart();
   }
 
   
-
+  /*
   private parseChart() {
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.display === true })
     let series: any[] = [];
 
-    /*add only unique series
-    let uniqueSeries = {};
-    this.charts.forEach((charting) => {
-      if(charting.series){
-        charting.series.forEach((s) => { uniqueSeries[s] = 1; })
-      }      
-    });*/
+    //add only unique series
+    //let uniqueSeries = {};
+    //this.charts.forEach((charting) => {
+    //  if(charting.series){
+    //    charting.series.forEach((s) => { uniqueSeries[s] = 1; })
+    //  }      
+    //});
     
     if (indexGroup !== -1) {
       let keysColumns = this.keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
@@ -206,8 +208,8 @@ export class AppComponent implements OnInit {
       });
 
       //recalculate el resumen para el actual Filtrado
-      this.resumenFiltrado = this._cubocuotaService.getDefaultResumen();
-      this.resumenFiltrado.TIPO_GRAVAMEN = this.tipoGravamen;
+      //this.resumenFiltrado = this._cubocuotaService.getDefaultResumen();
+      //this.resumenFiltrado.TIPO_GRAVAMEN = this.tipoGravamen;
 
       for (var rowCol = 0, j = keysColumns.length; rowCol !== j; rowCol++) {
         for (var x = 0, y = this.cuboCuotaFiltrado.length; x != y; x++){          
@@ -223,7 +225,7 @@ export class AppComponent implements OnInit {
                   //this.resumenFiltrado.SUM_CUOTA += datoColumn;
                 }                
                 serie.data[rowCol] = datoColumn;
-                this.resumenFiltrado[serie.column] += datoColumn; 
+                //this.resumenFiltrado[serie.column] += datoColumn; 
             });
             break;
           }
@@ -245,9 +247,9 @@ export class AppComponent implements OnInit {
       
     }
   }
-
+*/
   keys(currentDict: any) : Array<string> {
     return Object.keys(currentDict);
   }
-
+  
 }

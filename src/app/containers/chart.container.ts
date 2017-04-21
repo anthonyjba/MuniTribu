@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Counter } from '../components/counter-component';
-//import { ChartListComponent } from '../components/chart/chart-list';
 import { ChartComponent } from '../components/chart/chart.component';
 import { CounterActions } from '../actions/counter-actions';
 import { CurseActions } from '../actions/curse-actions';
@@ -63,6 +62,10 @@ export class SimpleNgrx {
       charting.dataLabels = newContainer.data.names; 
       charting.refresh();
     });
+
+  }
+
+  refreshChartContainer(charId: string) {
 
   }
 

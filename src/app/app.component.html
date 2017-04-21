@@ -86,7 +86,10 @@
                             <div class="panel-body">
 
 
-                                <cat-sortable-group (change)="onUpdateColumns($event)"></cat-sortable-group>
+                                <cat-sortable-group [sortItems]="columnsGroup" 
+                                    (sorting)="onSortingItems($event)"
+                                    (toggleItem)="onSwitchNiveles($event)">
+                                </cat-sortable-group>
 
                                 <label>Valores a filtrar por:</label>
                                 <accordion [closeOthers]="uniqueAccordion">
@@ -118,6 +121,11 @@
 
                     <!-- Resumen del Filtrado -->
                     <div class="row">
+                        <!-- Range del Gravamen -->
+                            <div>
+                                <input type="range" #tgrv min="0" max="1" step="0.1" [(ngModel)]="tipoGravamen" (change)="onChangeTipoGrav(tgrv.value)" />
+                            </div>
+                        <!--
                         <div class="col-md-1">
                             <cat-counter description="SubParcelas" fontIcon="fa fa-home" [value]="resumenFiltrado.N_SUBPARC"></cat-counter>
                         </div>
@@ -129,10 +137,7 @@
                         <div class="col-md-1">
                             <cat-counter description="Gravamen" fontIcon="fa fa-calculator" [value]="tipoGravamen"></cat-counter>
 
-                            <!-- Range del Gravamen -->
-                            <div>
-                                <input type="range" #tgrv min="0" max="1" step="0.1" [(ngModel)]="tipoGravamen" (change)="onChangeTipoGrav(tgrv.value)" />
-                            </div>
+                            
                         </div>
 
                         <div class="col-md-3">
@@ -146,7 +151,7 @@
                         <div class="col-md-3">
                             <cat-counter description="Valor Cuota" format='1.2-2' fontIcon="fa fa-eur" [value]="resumenFiltrado.SUM_CUOTA"></cat-counter>
                         </div>
-
+                        -->
                     </div>
 
                     <div class="row">

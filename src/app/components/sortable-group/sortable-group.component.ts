@@ -1,6 +1,4 @@
-import { Component, ViewEncapsulation, Output, EventEmitter, ViewChild } from '@angular/core';
-
-import { COLUMNS_GROUP, COLUMNS_LEVEL  } from '../../shared/config'; 
+import { Component, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'cat-sortable-group',
@@ -10,25 +8,28 @@ import { COLUMNS_GROUP, COLUMNS_LEVEL  } from '../../shared/config';
 })
 export class SortableGroupComponent {
 
-  sortColumns = COLUMNS_GROUP;
+  @Input()
+  sortItems: Array<any> ;
 
   @Output()
-  change: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
+  sorting: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
 
-  constructor() {
-   }
+  @Output()
+  toggleItem: EventEmitter<string> = new EventEmitter<string>();
 
-  refresh(){
+  constructor() { }
 
-    this.change.emit(this.sortColumns);
+  refresh() {
+    this.sorting.emit(this.sortItems);
   }
 
   toggle(target: any) {
-    debugger;
-    let reg = this.sortColumns.find((item) => item.id === target.id);
+    
+    this.toggleItem.emit(target.id);
+    //let reg = this.sortItems.find((item) => item.id === target.id);
     //reg.display = target.checked; 
     
-    this.change.emit(this.sortColumns);
+    //this.change.emit(this.sortItems);
   }
 
 }

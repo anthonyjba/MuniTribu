@@ -16,7 +16,7 @@ export class ChartComponent {
   DEFAULT_SERIE = [{data: [], label: 'Sin Series'}];
 
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
-  columnsLevel: Array<IDefault> = COLUMNS_LEVEL;
+  //columnsLevel: Array<IDefault> = COLUMNS_LEVEL;
 
   //DEFAULT_SERIE = [{data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
   //  {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}];
@@ -30,7 +30,7 @@ export class ChartComponent {
    }
 
   ngAfterViewInit() { 
-    this.optionsSelected(this.optionsLevel, this.levels);
+    //this.optionsSelected(this.optionsLevel, this.levels);
     this.optionsSelected(this.optionsSerie, this.displaySeries);
    }
 
