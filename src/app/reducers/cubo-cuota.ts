@@ -2,20 +2,18 @@ import { ActionReducer } from '@ngrx/store'
 //import * as cubo from '../actions/cuboCollection';
 import { ActionTypes } from '../actions/chart1-actions'
 
-import { cuboState } from '../models/cubo-state';
+import { chartCollection, cuboState } from '../models/cubo-state';
 
 
-
-
-const initialState: cuboState = {
+export const INITIAL_STATE: cuboState = {
   entities: [],
   niveles: [],
   series: [],
   resumen: {}
 };
 
-export const cuboReducer: ActionReducer<cuboState> = (state = initialState, action) => {
-//export function reducer(state = initialState, action: cubo.Actions) : State {
+export const cuboReducer: ActionReducer<cuboState> = (state = INITIAL_STATE, action) => {
+//export function reducer(state = INITIAL_STATE, action: cubo.Actions) : State {
     switch(action.type){
         case ActionTypes.LOAD_CUBO : {
             const newState = action.payload;
@@ -37,4 +35,5 @@ export const cuboReducer: ActionReducer<cuboState> = (state = initialState, acti
 
 }
 
-export const getEntities = (state: cuboState) => state.entities;
+export const chart1 = (state: chartCollection) => state.chart1;
+export const chart2 = (state: chartCollection) => state.chart2;

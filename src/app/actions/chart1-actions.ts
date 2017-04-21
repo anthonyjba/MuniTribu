@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
-import { cuboState } from '../models/cubo-state';
+import { cuboState, chartCollection } from '../models/cubo-state';
 import { type } from '../shared/util';
 
 
@@ -12,7 +12,7 @@ export const ActionTypes = {
 
 @Injectable()
 export class Chart1Actions {
-  constructor(private store: Store<cuboState>) {}
+  constructor(private store: Store<chartCollection>) {}
 
   public loadCubo(cubo, niveles, series, resumen) {
 
@@ -22,6 +22,7 @@ export class Chart1Actions {
       series: series,
       resumen: resumen };
 
+      this.store
     this.store.dispatch(
       { type: ActionTypes.LOAD_CUBO,
         payload: payload

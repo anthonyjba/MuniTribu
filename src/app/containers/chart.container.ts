@@ -7,8 +7,9 @@ import { ChartComponent } from '../components/chart/chart.component';
 import { CounterActions } from '../actions/counter-actions';
 import { CurseActions } from '../actions/curse-actions';
 import { Chart1Actions } from '../actions/chart1-actions'
-import reducer from '../reducers/index';
+//import reducer from '../reducers/index';
 import { cuboState } from '../models/cubo-state'
+//import { chart1 } from '../reducers/cubo-cuota';
 
 import { CuboCuotaService } from '../services/cubo-cuota.service';
 import { COLUMNS_QUANTITY  } from '../shared/config';
@@ -22,8 +23,9 @@ import { IColumns, IDefault } from '../shared/interfaces';
 export class SimpleNgrx {
   counter$: Observable<number>;
   curse$: Observable<number>;
-  cubo$: Observable<cuboState>
-  columnsGroup: Array<IColumns>
+  chart1$: Observable<cuboState>;
+  chart2$: Observable<cuboState>;
+  columnsGroup: Array<IColumns>;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
 
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
@@ -36,8 +38,8 @@ export class SimpleNgrx {
     store: Store<any>) {
       this.counter$ = store.select('counter');
       this.curse$ = store.select('curse');
-      this.cubo$ = store.select('cubo')
-      
+      this.chart1$ = store.select('chart1')
+      this.chart2$ = store.select('chart2')
     }
 
   loadCuboInicial(cuboMunicipio, nivelesMunicipio): void{

@@ -5,13 +5,14 @@ import { createSelector } from 'reselect';
 
 import { counterReducer } from './counter-reducer';
 import { curseReducer } from './curse-reducer';
-import { cuboReducer } from './cubo-cuota';
+import { cuboReducer, chart1 } from './cubo-cuota';
 
 export default combineReducers({
   counter: counterReducer,
   curse: curseReducer,
-  cubo: cuboReducer
+  chart1: cuboReducer 
 });
+
 
 /*
 export interface State {

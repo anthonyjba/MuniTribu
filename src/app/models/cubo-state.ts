@@ -9,8 +9,7 @@ export interface cuboState {
   //selectedCuboId: string | null;
 };
 
-export interface cuboCollection {
-  chart1: { 
-      cuboState : cuboState       
-    }
+export interface chartCollection {
+      chart1 : cuboState,       
+      chart2 : cuboState       
 }
