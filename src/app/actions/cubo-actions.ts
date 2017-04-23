@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
-import { cuboState, chartCollection } from '../models/cubo-state';
+import { cuboState } from '../models/cubo-state.model';
 import { type } from '../shared/util';
 
 
 export const ActionTypes = {
-  LOAD_CUBO:   type('[Cubo] Load'),
+  LOAD_CUBO:   type('[Cubo] Load Item'),
   FILTER_CUBO: type('[Cubo] Filtered')
 };
 
 @Injectable()
-export class Chart1Actions {
-  constructor(private store: Store<chartCollection>) {}
+export class CuboActions {
+  constructor(private store: Store<cuboState>) {}
 
-  public loadCubo(cubo, niveles, series, resumen) {
+  public loadCubo(id, cubo, niveles, series, resumen) {
 
-    let payload: cuboState = { 
+    let payload: cuboState = {
+      id: id, 
       entities: [...cubo],
       niveles: niveles,
       series: series,
       resumen: resumen };
 
-      this.store
     this.store.dispatch(
       { type: ActionTypes.LOAD_CUBO,
         payload: payload

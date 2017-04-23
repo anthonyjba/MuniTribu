@@ -1,26 +1,24 @@
+<!-- Sidebar -->
+<div id="mySidenav" class="sidenav" >
+    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+</div>
+<!-- /#sidebar-wrapper -->
 
-<div class="row">
-    <!--<h1>Ngrx: Presentational Counters</h1>
-    <div style="float: left; border: 1px solid red;">
-      <h2>Click Counter</h2>
-      <counter [counter]="counter$"
-          (increment)="counterActions.increment()"
-          (decrement)="counterActions.decrement()"
-          (incrementIfOdd)="counterActions.incrementIfOdd()"
-          (incrementAsync)="counterActions.incrementAsync()">
-      </counter>
+<div id="main">
+    <div class="row">
+        <div class="col-md-9">
+            <cat-chart id="chart30" charType='horizontalBar' (activate)="openSidenav()"
+                [levels]="['AC']" [displaySeries]="['N_SUBPARC','N_PROPIETARIOS']">
+            </cat-chart>
+        </div>
     </div>
-    <div style="float: left; border: 1px solid blue;">
-      <h2>Curse Counter</h2>
-      <counter [counter]="curse$"
-          (increment)="curseActions.castCurse()"
-          (decrement)="curseActions.removeCurse()"
-          (incrementIfOdd)="curseActions.castIfOdd()"
-          (incrementAsync)="curseActions.castAsync()">
-      </counter>
-    </div>-->
-    <div class="col-md-9">
-        <cat-chart id="chart30" charType='horizontalBar' [levels]="['AC']" [displaySeries]="['N_SUBPARC','N_PROPIETARIOS']"></cat-chart>
+    <div class="row">
+        <div class="col-md-9">
+            <cat-chart id="chart2" charType='horizontalBar' [levels]="['TIPO_CIF']" [displaySeries]="['N_SUBPARC','N_PROPIETARIOS']"></cat-chart>
+        </div>
     </div>
-    <!--<chart-list [cubos]="chart1$ | async"></chart-list>-->
 </div>

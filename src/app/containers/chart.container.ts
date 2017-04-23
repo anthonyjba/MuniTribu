@@ -1,15 +1,18 @@
-import { Component, ViewChildren, QueryList } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChildren, QueryList } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Counter } from '../components/counter-component';
 import { ChartComponent } from '../components/chart/chart.component';
+import { CuboActions } from '../actions/cubo-actions'
+import * as Sidenav from '../actions/sidenav-actions';
+
+import { Counter } from '../components/counter-component';
 import { CounterActions } from '../actions/counter-actions';
 import { CurseActions } from '../actions/curse-actions';
-import { Chart1Actions } from '../actions/chart1-actions'
-//import reducer from '../reducers/index';
-import { cuboState } from '../models/cubo-state'
-//import { chart1 } from '../reducers/cubo-cuota';
+
+import * as fromRoot from '../reducers';
+
+import { cuboState } from '../models/cubo-state.model'
 
 import { CuboCuotaService } from '../services/cubo-cuota.service';
 import { COLUMNS_QUANTITY  } from '../shared/config';
@@ -17,14 +20,14 @@ import { IColumns, IDefault } from '../shared/interfaces';
 
 @Component({
   selector: 'simple-ngrx',
-  providers: [ CounterActions, CurseActions, Chart1Actions ],    
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ CounterActions, CurseActions, CuboActions ],    
   templateUrl: './chart.container.html'
 })
 export class SimpleNgrx {
-  counter$: Observable<number>;
-  curse$: Observable<number>;
-  chart1$: Observable<cuboState>;
-  chart2$: Observable<cuboState>;
+  showSidenav$: Observable<boolean>;
+  items$: Observable<Array<cuboState>>;
+
   columnsGroup: Array<IColumns>;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
 
@@ -33,14 +36,32 @@ export class SimpleNgrx {
   constructor(
     private counterActions: CounterActions,
     private curseActions: CurseActions,
-    private chartActions: Chart1Actions,
+    private cuboActions: CuboActions,
     private _cuboCuotaService: CuboCuotaService,
-    store: Store<any>) {
-      this.counter$ = store.select('counter');
-      this.curse$ = store.select('curse');
-      this.chart1$ = store.select('chart1')
-      this.chart2$ = store.select('chart2')
-    }
+    private store: Store<any>) {
+      this.showSidenav$ = this.store.select(fromRoot.getShowSidenav);
+      this.items$ = this.store.select('CollectionItems')
+  }
+
+  closeSidenav() {
+    /**
+     * All state updates are handled through dispatched actions in 'container'
+     * components. This provides a clear, reproducible history of state
+     * updates and user interaction through the life of our
+     * application.
+     */
+    this.store.dispatch(new Sidenav.CloseSidenavAction());
+  }
+
+  openSidenav() {
+    //debugger;
+    this.openNav();
+
+    this.store.dispatch(new Sidenav.OpenSidenavAction());
+    console.log(this.showSidenav$)
+      
+    console.log(this.items$);
+  }
 
   loadCuboInicial(cuboMunicipio, nivelesMunicipio): void{
     
@@ -58,13 +79,24 @@ export class SimpleNgrx {
       );
       
       let newContainer = this.getChartContainer(chartDataset, nivelesChart[0]);
-      this.chartActions.loadCubo(chartDataset, nivelesChart, seriesChart, newContainer.resumen);
+      this.cuboActions.loadCubo(charting.id, chartDataset, nivelesChart, seriesChart, newContainer.resumen);
 
       charting.dataset = newContainer.data.series;
       charting.dataLabels = newContainer.data.names; 
       charting.refresh();
     });
 
+    //this.openNav();
+  }
+
+  openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+  }
+
+  closeNav() {
+    document.getElementById("mySidenav").style.width = "0px";
+    document.getElementById("main").style.marginLeft = "0px";
   }
 
   refreshChartContainer(charId: string) {

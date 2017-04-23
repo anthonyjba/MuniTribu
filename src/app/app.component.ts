@@ -33,7 +33,6 @@ export class AppComponent implements OnInit {
   columnsGroup: Array<IColumns> = COLUMNS_GROUP;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   tipoGravamen: number = 0;
-  containerChart = { names : [], series: [{data: [], label: 'Series A'}] };
   
   //@ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
   //@ViewChildren('select') selectElRef;

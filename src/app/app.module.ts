@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 //import { Store, provideStore } from '@ngrx/store';
-import { StoreModule, INITIAL_STATE } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
 //Modules vendors
@@ -17,8 +17,6 @@ import { ChartsModule } from 'ng2-charts';
 import { TruncatePipe } from './shared/truncate.pipe';
 
 //Catastro Reducers
-//import { serieReducer } from './reducers/serie';
-//import { reducer } from './reducers';
 import rootReducer from './reducers/index';
 
 //Catastro Services

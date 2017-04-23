@@ -1,29 +1,22 @@
 <!--<div  style="display: block">-->
 <div class="panel panel-default">
     <div class="panel-heading">
-        Chart
-        <div class="pull-right">
-            <div>
-        <!--Niveles:
-        <select id="l_{{id}}" #optsLevel multiple 
-            class="selectpicker show-menu-arrow form-control" width="200px">
-            <option *ngFor="let item of columnsLevel" [value]="item.id" >
-                {{item.name}}
-            </option>
-        </select>-->
+        <div class="container-fluid panel-container-chart">
+			<div class="col-xs-3 panel-container-chart text-left">
+                Chart
+            </div>
+			<div class="col-xs-6 text-center panel-container-chart">
+                <select id="q_{{id}}" #optsSerie multiple (change)="onChangeSeries($event.target)"
+                    class="selectpicker show-menu-arrow" data-width="200px" data-style="btn-custom">
+                    <option *ngFor="let item of columnsQuantity" [value]="item.id" >
+                        {{item.name}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-xs-3 panel-container-chart text-right">
+                <i class="fa fa-cog fa-2" aria-hidden="true" (click)="onSettings()" style="cursor:pointer"></i>
+            </div>
         </div>
-        <div>
-        <select id="q_{{id}}" #optsSerie multiple (change)="onChangeSeries($event.target)"
-            class="selectpicker show-menu-arrow form-control" width="200px">
-            <option *ngFor="let item of columnsQuantity" [value]="item.id" >
-                {{item.name}}
-            </option>
-        </select>
-        </div>
-        &nbsp;
-        <i class="fa fa-sort-amount-desc" aria-hidden="true"></i>
-        </div>
-        
     </div>
     <div class="panel-body">        
         <canvas baseChart [id]="id"                           
@@ -33,6 +26,6 @@
         </canvas>        
     </div>
 </div>
-<!--</div>
+<!--</div> sort-amount-desc
 [datasets]="dataset"
                 [labels]="dataLabels"-->

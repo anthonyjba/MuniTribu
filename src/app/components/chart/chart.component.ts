@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 
 import { COLUMNS_LEVEL, COLUMNS_QUANTITY  } from '../../shared/config';
@@ -6,7 +6,13 @@ import { IDefault  } from '../../shared/interfaces';
 
 @Component({
   selector: 'cat-chart',
-  templateUrl: './chart.component.html'
+  templateUrl: './chart.component.html',
+  styles: [`
+    .panel-container-chart {
+      padding: 0px;
+      height: 16px !important;
+    }    
+  `]
 })
 export class ChartComponent {
   @ViewChild( BaseChartDirective ) chart : BaseChartDirective;
@@ -61,6 +67,8 @@ export class ChartComponent {
   @Input()
   displaySeries: string[];
 
+  @Output() activate = new EventEmitter();
+
   public options:any = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -81,6 +89,11 @@ export class ChartComponent {
       .map(option => option.value)
     
     this.refresh();
+  }
+
+  onSettings() {
+    console.log(this.id);
+    this.activate.emit();
   }
 
   refresh() {

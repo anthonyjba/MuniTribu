@@ -1,17 +1,32 @@
-import { ActionReducer, combineReducers } from '@ngrx/store';
 import { createSelector } from 'reselect';
 
 //import * as fromCuboCuota from './cubo-cuota'
 
-import { counterReducer } from './counter-reducer';
+/*import { counterReducer } from './counter-reducer';
 import { curseReducer } from './curse-reducer';
-import { cuboReducer, chart1 } from './cubo-cuota';
+import { cuboReducer } from './cubo-cuota';
+counter: counterReducer,
+curse: curseReducer,
+  */
 
-export default combineReducers({
-  counter: counterReducer,
-  curse: curseReducer,
-  chart1: cuboReducer 
-});
+import { ActionReducer, combineReducers } from '@ngrx/store';
+import { collectionReducer } from './collection-reducer';
+import * as fromSideNav from './sidenav-reducer';
+
+const reducers = {
+  Sidenav: fromSideNav.reducer,
+  CollectionItems: collectionReducer
+};
+
+export default combineReducers(reducers);
+
+/**
+ * Layout Reducers
+ */
+export const getLayoutState = (state: fromSideNav.State) => state;
+
+export const getShowSidenav = createSelector(getLayoutState, fromSideNav.getShowSidenav);
+
 
 
 /*
@@ -19,9 +34,7 @@ export interface State {
   cubo: fromCuboCuota.State
 }
 
-const reducers = {
-  cubo: fromCuboCuota.reducer
-};
+
 
 const productionReducer: ActionReducer<State> = combineReducers(reducers);
 

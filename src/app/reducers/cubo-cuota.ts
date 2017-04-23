@@ -1,11 +1,11 @@
 import { ActionReducer } from '@ngrx/store'
-//import * as cubo from '../actions/cuboCollection';
-import { ActionTypes } from '../actions/chart1-actions'
+import { ActionTypes } from '../actions/cubo-actions'
 
-import { chartCollection, cuboState } from '../models/cubo-state';
+import { cuboState } from '../models/cubo-state.model';
 
 
 export const INITIAL_STATE: cuboState = {
+  id: '',
   entities: [],
   niveles: [],
   series: [],
@@ -35,5 +35,7 @@ export const cuboReducer: ActionReducer<cuboState> = (state = INITIAL_STATE, act
 
 }
 
+/*
 export const chart1 = (state: chartCollection) => state.chart1;
 export const chart2 = (state: chartCollection) => state.chart2;
+*/
