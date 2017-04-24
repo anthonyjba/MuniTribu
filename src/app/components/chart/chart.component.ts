@@ -92,8 +92,7 @@ export class ChartComponent {
   }
 
   onSettings() {
-    console.log(this.id);
-    this.activate.emit();
+    this.activate.emit(this.id);
   }
 
   refresh() {

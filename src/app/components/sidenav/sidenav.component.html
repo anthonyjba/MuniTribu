@@ -1,0 +1,28 @@
+
+            CuboState: {{ currentState }}
+            <cat-sortable-group [sortItems]="Items"
+                (sorting)="onSortingItems($event)"
+                (toggleItem)="onSwitchNiveles($event)">
+            </cat-sortable-group>
+
+            <label>Valores a filtrar por:</label>
+            <!--<accordion [closeOthers]="uniqueAccordion">
+                <accordion-group *ngFor="let col of Items" [panelClass]="'customClass'" style="display:none">
+                    <div accordion-heading>{{ col.name }}                                            
+                        <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': true }"></i>
+                    </div>
+                    <div class="fixed-panel">
+                        <ul class="list-group slot">
+                            <li *ngFor="let key of keys(col.values);" class="list-group-item widget">
+                                <div class="color-line"></div>
+                                <div class="slot-content">
+                                    <button type="button" [id]="key" name="{{ col.id }}" class="btn-widget" (click)="onClick($event)">
+                                {{ key }}</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </accordion-group>
+            </accordion>-->
+
+        

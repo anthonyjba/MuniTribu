@@ -1,17 +1,31 @@
 <!-- Sidebar -->
 <div id="mySidenav" class="sidenav" >
-    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
+    <div class="panel panel-primary">
+    <div class="panel-heading">
+        Opciones del Gráfico
+        <div class="pull-right">
+        <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a></div>
+    </div>
+    <div class="panel-collapse">
+        <div class="panel-body">
+            <cat-sidenav [Items]="columnsGroup" [currentState]="currentItem$"></cat-sidenav>
+        </div>
+    </div>
+</div>
 </div>
 <!-- /#sidebar-wrapper -->
 
 <div id="main">
     <div class="row">
         <div class="col-md-9">
-            <cat-chart id="chart30" charType='horizontalBar' (activate)="openSidenav()"
+            <div>Current Item:
+                    {{ currentItem$ | async }}
+            </div>
+            <div>Current Items: 
+                <span *ngFor="let elem of items$ | async">
+                    {{ elem.id }}</span>                
+            </div>
+            <cat-chart id="chart30" charType='horizontalBar' (activate)="openSidenav($event)"
                 [levels]="['AC']" [displaySeries]="['N_SUBPARC','N_PROPIETARIOS']">
             </cat-chart>
         </div>

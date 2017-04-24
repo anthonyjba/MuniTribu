@@ -3,6 +3,7 @@ import * as layout from '../actions/sidenav-actions';
 
 export interface State {
   showSidenav: boolean;
+  //selectedItem: cuboState;
 }
 
 const initialState: State = {

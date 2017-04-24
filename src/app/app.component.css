@@ -69,14 +69,12 @@
     background-color: #111;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
+    margin: 6px;
 }
 
 .sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
+    /*padding: 8px 8px 8px 32px;
+    text-decoration: none;*/
     display: block;
     transition: 0.3s;
 }
@@ -86,11 +84,12 @@
 }
 
 .sidenav .closebtn {
+    font-size: 26px;
+    color: #111;
     position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+    top: 0px;
+    right: 10px;
+    /*margin-left: 50px;*/
 }
 
 #main {

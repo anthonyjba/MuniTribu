@@ -18,6 +18,9 @@ import { CuboCuotaService } from '../services/cubo-cuota.service';
 import { COLUMNS_QUANTITY  } from '../shared/config';
 import { IColumns, IDefault } from '../shared/interfaces';
 
+
+
+
 @Component({
   selector: 'simple-ngrx',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +30,7 @@ import { IColumns, IDefault } from '../shared/interfaces';
 export class SimpleNgrx {
   showSidenav$: Observable<boolean>;
   items$: Observable<Array<cuboState>>;
+  currentItem$: Observable<cuboState>;
 
   columnsGroup: Array<IColumns>;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
@@ -39,8 +43,10 @@ export class SimpleNgrx {
     private cuboActions: CuboActions,
     private _cuboCuotaService: CuboCuotaService,
     private store: Store<any>) {
-      this.showSidenav$ = this.store.select(fromRoot.getShowSidenav);
-      this.items$ = this.store.select('CollectionItems')
+      this.showSidenav$ = this.store.select('Sidenav');
+      this.showSidenav$.subscribe(data => this.openNav(data));
+      this.items$ = this.store.select(fromRoot.getItems) //'CollectionItems'
+      this.currentItem$ = this.store.select(fromRoot.getSelected);
   }
 
   closeSidenav() {
@@ -53,14 +59,12 @@ export class SimpleNgrx {
     this.store.dispatch(new Sidenav.CloseSidenavAction());
   }
 
-  openSidenav() {
-    //debugger;
-    this.openNav();
+  openSidenav(id) {
 
     this.store.dispatch(new Sidenav.OpenSidenavAction());
-    console.log(this.showSidenav$)
-      
-    console.log(this.items$);
+    /*let state: boolean;
+    this.showSidenav$.take(1).subscribe(s => state = s);*/
+    console.log(id);
   }
 
   loadCuboInicial(cuboMunicipio, nivelesMunicipio): void{
@@ -86,12 +90,21 @@ export class SimpleNgrx {
       charting.refresh();
     });
 
+    
+
     //this.openNav();
   }
 
-  openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
+  openNav(content) {
+    
+
+    if(content['showSidenav']){
+      document.getElementById("mySidenav").style.width = "250px"
+      document.getElementById("main").style.marginLeft = "250px";
+
+      this.currentItem$.subscribe((d) => console.log(d));
+      
+    }
   }
 
   closeNav() {

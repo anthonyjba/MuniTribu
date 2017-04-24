@@ -27,6 +27,13 @@ export const getLayoutState = (state: fromSideNav.State) => state;
 
 export const getShowSidenav = createSelector(getLayoutState, fromSideNav.getShowSidenav);
 
+/*** Collection */
+export const getItems = (state) => state.CollectionItems;
+
+export const getSelected = createSelector(
+  getItems,  
+  (entities) => entities.find(entities => entities.id === 'chart30')
+);
 
 
 /*

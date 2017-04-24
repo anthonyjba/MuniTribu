@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChildren, ViewChild, QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Store } from '@ngrx/store';
+//import { Store } from '@ngrx/store';
 
 //app
 import { COLUMNS_GROUP, COLUMNS_QUANTITY  } from './shared/config';
@@ -10,8 +10,8 @@ import * as DictionaryModule from './services/dictionary.service';
 import { CuboCuotaService } from './services/cubo-cuota.service';
 import * as cubo from './actions/cuboCollection';
 
-import * as fromRoot from './reducers';
-import { Observable } from 'rxjs/Observable';
+//import * as fromRoot from './reducers';
+//import { Observable } from 'rxjs/Observable';
 
 import { SimpleNgrx } from './containers/chart.container';
 

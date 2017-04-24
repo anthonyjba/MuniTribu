@@ -27,6 +27,7 @@ import { SimpleNgrx } from './containers/chart.container'
 import { ChartComponent } from './components/chart/chart.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { SortableGroupComponent } from './components/sortable-group/sortable-group.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 //import { ChartListComponent } from './components/chart/chart-list';
 import { Counter } from './components/counter-component'
@@ -39,6 +40,7 @@ import { Counter } from './components/counter-component'
     SimpleNgrx,
     Counter,
     ChartComponent,
+    SidenavComponent,
     //ChartListComponent,
     CounterComponent,
     TruncatePipe    
@@ -46,7 +48,7 @@ import { Counter } from './components/counter-component'
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpModule, 
     ChartsModule,
     DndModule.forRoot(),
     AccordionModule.forRoot(),
