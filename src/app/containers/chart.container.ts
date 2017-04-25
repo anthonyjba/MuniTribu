@@ -1,14 +1,14 @@
-import { Component, ChangeDetectionStrategy, ViewChildren, QueryList } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChildren, ViewChild, QueryList } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+//app components
 import { ChartComponent } from '../components/chart/chart.component';
+import { SidenavComponent } from '../components/sidenav/sidenav.component';
+
+
 import { CuboActions } from '../actions/cubo-actions'
 import * as Sidenav from '../actions/sidenav-actions';
-
-import { Counter } from '../components/counter-component';
-import { CounterActions } from '../actions/counter-actions';
-import { CurseActions } from '../actions/curse-actions';
 
 import * as fromRoot from '../reducers';
 
@@ -17,35 +17,34 @@ import { cuboState } from '../models/cubo-state.model'
 import { CuboCuotaService } from '../services/cubo-cuota.service';
 import { COLUMNS_QUANTITY  } from '../shared/config';
 import { IColumns, IDefault } from '../shared/interfaces';
-
+import { keys } from '../shared/util';
 
 
 
 @Component({
   selector: 'simple-ngrx',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ CounterActions, CurseActions, CuboActions ],    
+  providers: [ CuboActions ],    
   templateUrl: './chart.container.html'
 })
 export class SimpleNgrx {
-  showSidenav$: Observable<boolean>;
-  items$: Observable<Array<cuboState>>;
+  showSidenav$: Observable<any>;
+  //items$: Observable<Array<cuboState>>;
   currentItem$: Observable<cuboState>;
 
   columnsGroup: Array<IColumns>;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
 
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
+  @ViewChild(SidenavComponent) sidenav : SidenavComponent;
 
   constructor(
-    private counterActions: CounterActions,
-    private curseActions: CurseActions,
     private cuboActions: CuboActions,
     private _cuboCuotaService: CuboCuotaService,
     private store: Store<any>) {
-      this.showSidenav$ = this.store.select('Sidenav');
+      this.showSidenav$ = this.store.select(fromRoot.getSidenavState) 
       this.showSidenav$.subscribe(data => this.openNav(data));
-      this.items$ = this.store.select(fromRoot.getItems) //'CollectionItems'
+      //this.items$ = this.store.select(fromRoot.getItems) //'CollectionItems'
       this.currentItem$ = this.store.select(fromRoot.getSelected);
   }
 
@@ -56,15 +55,14 @@ export class SimpleNgrx {
      * updates and user interaction through the life of our
      * application.
      */
-    this.store.dispatch(new Sidenav.CloseSidenavAction());
+    //this.store.dispatch(new Sidenav.CloseSidenavAction());
   }
 
   openSidenav(id) {
 
-    this.store.dispatch(new Sidenav.OpenSidenavAction());
+    this.store.dispatch(new Sidenav.OpenSidenavAction(id));
     /*let state: boolean;
     this.showSidenav$.take(1).subscribe(s => state = s);*/
-    console.log(id);
   }
 
   loadCuboInicial(cuboMunicipio, nivelesMunicipio): void{
@@ -96,13 +94,13 @@ export class SimpleNgrx {
   }
 
   openNav(content) {
-    
+    console.log(content);
 
     if(content['showSidenav']){
       document.getElementById("mySidenav").style.width = "250px"
       document.getElementById("main").style.marginLeft = "250px";
 
-      this.currentItem$.subscribe((d) => console.log(d));
+      this.currentItem$.take(1).subscribe(item => this.sidenav.activate(item, this.columnsGroup));
       
     }
   }
@@ -121,7 +119,7 @@ export class SimpleNgrx {
     let series: any[] = [];
     let resumenFiltrado = this._cuboCuotaService.getDefaultResumen();
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.id === labelColumn })
-    let keysColumns = this.keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
+    let keysColumns = keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
 
     //if (indexGroup !== -1) {
       
@@ -164,8 +162,6 @@ export class SimpleNgrx {
     //}
   }
 
-  keys(currentDict: any) : Array<string> {
-    return Object.keys(currentDict);
-  }
+  
 
 }

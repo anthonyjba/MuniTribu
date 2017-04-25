@@ -9,10 +9,12 @@ export const ActionTypes = {
 
 export class OpenSidenavAction implements Action {
   type = ActionTypes.OPEN_SIDENAV;
+  constructor(public payload: string) { }
 }
 
 export class CloseSidenavAction implements Action {
   type = ActionTypes.CLOSE_SIDENAV;
+  constructor(public payload: string) { }
 }
 
 

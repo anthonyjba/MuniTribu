@@ -1,24 +1,38 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { cuboState } from '../../models/cubo-state.model'
+import { IColumns, IDefault } from '../../shared/interfaces';
+import { keys } from '../../shared/util';
 
 @Component({
     selector: 'cat-sidenav',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: 'sidenav.component.html'
 })
 export class SidenavComponent {
-    private _cs : cuboState = null; 
 
-    @Input()
-    Items: Array<any>;
+    items: Array<any>;
 
-    @Input()
-    set currentState(data: cuboState) {
-        debugger;
-        this._cs = data;
+    constructor() {}
+
+    activate(item: cuboState, columns){
+        let clone = columns;
+        clone.forEach(c => c.display = false);
+
+        let nivelTemp : Array<any> = [];
+        item.niveles.forEach(element => {
+            let indice = clone.findIndex(c => c.id === element);
+            let currentItem = clone[indice];
+            currentItem.display = true;
+            nivelTemp.push(currentItem);
+            clone.splice(indice, 1);
+        });
+        
+        clone.unshift(...nivelTemp);
+        this.items = clone;
     }
-    get currentState(): cuboState { return this._cs; }
 
-    constructor() {}    
+    keys(items) {
+        return keys(items)
+    }
+
 }

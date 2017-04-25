@@ -1,13 +1,13 @@
 
-            CuboState: {{ currentState }}
-            <cat-sortable-group [sortItems]="Items"
+            CuboState: {{ selectedItem }}
+            <cat-sortable-group [sortItems]="items"
                 (sorting)="onSortingItems($event)"
                 (toggleItem)="onSwitchNiveles($event)">
             </cat-sortable-group>
 
             <label>Valores a filtrar por:</label>
-            <!--<accordion [closeOthers]="uniqueAccordion">
-                <accordion-group *ngFor="let col of Items" [panelClass]="'customClass'" style="display:none">
+            <accordion [closeOthers]="uniqueAccordion">
+                <accordion-group *ngFor="let col of items" [panelClass]="'customClass'" [style.display]="col.display ? 'block' : 'none'">
                     <div accordion-heading>{{ col.name }}                                            
                         <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': true }"></i>
                     </div>
@@ -23,6 +23,6 @@
                         </ul>
                     </div>
                 </accordion-group>
-            </accordion>-->
+            </accordion>
 
         

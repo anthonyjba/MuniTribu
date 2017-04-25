@@ -18,3 +18,8 @@ export function type<T>(label: T | ''): T {
 
   return <T>label;
 }
+
+
+export function keys(currentDict: any) : Array<string> {
+  return Object.keys(currentDict);
+}

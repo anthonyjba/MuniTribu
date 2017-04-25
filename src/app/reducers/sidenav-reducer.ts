@@ -3,11 +3,12 @@ import * as layout from '../actions/sidenav-actions';
 
 export interface State {
   showSidenav: boolean;
-  //selectedItem: cuboState;
+  selectedItem?: string;
 }
 
 const initialState: State = {
   showSidenav: false,
+  selectedItem: null || ''
 };
 
 export function reducer(state = initialState, action: layout.Actions): State {
@@ -19,7 +20,8 @@ export function reducer(state = initialState, action: layout.Actions): State {
 
     case layout.ActionTypes.OPEN_SIDENAV:
       return {
-        showSidenav: true
+        showSidenav: true,
+        selectedItem: action.payload
       };
 
     default:
@@ -27,4 +29,4 @@ export function reducer(state = initialState, action: layout.Actions): State {
   }
 }
 
-export const getShowSidenav = (state: State) => state.showSidenav;
+export const getSelectedItem = (state: State) => state.selectedItem;
