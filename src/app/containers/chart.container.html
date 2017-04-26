@@ -8,7 +8,14 @@
     </div>
     <div class="panel-collapse">
         <div class="panel-body">
-            <cat-sidenav></cat-sidenav> 
+            
+            <!-- Range del Gravamen -->
+            Tipo Gravamen: {{ tgrv.value }}
+            <div style="display: flex;">
+                <span>0</span>&nbsp;<input type="range" #tgrv min="0" max="1" step="0.1" 
+                [(ngModel)]="currentGravamen" (change)="onChangeTipoGrav()" />&nbsp;<span>1</span>
+            </div>
+            <cat-sidenav></cat-sidenav>
         </div>
     </div>
 </div>
@@ -17,23 +24,32 @@
 
 <div id="main">
     <div class="row">
-        <div class="col-md-9">
-            <div>Current Item:
-                    {{ currentItem$ | async }}
-            </div>
-            <div>Current Items: 
-                <span *ngFor="let elem of items$ | async">
-                    {{ elem.id }}</span>                
-            </div>
+        <div class="col-md-9">            
             <cat-chart id="chart30" charType='horizontalBar' (activate)="openSidenav($event)"
                 [levels]="['AC']" [displaySeries]="['N_SUBPARC','N_PROPIETARIOS']">
             </cat-chart>
+        </div>
+        <div class="col-md-1">
+            <cat-counter id="chart30_c1" description="Gravamen" field="TIPO_GRAVAMEN" 
+                fontIcon="fa fa-calculator"></cat-counter>
+        </div>
+        <div class="col-md-2">
+            <cat-counter id="chart30_c2" description="Valor Cuota" field="SUM_CUOTA"
+                format='1.2-2' fontIcon="fa fa-eur"></cat-counter>
         </div>
     </div>
     <div class="row">
         <div class="col-md-9">
             <cat-chart id="chart2" charType='horizontalBar' (activate)="openSidenav($event)"
              [levels]="['TIPO_CIF']" [displaySeries]="['N_SUBPARC','N_PROPIETARIOS']"></cat-chart>
+        </div>
+        <div class="col-md-1">
+            <cat-counter id="chart2_c1" description="Gravamen" field="TIPO_GRAVAMEN" 
+                fontIcon="fa fa-calculator"></cat-counter>
+        </div>
+        <div class="col-md-2">
+            <cat-counter id="chart2_c2" description="Valor Cuota" field="SUM_CUOTA"
+                format='1.2-2' fontIcon="fa fa-eur"></cat-counter>
         </div>
     </div>
 </div>

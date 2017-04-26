@@ -1,54 +1,58 @@
-import { Component, ChangeDetectionStrategy, ViewChildren, ViewChild, QueryList } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, ViewChildren, ViewChild, ChangeDetectorRef, QueryList } from '@angular/core';
+
 import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import "rxjs/add/operator/take";
 
 //app components
-import { ChartComponent } from '../components/chart/chart.component';
 import { SidenavComponent } from '../components/sidenav/sidenav.component';
+import { ChartComponent } from '../components/chart/chart.component';
+import { CounterComponent } from '../components/counter/counter.component';
+
 
 
 import { CuboActions } from '../actions/cubo-actions'
 import * as Sidenav from '../actions/sidenav-actions';
-
 import * as fromRoot from '../reducers';
 
 import { cuboState } from '../models/cubo-state.model'
 
 import { CuboCuotaService } from '../services/cubo-cuota.service';
 import { COLUMNS_QUANTITY  } from '../shared/config';
-import { IColumns, IDefault } from '../shared/interfaces';
+import { IColumns, IDefault, ICubo_Couta } from '../shared/interfaces';
 import { keys } from '../shared/util';
-
 
 
 @Component({
   selector: 'simple-ngrx',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ CuboActions ],    
   templateUrl: './chart.container.html'
 })
 export class SimpleNgrx {
   showSidenav$: Observable<any>;
-  //items$: Observable<Array<cuboState>>;
   currentItem$: Observable<cuboState>;
-
+  currentGravamen: number;
   columnsGroup: Array<IColumns>;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
+  cuboMunicipioInicial: Array<ICubo_Couta>;
 
-  @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
   @ViewChild(SidenavComponent) sidenav : SidenavComponent;
+  @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
+  @ViewChildren(CounterComponent) counters : QueryList<CounterComponent>;
 
   constructor(
     private cuboActions: CuboActions,
     private _cuboCuotaService: CuboCuotaService,
+    private cdRef:ChangeDetectorRef,
     private store: Store<any>) {
       this.showSidenav$ = this.store.select(fromRoot.getSidenavState) 
       this.showSidenav$.subscribe(data => this.openNav(data));
-      //this.items$ = this.store.select(fromRoot.getItems) //'CollectionItems'
       this.currentItem$ = this.store.select(fromRoot.getSelected);
   }
 
-  closeSidenav() {
+
+  //closeSidenav() {
     /**
      * All state updates are handled through dispatched actions in 'container'
      * components. This provides a clear, reproducible history of state
@@ -56,41 +60,41 @@ export class SimpleNgrx {
      * application.
      */
     //this.store.dispatch(new Sidenav.CloseSidenavAction());
-  }
+  //}
 
   openSidenav(id) {
-
-    this.store.dispatch(new Sidenav.OpenSidenavAction(id));
-    /*let state: boolean;
-    this.showSidenav$.take(1).subscribe(s => state = s);*/
+    this.store.dispatch(new Sidenav.OpenSidenavAction(id));    
   }
 
-  loadCuboInicial(cuboMunicipio, nivelesMunicipio): void{
+  loadCuboInicial(cuboMunicipio, gravamenMunicipio, nivelesMunicipio): void{
     
+    this.cuboMunicipioInicial = cuboMunicipio;
+    this.currentGravamen = gravamenMunicipio;
     this.columnsGroup = nivelesMunicipio;
     
     //Refresh all Chart
-    this.charts.forEach((charting) => {
+    this.charts.forEach(charting => {
       let nivelesChart = charting.levels;
       let seriesChart = charting.displaySeries;
 
       let chartDataset = this._cuboCuotaService.getCuboFiltrado(
-        cuboMunicipio,
+        this.cuboMunicipioInicial,
         nivelesMunicipio,
         nivelesChart
       );
       
-      let newContainer = this.getChartContainer(chartDataset, nivelesChart[0]);
+      let newContainer = this.getChartContainer(chartDataset, gravamenMunicipio, nivelesChart[0]);
       this.cuboActions.loadCubo(charting.id, chartDataset, nivelesChart, seriesChart, newContainer.resumen);
 
+      //Update Chart component
       charting.dataset = newContainer.data.series;
       charting.dataLabels = newContainer.data.names; 
       charting.refresh();
+
+      //Update counters component
+      this.updateCounters(charting.id, newContainer.resumen);
     });
 
-    
-
-    //this.openNav();
   }
 
   openNav(content) {
@@ -110,11 +114,22 @@ export class SimpleNgrx {
     document.getElementById("main").style.marginLeft = "0px";
   }
 
-  refreshChartContainer(charId: string) {
-
+  onChangeTipoGrav() {
+    console.log(this.cuboMunicipioInicial.length);
+    //this.parseChart();
   }
 
-  private getChartContainer(cuboFiltrado, labelColumn: string) {
+  private updateCounters(chartId: string, resumen: any) {
+      this.counters.forEach(counting => {
+        if(counting.id.substr(0, chartId.length) === chartId) {                    
+          counting.value = resumen[counting.field];
+          console.log(counting.value);
+          //this.cdRef.detectChanges();
+        }
+      })
+  }
+
+  private getChartContainer(cuboFiltrado, tipoGravamen, labelColumn: string) {
         
     let series: any[] = [];
     let resumenFiltrado = this._cuboCuotaService.getDefaultResumen();
@@ -131,19 +146,21 @@ export class SimpleNgrx {
                      label: currentLabel + " - " + serie.id, column: serie.id }); //Sum_Cuota, etc...
       });
 
+      resumenFiltrado.TIPO_GRAVAMEN = tipoGravamen;
+
       for (var rowCol = 0, j = keysColumns.length; rowCol !== j; rowCol++) {
         for (var x = 0, y = cuboFiltrado.length; x != y; x++){          
           if(keysColumns[rowCol] == cuboFiltrado[x][this.columnsGroup[indexGroup].id]) {
 
-            //Update "Quantity Value"
+            //Update Series
             series.forEach((serie) => {
                 //Validar si la columna es "SUM_CUOTA" para aplicar el gravamen
                 let datoColumn = cuboFiltrado[x][serie.column];
-                /*if(serie.column === "SUM_CUOTA")
+                if(serie.column === "SUM_CUOTA")
                 {
-                  datoColumn = (this.tipoGravamen / 100) * cuboFiltrado[x]['SUM_V_CATASTR'];
+                  datoColumn = (tipoGravamen / 100) * cuboFiltrado[x]['SUM_V_CATASTR'];
                   //this.resumenFiltrado.SUM_CUOTA += datoColumn;
-                }*/
+                }
                 serie.data[rowCol] = datoColumn;
                 resumenFiltrado[serie.column] += datoColumn; 
             });

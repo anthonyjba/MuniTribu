@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChildren, ViewChild, QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-//import { Store } from '@ngrx/store';
 
 //app
 import { COLUMNS_GROUP, COLUMNS_QUANTITY  } from './shared/config';
@@ -9,9 +8,6 @@ import { IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
 import * as DictionaryModule from './services/dictionary.service';
 import { CuboCuotaService } from './services/cubo-cuota.service';
 import * as cubo from './actions/cuboCollection';
-
-//import * as fromRoot from './reducers';
-//import { Observable } from 'rxjs/Observable';
 
 import { SimpleNgrx } from './containers/chart.container';
 
@@ -28,32 +24,18 @@ export class AppComponent implements OnInit {
   //Declarations Properties
   municipios: Array<IDefault>
   cuboCuotaInicial: Array<ICubo_Couta>;
-  cuboCuotaFiltrado: Array<ICubo_Couta>;
   resumenMunicipio: ICubo_Couta;
   columnsGroup: Array<IColumns> = COLUMNS_GROUP;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
-  tipoGravamen: number = 0;
   
-  //@ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
-  //@ViewChildren('select') selectElRef;
   @ViewChild(SimpleNgrx) appContainer: SimpleNgrx;
 
   //Default Values
   selmuni: string = "45900";
-  uniqueAccordion: boolean = true;
+  
 
-  //cubo$: Observable<Array<ICubo_Couta>>;
-
-
-  constructor(private _cubocuotaService: CuboCuotaService //private _store: Store<fromRoot.State>
-              ) {
+  constructor(private _cubocuotaService: CuboCuotaService) {
       this.resumenMunicipio = _cubocuotaService.getDefaultResumen();
-
-
-      //this._cubocuotaService.getCuboNgrx();
-          
-
-      
   }
 
   ngOnInit(){
@@ -65,15 +47,6 @@ export class AppComponent implements OnInit {
                 error => console.log(error),
                 () => this.__extractDictionary());
 
-    //this.cubo$ = this._store.select(fromRoot.getCuboEntities); 
-    //this.cubo$.subscribe((data : Array<ICubo_Couta>) => 
-    //            { this.__extractDictionary(data); });
-
-    /*this._store.select(fromRoot.getCuboEntities)
-    .subscribe((data : Array<ICubo_Couta>) => 
-                { this.cuboCuotaInicial = data; });
-    */
-
   }
 
   ngAfterContentInit() { console.log("ngAfterContentInit"); }
@@ -81,41 +54,7 @@ export class AppComponent implements OnInit {
   ngAfterViewInit() { console.log("ngAfterViewInit APP"); }
 
   
-  /** Eventos **/
-
-  onSortingItems(result : Array<any>){
-    //Verificar porque repite esta funcion 2 veces
-    if(result.length > 0) {
-        this.columnsGroup = result;
-
-        //refresh display filter
-        //this.__refreshAll();
-    }
-    
-  }
-  
-  onSwitchNiveles(id: string) {
-    console.log(id);
-    //let reg = this.columnsGroup.find((item) => item.id === id);
-    //reg.display = target.checked; 
-  }
-
-
-  /*onChangeSeries(el) {
-    console.log("onChangeSeries");
-
-    let currentChart = null; //this.charts.find((c) => c.id === el.id.substr(2));
-
-    currentChart.displaySeries = Array.apply(null, el.options)
-      .filter(option => option.selected)
-      .map(option => option.value)
-    
-    currentChart.refresh(this.containerChart);
-  }*/
-
-  onChangeTipoGrav(value: number) {
-    //this.parseChart();
-  }
+  /** Eventos **/  
 
   onClick(event) {
 
@@ -149,26 +88,16 @@ export class AppComponent implements OnInit {
     //Resumen
     this.resumenMunicipio = this._cubocuotaService.getResumenMunicipio(
                               this.cuboCuotaInicial,this.columnsGroup);
-    this.tipoGravamen = this.resumenMunicipio.TIPO_GRAVAMEN;
+    let gravamenMunicipio = this.resumenMunicipio.TIPO_GRAVAMEN;
 
-    
+    //Asign and initialize in Chart Container
 
-    this.appContainer.loadCuboInicial(this.cuboCuotaInicial, this.columnsGroup);
-
-    //this.__refreshAll();
-
-    //let c = this.charts.find((c) => c.id === 'chart1');
-    //this._store.dispatch(new cubo.FilteredCuboAction(this.cuboCuotaInicial));
-    //this.cubo$ = this._store.select(fromRoot.getCuboEntities);
-    //this.cubo$.subscribe((data : Array<ICubo_Couta>) => 
-    //            { console.log(data); });
-
-    //console.log(c);
+    this.appContainer.loadCuboInicial(this.cuboCuotaInicial, gravamenMunicipio, this.columnsGroup);
 
   }
 
   
-
+/*
   private __refreshAll(){
 
      //this.cubo$ = this.store.select(fromRoot.getCuboEntities);
@@ -180,7 +109,7 @@ export class AppComponent implements OnInit {
      );
      //this.parseChart();
   }
-
+*/
   
   /*
   private parseChart() {
@@ -246,9 +175,9 @@ export class AppComponent implements OnInit {
       
     }
   }
-*/
+
   keys(currentDict: any) : Array<string> {
     return Object.keys(currentDict);
-  }
+  }*/
   
 }

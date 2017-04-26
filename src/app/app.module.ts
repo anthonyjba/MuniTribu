@@ -29,21 +29,15 @@ import { CounterComponent } from './components/counter/counter.component';
 import { SortableGroupComponent } from './components/sortable-group/sortable-group.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 
-//import { ChartListComponent } from './components/chart/chart-list';
-import { Counter } from './components/counter-component'
-
-//, [provideStore({ sortSerie: serieReducer })]
 @NgModule({
   declarations: [
     AppComponent,
     SortableGroupComponent,
     SimpleNgrx,
-    Counter,
-    ChartComponent,
     SidenavComponent,
-    //ChartListComponent,
     CounterComponent,
-    TruncatePipe    
+    TruncatePipe,    
+    ChartComponent
   ],
   imports: [
     BrowserModule,

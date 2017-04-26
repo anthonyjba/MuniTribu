@@ -15,7 +15,7 @@ export class SortableGroupComponent {
   sorting: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
 
   @Output()
-  toggleItem: EventEmitter<string> = new EventEmitter<string>();
+  toggleItem: EventEmitter<Object> = new EventEmitter<Object>();
 
   constructor() { }
 
@@ -23,13 +23,8 @@ export class SortableGroupComponent {
     this.sorting.emit(this.sortItems);
   }
 
-  toggle(target: any) {
-    
-    this.toggleItem.emit(target.id);
-    //let reg = this.sortItems.find((item) => item.id === target.id);
-    //reg.display = target.checked; 
-    
-    //this.change.emit(this.sortItems);
+  toggle(target: any) {   
+    this.toggleItem.emit({ id: target.id, display: target.checked });
   }
 
 }
