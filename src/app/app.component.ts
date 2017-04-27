@@ -56,23 +56,7 @@ export class AppComponent implements OnInit {
   
   /** Eventos **/  
 
-  onClick(event) {
-
-    /***** asignar del redux store ******/
-    let dictCurrent = this.columnsGroup.find((col) => col.id === event.target.name).filters;
-
-    if (dictCurrent.hasOwnProperty(event.target.id)){
-      delete dictCurrent[event.target.id];
-      event.currentTarget.classList.remove("active-widget");
-      }
-    else{
-      dictCurrent[event.target.id] = 1;
-      event.currentTarget.classList.add("active-widget");
-    }
-
-    //refresh display filter
-    //this.__refreshAll();
-  }
+  
 
   /** Private Methods ***/
   private __extractDictionary(){

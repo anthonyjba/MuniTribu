@@ -33,6 +33,9 @@ export class SimpleNgrx {
   showSidenav$: Observable<any>;
   currentItem$: Observable<cuboState>;
   currentGravamen: number;
+  currentChartId: string;
+  currentNivel$: string[];
+  currentFiltros$: {};
   columnsGroup: Array<IColumns>;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   cuboMunicipioInicial: Array<ICubo_Couta>;
@@ -79,7 +82,7 @@ export class SimpleNgrx {
 
       let chartDataset = this._cuboCuotaService.getCuboFiltrado(
         this.cuboMunicipioInicial,
-        nivelesMunicipio,
+        this.columnsGroup,
         nivelesChart
       );
       
@@ -97,7 +100,29 @@ export class SimpleNgrx {
 
   }
 
-  openNav(content) {
+  onChangeTipoGrav() {
+
+    let chartDataset = this._cuboCuotaService.getCuboFiltrado(
+        this.cuboMunicipioInicial,
+        this.columnsGroup,
+        this.currentNivel$
+      );
+
+    let newContainer = this.getChartContainer(chartDataset, this.currentGravamen, this.currentNivel$[0]);
+    console.log(newContainer.resumen);
+
+    //Update counters component
+    this.updateCounters(this.currentChartId, newContainer.resumen);
+  }
+
+  onCurrentState(data){
+    console.log(data);
+    this.currentChartId = data.id;
+    this.currentNivel$ = data.niveles;
+    this.currentFiltros$ = data.filtros;
+  }
+
+  private openNav(content) {
     console.log(content);
 
     if(content['showSidenav']){
@@ -109,21 +134,15 @@ export class SimpleNgrx {
     }
   }
 
-  closeNav() {
+  private closeNav() {
     document.getElementById("mySidenav").style.width = "0px";
     document.getElementById("main").style.marginLeft = "0px";
-  }
-
-  onChangeTipoGrav() {
-    console.log(this.cuboMunicipioInicial.length);
-    //this.parseChart();
   }
 
   private updateCounters(chartId: string, resumen: any) {
       this.counters.forEach(counting => {
         if(counting.id.substr(0, chartId.length) === chartId) {                    
           counting.value = resumen[counting.field];
-          console.log(counting.value);
           //this.cdRef.detectChanges();
         }
       })

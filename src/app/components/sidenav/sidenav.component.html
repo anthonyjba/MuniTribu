@@ -15,7 +15,7 @@
                             <li *ngFor="let key of keys(col.values);" class="list-group-item widget">
                                 <div class="color-line"></div>
                                 <div class="slot-content">
-                                    <button type="button" [id]="key" name="{{ col.id }}" class="btn-widget" (click)="onClick($event)">
+                                    <button type="button" [id]="key" name="{{ col.id }}" class="btn-widget" (click)="onClickAccordion($event)">
                                 {{ key }}</button>
                                 </div>
                             </li>

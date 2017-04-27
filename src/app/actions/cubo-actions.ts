@@ -21,6 +21,7 @@ export class CuboActions {
       entities: [...cubo],
       niveles: niveles,
       series: series,
+      filtros: {},
       resumen: resumen };
 
     this.store.dispatch(

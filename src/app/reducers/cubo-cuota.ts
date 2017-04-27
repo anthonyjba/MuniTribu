@@ -1,16 +1,8 @@
 import { ActionReducer } from '@ngrx/store'
 import { ActionTypes } from '../actions/cubo-actions'
 
-import { cuboState } from '../models/cubo-state.model';
+import { cuboState, INITIAL_STATE } from '../models/cubo-state.model';
 
-
-export const INITIAL_STATE: cuboState = {
-  id: '',
-  entities: [],
-  niveles: [],
-  series: [],
-  resumen: {}
-};
 
 export const cuboReducer: ActionReducer<cuboState> = (state = INITIAL_STATE, action) => {
 //export function reducer(state = INITIAL_STATE, action: cubo.Actions) : State {
