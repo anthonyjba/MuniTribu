@@ -22,7 +22,8 @@ export class CuboActions {
       niveles: niveles,
       series: series,
       filtros: {},
-      resumen: resumen };
+      resumen: resumen 
+    };
 
     this.store.dispatch(
       { type: ActionTypes.LOAD_CUBO,

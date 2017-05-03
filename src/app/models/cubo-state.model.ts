@@ -14,6 +14,6 @@ export const INITIAL_STATE: cuboState = {
   entities: [],
   niveles: [],
   series: [],
-  filtros: {},
+  filtros: { },
   resumen: {}
 };

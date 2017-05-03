@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, ViewChildren, QueryList } from '@angular/core';
 
 import { cuboState, INITIAL_STATE } from '../../models/cubo-state.model'
 import { IColumns, IDefault } from '../../shared/interfaces';
@@ -14,9 +14,40 @@ export class SidenavComponent {
     uniqueAccordion: boolean = true;
     currentState: cuboState;
 
+    @ViewChildren('optGroup') optionsFilter : QueryList<Element>;
+    /*isFirstOpen: boolean = false;
+
+    set isFilterOpen(value: boolean){
+        this.isFirstOpen = value;
+        
+    }
+
+    get isFilterOpen() { return this.isFirstOpen; }*/
+
     @Output() newState = new EventEmitter();
 
-    constructor() { }
+    constructor(private cdRef:ChangeDetectorRef) { }
+
+    ngOnchange() {
+        console.log(this.optionsFilter);
+        this.optionsFilter.changes.subscribe(() => console.log(this.optionsFilter));
+    }
+
+    /*ngAfterViewChecked(){
+        console.log( "! ngAfterViewChecked !" );
+    }
+
+    ngOnChanges() {
+        console.log( "! ngOnChanges !" );
+    }
+    
+    ngDoCheck(){
+        console.log( "! ngDoCheck !" );
+    } 
+    
+    ngAfterContentChecked() {
+        console.log( "! ngAfterContentChecked !" );
+    }*/
 
     /** Events */
     onSortingItems(result: Array<any>) {
@@ -51,6 +82,7 @@ export class SidenavComponent {
     private _updateState() {
         let niveles = this.items.filter(f => f.display).map(c => c.id)
         let filtros = this.items[0].filters;
+
         this.currentState.niveles = niveles;
         this.currentState.filtros = filtros;
         this.newState.emit(this.currentState);
@@ -61,21 +93,33 @@ export class SidenavComponent {
         this.currentState.id = item.id;
 
         let clone = columns;
-        clone.forEach(c => { c.display = false;  });  //filters = false;
+        clone.forEach(c => { c.display = false; c.filters = {}; });  
 
         let nivelTemp: Array<any> = [];
         item.niveles.forEach(element => {
             let indice = clone.findIndex(c => c.id === element);
             let currentItem = clone[indice];
             currentItem.display = true;
+            let filtros = Object.getOwnPropertyNames(item.filtros);
+            if(filtros.length > 0){
+                currentItem.filters = item.filtros;                
+                this.optionsFilter.changes.subscribe((allOptions) => 
+                {
+                    filtros.forEach((opt) => { 
+                        let currentBtn = allOptions.find(x => x.nativeElement.id === opt)
+                        currentBtn.nativeElement.classList.add("active-widget"); 
+                    });
+                });
+                let allOptions = this.optionsFilter.toArray();
+                
+            }
+
             nivelTemp.push(currentItem);
             clone.splice(indice, 1);
         });
 
         clone.unshift(...nivelTemp);
         this.items = clone;
-        if(this.items.length > 0 && item.filtros)
-            this.items[0].filters = item.filtros;
 
         this._updateState(); 
 

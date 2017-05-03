@@ -109,21 +109,26 @@ export class SimpleNgrx {
       );
 
     let newContainer = this.getChartContainer(chartDataset, this.currentGravamen, this.currentNivel$[0]);
-    console.log(newContainer.resumen);
+
+    //Update Chart component
+    let currentChart = this.charts.find(cchart => { return cchart.id === this.currentChartId});
+    currentChart.dataset = newContainer.data.series;
+    currentChart.dataLabels = newContainer.data.names; 
+    currentChart.refresh();
 
     //Update counters component
     this.updateCounters(this.currentChartId, newContainer.resumen);
   }
 
   onCurrentState(data){
-    console.log(data);
     this.currentChartId = data.id;
     this.currentNivel$ = data.niveles;
     this.currentFiltros$ = data.filtros;
+
+    this.onChangeTipoGrav();
   }
 
   private openNav(content) {
-    console.log(content);
 
     if(content['showSidenav']){
       document.getElementById("mySidenav").style.width = "250px"
@@ -143,7 +148,6 @@ export class SimpleNgrx {
       this.counters.forEach(counting => {
         if(counting.id.substr(0, chartId.length) === chartId) {                    
           counting.value = resumen[counting.field];
-          //this.cdRef.detectChanges();
         }
       })
   }
