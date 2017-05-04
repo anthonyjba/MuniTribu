@@ -2,7 +2,9 @@ import { Component, Input, Output, EventEmitter, ChangeDetectorRef, ViewChildren
 
 import { cuboState, INITIAL_STATE } from '../../models/cubo-state.model'
 import { IColumns, IDefault } from '../../shared/interfaces';
-import { keys } from '../../shared/util';
+import { keys, type } from '../../shared/util';
+import  * as Cubo from '../../actions/cubo-actions'
+import * as Sidenav from '../../actions/sidenav-actions';
 
 @Component({
     selector: 'cat-sidenav',
@@ -26,7 +28,8 @@ export class SidenavComponent {
 
     @Output() newState = new EventEmitter();
 
-    constructor(private cdRef:ChangeDetectorRef) { }
+    constructor(
+        private cdRef:ChangeDetectorRef) { }
 
     ngOnchange() {
         console.log(this.optionsFilter);
@@ -60,7 +63,7 @@ export class SidenavComponent {
         let reg = this.items.find((item) => item.id === toggle['id']);
         reg.display = toggle['display'];
         
-        this._updateState();
+        this._updateState(null);
     }
 
     onClickAccordion(event) {
@@ -75,22 +78,24 @@ export class SidenavComponent {
             event.currentTarget.classList.add("active-widget");
         }
 
-        this._updateState();
+        this._updateState(Cubo.ActionTypes.FILTER_CUBO);
 
     }
 
-    private _updateState() {
+    private _updateState(action) {
         let niveles = this.items.filter(f => f.display).map(c => c.id)
         let filtros = this.items[0].filters;
 
         this.currentState.niveles = niveles;
         this.currentState.filtros = filtros;
-        this.newState.emit(this.currentState);
+
+        this.newState.emit({ state: this.currentState, action: action });
     }
 
     activate(item: cuboState, columns) {
         this.currentState = INITIAL_STATE;
         this.currentState.id = item.id;
+        this.currentState.gravamen = item.gravamen;
 
         let clone = columns;
         clone.forEach(c => { c.display = false; c.filters = {}; });  
@@ -121,7 +126,7 @@ export class SidenavComponent {
         clone.unshift(...nivelTemp);
         this.items = clone;
 
-        this._updateState(); 
+        this._updateState(Sidenav.ActionTypes.OPEN_SIDENAV); 
 
     }
 

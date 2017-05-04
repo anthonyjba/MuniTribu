@@ -1,19 +1,18 @@
 import { ICubo_Couta, IColumns } from '../shared/interfaces'
 
+//entities?: Array<ICubo_Couta>; series?: string[],
 export interface cuboState {
-  id: string,
-  entities?: Array<ICubo_Couta>;
+  id: string,  
   niveles?: string[],
-  series?: string[],
+  gravamen?: number,
   filtros?: {},
   resumen?: {};
 };
 
 export const INITIAL_STATE: cuboState = {
   id: '',
-  entities: [],
   niveles: [],
-  series: [],
-  filtros: { },
+  gravamen: 0,
+  filtros: {},
   resumen: {}
 };

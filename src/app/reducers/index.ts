@@ -12,7 +12,7 @@ const reducers = {
 export default combineReducers(reducers);
 
 /**
- * Layout Reducers
+ * SideNav Reducers
  */
 export const getSidenavState = (state) => state.Sidenav;
 

@@ -80,8 +80,6 @@ export class ChartComponent {
   }
 
   onChangeSeries(el) {
-    console.log("onChangeSeries");
-
     this.displaySeries = Array.apply(null, el.options)
       .filter(option => option.selected)
       .map(option => option.value)

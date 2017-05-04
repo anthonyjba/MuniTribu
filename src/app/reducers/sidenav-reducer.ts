@@ -1,4 +1,4 @@
-import * as layout from '../actions/sidenav-actions';
+import * as sidenav from '../actions/sidenav-actions';
 
 
 export interface State {
@@ -11,14 +11,15 @@ const initialState: State = {
   selectedItem: null || ''
 };
 
-export function reducer(state = initialState, action: layout.Actions): State {
+export function reducer(state = initialState, action: sidenav.Actions): State {
   switch (action.type) {
-    case layout.ActionTypes.CLOSE_SIDENAV:
+    case sidenav.ActionTypes.CLOSE_SIDENAV:
       return {
-        showSidenav: false
+        showSidenav: false,
+        selectedItem: action.payload
       };
 
-    case layout.ActionTypes.OPEN_SIDENAV:
+    case sidenav.ActionTypes.OPEN_SIDENAV:
       return {
         showSidenav: true,
         selectedItem: action.payload

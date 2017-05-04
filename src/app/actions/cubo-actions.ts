@@ -6,21 +6,22 @@ import { type } from '../shared/util';
 
 
 export const ActionTypes = {
-  LOAD_CUBO:   type('[Cubo] Load Item'),
-  FILTER_CUBO: type('[Cubo] Filtered')
+  LOAD_CUBO:   type('[Cubo] Load item'),
+  FILTER_CUBO: type('[Cubo] Filter value'),
+  GRAVAMEN_CUBO: type('[Cubo] Change gravamen')
 };
 
 @Injectable()
 export class CuboActions {
   constructor(private store: Store<cuboState>) {}
 
-  public loadCubo(id, cubo, niveles, series, resumen) {
+  public loadCubo(id, cubo, niveles, gravamen, resumen) {
+    //entities: [...cubo],
 
     let payload: cuboState = {
-      id: id, 
-      entities: [...cubo],
+      id: id,       
       niveles: niveles,
-      series: series,
+      gravamen: gravamen,
       filtros: {},
       resumen: resumen 
     };
@@ -30,4 +31,32 @@ export class CuboActions {
         payload: payload
       });
   }
+
+  public filterCubo(id, filtros, resumen) {
+    let payload: cuboState = {
+      id: id,       
+      filtros: filtros,
+      resumen: resumen 
+    };
+
+    this.store.dispatch(
+      { type: ActionTypes.FILTER_CUBO,
+        payload: payload
+      });
+
+  }
+  
+  public gravamenCubo(id, gravamen, resumen) {
+    let payload: cuboState = {
+      id: id,       
+      gravamen: gravamen,
+      resumen: resumen 
+    };
+
+    this.store.dispatch(
+      { type: ActionTypes.GRAVAMEN_CUBO,
+        payload: payload
+      });
+  }
+
 }

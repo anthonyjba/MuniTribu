@@ -11,7 +11,7 @@ import { CounterComponent } from '../components/counter/counter.component';
 
 
 
-import { CuboActions } from '../actions/cubo-actions'
+import * as Cubo from '../actions/cubo-actions'
 import * as Sidenav from '../actions/sidenav-actions';
 import * as fromRoot from '../reducers';
 
@@ -26,7 +26,7 @@ import { keys } from '../shared/util';
 @Component({
   selector: 'simple-ngrx',
   //changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ CuboActions ],    
+  providers: [ Cubo.CuboActions ],    
   templateUrl: './chart.container.html'
 })
 export class SimpleNgrx {
@@ -45,7 +45,7 @@ export class SimpleNgrx {
   @ViewChildren(CounterComponent) counters : QueryList<CounterComponent>;
 
   constructor(
-    private cuboActions: CuboActions,
+    private cuboActions: Cubo.CuboActions,
     private _cuboCuotaService: CuboCuotaService,
     private cdRef:ChangeDetectorRef,
     private store: Store<any>) {
@@ -55,22 +55,21 @@ export class SimpleNgrx {
   }
 
 
-  //closeSidenav() {
-    /**
-     * All state updates are handled through dispatched actions in 'container'
-     * components. This provides a clear, reproducible history of state
-     * updates and user interaction through the life of our
-     * application.
-     */
-    //this.store.dispatch(new Sidenav.CloseSidenavAction());
-  //}
+  closeSidenav(id) {
+    this.store.dispatch(new Sidenav.CloseSidenavAction(id));
+  }
 
   openSidenav(id) {
     this.store.dispatch(new Sidenav.OpenSidenavAction(id));    
   }
 
   loadCuboInicial(cuboMunicipio, gravamenMunicipio, nivelesMunicipio): void{
-    
+    /**
+     * Load and Initialize All chart components. 
+     * Update the global State 
+     * draw each chart component
+     * update Counter component
+     */
     this.cuboMunicipioInicial = cuboMunicipio;
     this.currentGravamen = gravamenMunicipio;
     this.columnsGroup = nivelesMunicipio;
@@ -87,7 +86,8 @@ export class SimpleNgrx {
       );
       
       let newContainer = this.getChartContainer(chartDataset, gravamenMunicipio, nivelesChart[0]);
-      this.cuboActions.loadCubo(charting.id, chartDataset, nivelesChart, seriesChart, newContainer.resumen);
+      
+      this.cuboActions.loadCubo(charting.id, chartDataset, nivelesChart, gravamenMunicipio, newContainer.resumen);
 
       //Update Chart component
       charting.dataset = newContainer.data.series;
@@ -100,7 +100,7 @@ export class SimpleNgrx {
 
   }
 
-  onChangeTipoGrav() {
+  private __refreshAll(action){
 
     let chartDataset = this._cuboCuotaService.getCuboFiltrado(
         this.cuboMunicipioInicial,
@@ -109,6 +109,18 @@ export class SimpleNgrx {
       );
 
     let newContainer = this.getChartContainer(chartDataset, this.currentGravamen, this.currentNivel$[0]);
+
+    switch(action){
+        case Cubo.ActionTypes.FILTER_CUBO : {
+          this.cuboActions.filterCubo(this.currentChartId, this.currentFiltros$, newContainer.resumen);
+          break;
+        }
+        case Cubo.ActionTypes.GRAVAMEN_CUBO : {
+          this.cuboActions.gravamenCubo(this.currentChartId, this.currentGravamen, newContainer.resumen);
+          break;
+        }
+     }
+
 
     //Update Chart component
     let currentChart = this.charts.find(cchart => { return cchart.id === this.currentChartId});
@@ -120,12 +132,17 @@ export class SimpleNgrx {
     this.updateCounters(this.currentChartId, newContainer.resumen);
   }
 
-  onCurrentState(data){
-    this.currentChartId = data.id;
-    this.currentNivel$ = data.niveles;
-    this.currentFiltros$ = data.filtros;
+  onChangeTipoGrav() {
+    this.__refreshAll(Cubo.ActionTypes.GRAVAMEN_CUBO);    
+  }
 
-    this.onChangeTipoGrav();
+  onCurrentState(data){
+    this.currentChartId = data.state.id;
+    this.currentNivel$ = data.state.niveles;
+    this.currentFiltros$ = data.state.filtros;
+    this.currentGravamen = data.state.gravamen;
+
+    this.__refreshAll(data.action);
   }
 
   private openNav(content) {
@@ -142,6 +159,7 @@ export class SimpleNgrx {
   private closeNav() {
     document.getElementById("mySidenav").style.width = "0px";
     document.getElementById("main").style.marginLeft = "0px";
+    this.closeSidenav(this.currentChartId);
   }
 
   private updateCounters(chartId: string, resumen: any) {
