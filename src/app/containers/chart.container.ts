@@ -88,14 +88,8 @@ export class SimpleNgrx {
       let newContainer = this.getChartContainer(chartDataset, gravamenMunicipio, nivelesChart[0]);
       
       this.cuboActions.loadCubo(charting.id, chartDataset, nivelesChart, gravamenMunicipio, newContainer.resumen);
-
-      //Update Chart component
-      charting.dataset = newContainer.data.series;
-      charting.dataLabels = newContainer.data.names; 
-      charting.refresh();
-
-      //Update counters component
-      this.updateCounters(charting.id, newContainer.resumen);
+      this.updateChartComponent(charting, newContainer.data.series, newContainer.data.names);
+      this.updateCountersComponent(charting.id, newContainer.resumen);
     });
 
   }
@@ -122,14 +116,9 @@ export class SimpleNgrx {
      }
 
 
-    //Update Chart component
     let currentChart = this.charts.find(cchart => { return cchart.id === this.currentChartId});
-    currentChart.dataset = newContainer.data.series;
-    currentChart.dataLabels = newContainer.data.names; 
-    currentChart.refresh();
-
-    //Update counters component
-    this.updateCounters(this.currentChartId, newContainer.resumen);
+    this.updateChartComponent(currentChart, newContainer.data.series, newContainer.data.names);
+    this.updateCountersComponent(this.currentChartId, newContainer.resumen);
   }
 
   onChangeTipoGrav() {
@@ -162,7 +151,13 @@ export class SimpleNgrx {
     this.closeSidenav(this.currentChartId);
   }
 
-  private updateCounters(chartId: string, resumen: any) {
+  private updateChartComponent(chart, series, labels) {
+    chart.dataset = series;
+    chart.dataLabels = labels; 
+    chart.refresh();
+  }
+
+  private updateCountersComponent(chartId: string, resumen: any) {
       this.counters.forEach(counting => {
         if(counting.id.substr(0, chartId.length) === chartId) {                    
           counting.value = resumen[counting.field];

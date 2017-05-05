@@ -3,11 +3,8 @@ import { FormsModule } from '@angular/forms';
 
 //app
 import { COLUMNS_GROUP, COLUMNS_QUANTITY  } from './shared/config';
-import { Dictionary } from './shared/enums';
 import { IDefault, IColumns, ICubo_Couta } from './shared/interfaces';
-import * as DictionaryModule from './services/dictionary.service';
 import { CuboCuotaService } from './services/cubo-cuota.service';
-import * as cubo from './actions/cuboCollection';
 
 import { SimpleNgrx } from './containers/chart.container';
 
@@ -26,7 +23,6 @@ export class AppComponent implements OnInit {
   cuboCuotaInicial: Array<ICubo_Couta>;
   resumenMunicipio: ICubo_Couta;
   columnsGroup: Array<IColumns> = COLUMNS_GROUP;
-  columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   
   @ViewChild(SimpleNgrx) appContainer: SimpleNgrx;
 
@@ -39,7 +35,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
-    
     //this.municipios = DictionaryModule.getDictionary(Dictionary.Municipio);
 
     this._cubocuotaService.getCubo()
@@ -52,11 +47,6 @@ export class AppComponent implements OnInit {
   ngAfterContentInit() { console.log("ngAfterContentInit"); }
 
   ngAfterViewInit() { console.log("ngAfterViewInit APP"); }
-
-  
-  /** Eventos **/  
-
-  
 
   /** Private Methods ***/
   private __extractDictionary(){
@@ -75,9 +65,7 @@ export class AppComponent implements OnInit {
     let gravamenMunicipio = this.resumenMunicipio.TIPO_GRAVAMEN;
 
     //Asign and initialize in Chart Container
-
     this.appContainer.loadCuboInicial(this.cuboCuotaInicial, gravamenMunicipio, this.columnsGroup);
-
   }
 
   

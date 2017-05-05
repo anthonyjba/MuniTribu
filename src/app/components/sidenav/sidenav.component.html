@@ -6,8 +6,8 @@
 
             <label>Valores a filtrar por:</label>
             <accordion [closeOthers]="uniqueAccordion">
-                <accordion-group *ngFor="let col of items" [isOpen]="col.display"  
-                    [panelClass]="'customClass'" [style.display]="col.display ? 'block' : 'none'">
+                <accordion-group #optGroup *ngFor="let col of items" [panelClass]="'customClass'"   
+                    [style.display]="col.display ? 'block' : 'none'">
                     <div accordion-heading>{{ col.name }}                                            
                         <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': true }"></i>
                     </div>
@@ -16,7 +16,7 @@
                             <li *ngFor="let key of keys(col.values);" class="list-group-item widget">
                                 <div class="color-line"></div>
                                 <div class="slot-content">
-                                    <button #optGroup type="button" [id]="key" name="{{ col.id }}" 
+                                    <button type="button" [id]="key" name="{{ col.id }}" 
                                         class="btn-widget" (click)="onClickAccordion($event)">
                                 {{ key }}</button>
                                 </div>

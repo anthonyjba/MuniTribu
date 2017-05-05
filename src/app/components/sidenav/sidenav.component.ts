@@ -5,6 +5,7 @@ import { IColumns, IDefault } from '../../shared/interfaces';
 import { keys, type } from '../../shared/util';
 import  * as Cubo from '../../actions/cubo-actions'
 import * as Sidenav from '../../actions/sidenav-actions';
+import { AccordionPanelComponent } from 'ng2-bootstrap';
 
 @Component({
     selector: 'cat-sidenav',
@@ -16,7 +17,7 @@ export class SidenavComponent {
     uniqueAccordion: boolean = true;
     currentState: cuboState;
 
-    @ViewChildren('optGroup') optionsFilter : QueryList<Element>;
+    @ViewChildren('optGroup') optionsFilter : QueryList<AccordionPanelComponent>;
     /*isFirstOpen: boolean = false;
 
     set isFilterOpen(value: boolean){
@@ -60,10 +61,17 @@ export class SidenavComponent {
     }
 
     onSwitchNiveles(toggle: Object) {
+        /*this.items.forEach((item) => {
+            if(item.id === toggle['id']) {
+                item.display = !item.display;
+            }
+        });*/
         let reg = this.items.find((item) => item.id === toggle['id']);
         reg.display = toggle['display'];
-        
-        this._updateState(null);
+
+        let firstItem = this.optionsFilter.first;   //.forEach((o,i) => { console.log(i); })
+        firstItem.isOpen = true;
+        //this._updateState(null);
     }
 
     onClickAccordion(event) {
