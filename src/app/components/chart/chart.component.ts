@@ -3,6 +3,7 @@ import { BaseChartDirective } from 'ng2-charts';
 
 import { COLUMNS_LEVEL, COLUMNS_QUANTITY  } from '../../shared/config';
 import { IDefault  } from '../../shared/interfaces';
+import { Color} from 'ng2-charts';
 
 @Component({
   selector: 'cat-chart',
@@ -65,6 +66,8 @@ export class ChartComponent {
   @Input()
   displaySeries: string[];
 
+  colorsEmptyObject: Array<Color> = [{}];
+
   @Output() activate = new EventEmitter();
 
   public options:any = {
@@ -99,12 +102,8 @@ export class ChartComponent {
                                 this.displaySeries.length > 0 ? 
                                 this.dataset.filter((c) => { return this.displaySeries.join(',').indexOf(c.column) > -1 }) :
                                 this.DEFAULT_SERIE;
-          //this.chart.datasets = this.dataset;
 
           //añadir la propeiedad orden y lanzar por un evento para ordenar por una serie elegida
-          
-          //this.chart.labels
-          //this.dataLabels = this.dataLabels;
           this.chart.labels =this.dataLabels; 
           this.chart.ngOnChanges( {} );
         }

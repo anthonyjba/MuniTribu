@@ -55,18 +55,17 @@
 /* Slot of Accordion*/
 .slot{padding:5px 0px 0px;text-align:left;-webkit-transition:all 0.3s;transition:all 0.3s;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 .slot{padding:0;cursor:pointer}
-.color-line{height:2px;position:absolute;display:block;width:100%;top:0;background:#e91e63}
+.color-line{height:2px;position:absolute;display:block;width:100%;top:0;background:#9ecae1}
 .slot-content{padding:0px;min-height:20px;-webkit-transform:translateY(0);transform:translateY(0);-webkit-transition:all 0.3s;transition:all 0.3s}
 .slot-content:hover{-webkit-transform:translateY(3px);transform:translateY(3px)}
 
 
 /* side nav */
 .sidenav {
-    height: 100%;
-    width: 0;
+    height: 90%;
+    width: 0px;
     position: fixed;
     z-index: 1;
-    background-color: #111;
     overflow-x: hidden;
     transition: 0.5s;
     margin: 6px;

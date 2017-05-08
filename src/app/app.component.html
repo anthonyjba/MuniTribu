@@ -1,6 +1,6 @@
 <!-- HEADER -->
 
-<div class="panel panel-default">
+<div class="panel-default page-default">
     <div class="panel-heading">
 
         <div style="z-index: 10000;font-size: 13px;position: fixed;top: 8px;right: 0px;padding: 5px 5px;border-radius: 5px 0 0 5px;background-color: rgba(0,0,0,0.7);">
@@ -22,7 +22,7 @@
 
     </div>
 
-    <section id="content">
+    
         <div class="panel-body">
 
             <hr>
@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <label>Municipio:</label>
-                    <select [(ngModel)]="selmuni" id="Municipios" class="form-control main">
+                    <select [(ngModel)]="selmuni" id="Municipios" class="form-control main colorHighligth">
                         <option value="45900">Toledo</option>
                         <!--<option *ngFor="let muni of municipios"
                             [value]="muni.id">                    
@@ -78,128 +78,9 @@
             <div class="row">
                 <simple-ngrx></simple-ngrx>                        
             </div>
-            <div class="row">
-                <div class="col-md-3">
-<!--
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-294173" href="#panel-element-290912">Opciones del Gráfico</a>
-                        </div>
-                        <div class="panel-collapse">
-                            <div class="panel-body">
-
-
-                                <cat-sortable-group [sortItems]="columnsGroup" 
-                                    (sorting)="onSortingItems($event)"
-                                    (toggleItem)="onSwitchNiveles($event)">
-                                </cat-sortable-group>
-
-                                <label>Valores a filtrar por:</label>
-                                <accordion [closeOthers]="uniqueAccordion">
-                                    <accordion-group *ngFor="let col of columnsGroup" [panelClass]="'customClass'" style="display:none">
-                                        <div accordion-heading>{{ col.name }}                                            
-                                            <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': true }"></i>
-                                        </div>
-                                        <div class="fixed-panel">
-                                            <ul class="list-group slot">
-                                                <li *ngFor="let key of keys(col.values);" class="list-group-item widget">
-                                                    <div class="color-line"></div>
-                                                    <div class="slot-content">
-                                                        <button type="button" [id]="key" name="{{ col.id }}" class="btn-widget" (click)="onClick($event)">
-                                                    {{ key }}</button>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </accordion-group>
-                                </accordion>
-
-                            </div>
-                        </div>
-                    </div>-->
-                </div>
-
-                <div class="col-md-9">
-                    
-
-                    <!-- Resumen del Filtrado -->
-                    <div class="row">
-                        
-                        <!--
-                        <div class="col-md-1">
-                            <cat-counter description="SubParcelas" fontIcon="fa fa-home" [value]="resumenFiltrado.N_SUBPARC"></cat-counter>
-                        </div>
-
-                        <div class="col-md-1">
-                            <cat-counter description="Propietarios" fontIcon="fa fa-group" [value]="resumenFiltrado.N_PROPIETARIOS"></cat-counter>
-                        </div>
-
-                        <div class="col-md-1">
-                            <cat-counter description="Gravamen" fontIcon="fa fa-calculator" [value]="tipoGravamen"></cat-counter>
-
-                            
-                        </div>
-
-                        <div class="col-md-3">
-                            <cat-counter description="Hectáreas" format='1.2-2' fontIcon="fa fa-eur" [value]="resumenFiltrado.SUM_HECT"></cat-counter>
-                        </div>
-
-                        <div class="col-md-3">
-                            <cat-counter description="Valor Catastral" format='1.2-2' fontIcon="fa fa-eur" [value]="resumenFiltrado.SUM_V_CATASTR"></cat-counter>
-                        </div>
-
-                        <div class="col-md-3">
-                            <cat-counter description="Valor Cuota" format='1.2-2' fontIcon="fa fa-eur" [value]="resumenFiltrado.SUM_CUOTA"></cat-counter>
-                        </div>
-                        -->
-                    </div>
-
-                                        
-                    
-                    <!--
-                    <div class="row">
-                        <div class="col-md-12">
-
-
-                            <h4>Resultados:</h4>
-                            <div class="card card-block">
-                                <div class="table-responsive">
-                                    <table class="table table-inverse">
-                                        <thead>
-                                            <th *ngFor='let col of columnsGroup'>{{ col.name }}</th>
-                                            <th>Nº SubParcelas</th>
-                                            <th>Nº Propietarios</th>
-                                            <th>Hectáreas</th>
-                                            <th>Valor Catastral</th>
-                                            <th>Cuota</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor='let item of cuboCuotaFiltrado'>
-                                                <td *ngFor='let col of columnsGroup'>{{ item[col.id] | truncate : 40 : '.' }}</td>
-                                                <td>{{ item.N_SUBPARC }}</td>
-                                                <td>{{ item.N_PROPIETARIOS }}</td>
-                                                <td>{{ item.SUM_HECT }}</td>
-                                                <td>{{ item.SUM_V_CATASTR }}</td>
-                                                <td>{{ item.SUM_CUOTA }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                    </div>
-                    -->
-
-
-                </div>
-
-            </div>
+            
         </div>
-    </section>
+    
 
 
 
@@ -221,5 +102,4 @@
             </div>
         </div>
     </div>
-
 </div>

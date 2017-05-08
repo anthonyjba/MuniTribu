@@ -23,3 +23,5 @@ export const COLUMNS_LEVEL : Array<IDefault> = [
                   { id: 'IP', name:'IP' },
                   { id: 'IPP', name:'IPP' }
                 ];
+
+export const COLORS : Array<string> = ['#3081EE','#9ecae1','#6baed6','#3182bd','#08519c'];

@@ -18,7 +18,7 @@ import * as fromRoot from '../reducers';
 import { cuboState } from '../models/cubo-state.model'
 
 import { CuboCuotaService } from '../services/cubo-cuota.service';
-import { COLUMNS_QUANTITY  } from '../shared/config';
+import { COLUMNS_QUANTITY, COLORS  } from '../shared/config';
 import { IColumns, IDefault, ICubo_Couta } from '../shared/interfaces';
 import { keys } from '../shared/util';
 
@@ -172,13 +172,14 @@ export class SimpleNgrx {
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.id === labelColumn })
     let keysColumns = keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
 
-    //if (indexGroup !== -1) {
+    //if (indexGroup !== -1) {  Array.from({length: keysColumns.length}, () => 'rgba(198,219,239, 1)')
       
       //Adding Series
       let currentLabel = this.columnsGroup[indexGroup].name;
 
-      this.columnsQuantity.forEach((serie) => {
-        series.push({data: Array.from({length: keysColumns.length}, () => 0), 
+      this.columnsQuantity.forEach((serie, indice) => {
+        series.push({data: Array.from({length: keysColumns.length}, () => 0),
+                     backgroundColor: COLORS[indice],
                      label: currentLabel + " - " + serie.id, column: serie.id }); //Sum_Cuota, etc...
       });
 

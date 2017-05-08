@@ -1,22 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files   #1B1C1F; */
 body {
-    background: #1B1C1F;
+    margin: 0px;   
 }
 
-.panel-body {
-    background: #1B1C1F;
-    color: #999;
+.body,
+.form-control.main,
+.panel-default,
+.panel-primary {
+    background:  #1B1C1F;   
+}
+
+.panel-default > .page-default {
+    margin-bottom: 0px;
+}
+
+.panel-default > .panel-body {
+     color: #999;
     font-size: 12px;
 }
 
-.form-control.black {
-    color: gainsboro;
-    background-color: #1B1C1F;
-}
-
-.form-control.main {
-    color: #E5972F;
-    background-color: #1B1C1F;
+.colorHighligth,
+.counter>.details>.number {
+    color: #0AC9FF;
 }
 
 .table-inverse {
