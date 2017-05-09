@@ -74,7 +74,6 @@ export class SimpleNgrx {
     this.currentGravamen = gravamenMunicipio;
     this.columnsGroup = nivelesMunicipio;
     
-    //Refresh all Chart
     this.charts.forEach(charting => {
       let nivelesChart = charting.levels;
       let seriesChart = charting.displaySeries;
@@ -104,6 +103,7 @@ export class SimpleNgrx {
 
     let newContainer = this.getChartContainer(chartDataset, this.currentGravamen, this.currentNivel$[0]);
 
+
     switch(action){
         case Cubo.ActionTypes.FILTER_CUBO : {
           this.cuboActions.filterCubo(this.currentChartId, this.currentFiltros$, newContainer.resumen);
@@ -114,7 +114,6 @@ export class SimpleNgrx {
           break;
         }
      }
-
 
     let currentChart = this.charts.find(cchart => { return cchart.id === this.currentChartId});
     this.updateChartComponent(currentChart, newContainer.data.series, newContainer.data.names);
@@ -131,7 +130,8 @@ export class SimpleNgrx {
     this.currentFiltros$ = data.state.filtros;
     this.currentGravamen = data.state.gravamen;
 
-    this.__refreshAll(data.action);
+    if(data.action !== Sidenav.ActionTypes.OPEN_SIDENAV)
+      this.__refreshAll(data.action);
   }
 
   private openNav(content) {
@@ -165,14 +165,14 @@ export class SimpleNgrx {
       })
   }
 
-  private getChartContainer(cuboFiltrado, tipoGravamen, labelColumn: string) {
+  private getChartContainer(cuboFiltrado: any[], tipoGravamen: number, labelColumn: string) {
         
     let series: any[] = [];
     let resumenFiltrado = this._cuboCuotaService.getDefaultResumen();
     let indexGroup : number = this.columnsGroup.findIndex((idx) => { return idx.id === labelColumn })
     let keysColumns = keys(this.columnsGroup[indexGroup].values); //Sample: CON, FCS, FRR, etc...
 
-    //if (indexGroup !== -1) {  Array.from({length: keysColumns.length}, () => 'rgba(198,219,239, 1)')
+    //if (indexGroup !== -1) {
       
       //Adding Series
       let currentLabel = this.columnsGroup[indexGroup].name;
@@ -180,23 +180,24 @@ export class SimpleNgrx {
       this.columnsQuantity.forEach((serie, indice) => {
         series.push({data: Array.from({length: keysColumns.length}, () => 0),
                      backgroundColor: COLORS[indice],
-                     label: currentLabel + " - " + serie.id, column: serie.id }); //Sum_Cuota, etc...
+                     label: currentLabel + " - " + serie.id, 
+                     column: serie.id }); //Sum_Cuota, etc...
       });
 
       resumenFiltrado.TIPO_GRAVAMEN = tipoGravamen;
 
+      //Loop all items
       for (var rowCol = 0, j = keysColumns.length; rowCol !== j; rowCol++) {
         for (var x = 0, y = cuboFiltrado.length; x != y; x++){          
           if(keysColumns[rowCol] == cuboFiltrado[x][this.columnsGroup[indexGroup].id]) {
 
             //Update Series
             series.forEach((serie) => {
-                //Validar si la columna es "SUM_CUOTA" para aplicar el gravamen
+                //Valida si la columna es "SUM_CUOTA" para aplicar el gravamen
                 let datoColumn = cuboFiltrado[x][serie.column];
                 if(serie.column === "SUM_CUOTA")
                 {
                   datoColumn = (tipoGravamen / 100) * cuboFiltrado[x]['SUM_V_CATASTR'];
-                  //this.resumenFiltrado.SUM_CUOTA += datoColumn;
                 }
                 serie.data[rowCol] = datoColumn;
                 resumenFiltrado[serie.column] += datoColumn; 
@@ -215,7 +216,5 @@ export class SimpleNgrx {
       return { data: containerChart, resumen: resumenFiltrado };      
     //}
   }
-
-  
 
 }

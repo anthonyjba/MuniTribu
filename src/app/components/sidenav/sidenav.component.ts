@@ -32,12 +32,12 @@ export class SidenavComponent {
     constructor(
         private cdRef:ChangeDetectorRef) { }
 
-    ngOnchange() {
+    /*ngOnchange() {
         console.log(this.optionsFilter);
         this.optionsFilter.changes.subscribe(() => console.log(this.optionsFilter));
     }
 
-    /*ngAfterViewChecked(){
+    ngAfterViewChecked(){
         console.log( "! ngAfterViewChecked !" );
     }
 
@@ -66,12 +66,23 @@ export class SidenavComponent {
                 item.display = !item.display;
             }
         });*/
-        let reg = this.items.find((item) => item.id === toggle['id']);
-        reg.display = toggle['display'];
+        //let n=0; this.sortItems.forEach((e)=> { e.display? n++ : 0 });
+        let indice = this.items.findIndex((item) => item.id === toggle['id']);
+        this.items[indice].display = toggle['display'];
+        //let reg = this.items.find((item) => item.id === toggle['id']);
+        //reg.display = toggle['display'];
 
         let firstItem = this.optionsFilter.first;   //.forEach((o,i) => { console.log(i); })
         firstItem.isOpen = true;
-        //this._updateState(null);
+        
+        
+        let test = this.optionsFilter.changes.take(indice); 
+        debugger;
+        test.do(c => console.log(c));
+
+        //console.log(this.optionsFilter.toArray()[indice] );
+
+        this._updateState(Cubo.ActionTypes.FILTER_CUBO);
     }
 
     onClickAccordion(event) {
@@ -123,7 +134,7 @@ export class SidenavComponent {
                         currentBtn.nativeElement.classList.add("active-widget"); 
                     });
                 });
-                let allOptions = this.optionsFilter.toArray();
+                //let allOptions = this.optionsFilter.toArray();
                 
             }
 
