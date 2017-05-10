@@ -69,7 +69,7 @@ export class CuboCuotaService {
           result.push(cuboMunicipio[i]);
       }
 
-      console.log(result);
+      //console.log(result);
       return result;
     }
 

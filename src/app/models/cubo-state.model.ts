@@ -6,6 +6,7 @@ export interface cuboState {
   niveles?: string[],
   gravamen?: number,
   filtros?: {},
+  filtroNivel2?: string;
   resumen?: {};
 };
 

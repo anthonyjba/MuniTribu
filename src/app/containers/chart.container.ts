@@ -93,7 +93,7 @@ export class SimpleNgrx {
 
   }
 
-  private __refreshAll(action){
+  private __refreshAll(action) {
 
     let chartDataset = this._cuboCuotaService.getCuboFiltrado(
         this.cuboMunicipioInicial,
@@ -101,8 +101,14 @@ export class SimpleNgrx {
         this.currentNivel$
       );
 
+    if( this.currentNivel$.length === 2 ) {
+      //Filtrar solo un tipo del 2 nivel
+      
+    }
+
     let newContainer = this.getChartContainer(chartDataset, this.currentGravamen, this.currentNivel$[0]);
 
+    
 
     switch(action){
         case Cubo.ActionTypes.FILTER_CUBO : {

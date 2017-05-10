@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef , ChangeDetectorRef, ViewChildren, QueryList } from '@angular/core';
 
 import { cuboState, INITIAL_STATE } from '../../models/cubo-state.model'
 import { IColumns, IDefault } from '../../shared/interfaces';
@@ -17,19 +17,11 @@ export class SidenavComponent {
     uniqueAccordion: boolean = true;
     currentState: cuboState;
 
-    @ViewChildren('optGroup') optionsFilter : QueryList<AccordionPanelComponent>;
-    /*isFirstOpen: boolean = false;
-
-    set isFilterOpen(value: boolean){
-        this.isFirstOpen = value;
-        
-    }
-
-    get isFilterOpen() { return this.isFirstOpen; }*/
+    @ViewChildren('optGroup', { read: ElementRef  }) optionsFilter : QueryList<AccordionPanelComponent>;
 
     @Output() newState = new EventEmitter();
 
-    constructor(
+    constructor(private elRef:ElementRef,
         private cdRef:ChangeDetectorRef) { }
 
     /*ngOnchange() {
@@ -72,15 +64,13 @@ export class SidenavComponent {
         //let reg = this.items.find((item) => item.id === toggle['id']);
         //reg.display = toggle['display'];
 
-        let firstItem = this.optionsFilter.first;   //.forEach((o,i) => { console.log(i); })
+        let firstItem = this.optionsFilter.first;
         firstItem.isOpen = true;
         
-        
-        let test = this.optionsFilter.changes.take(indice); 
-        debugger;
-        test.do(c => console.log(c));
+        let tipoNivel2 = keys(this.items[indice].values)[0]
+        let currentButton = document.getElementById(tipoNivel2);
+        currentButton.classList.add("active-widget")
 
-        //console.log(this.optionsFilter.toArray()[indice] );
 
         this._updateState(Cubo.ActionTypes.FILTER_CUBO);
     }
@@ -128,7 +118,7 @@ export class SidenavComponent {
             if(filtros.length > 0){
                 currentItem.filters = item.filtros;                
                 this.optionsFilter.changes.subscribe((allOptions) => 
-                {
+                {                    
                     filtros.forEach((opt) => { 
                         let currentBtn = allOptions.find(x => x.nativeElement.id === opt)
                         currentBtn.nativeElement.classList.add("active-widget"); 
