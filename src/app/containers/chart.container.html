@@ -23,32 +23,59 @@
 
 <div id="main">
     <div class="row">
-        <div class="col-md-9">            
-            <cat-chart id="chart30" charType='horizontalBar' (activate)="openSidenav($event)"
-                [levels]="['AC']" [displaySeries]="['N_SUBPARC','N_PROPIETARIOS']">
-            </cat-chart>
-        </div>
-        <div class="col-md-1">
-            <cat-counter id="chart30_c1" description="Gravamen" field="TIPO_GRAVAMEN" 
-                fontIcon="fa fa-calculator"></cat-counter>
-        </div>
         <div class="col-md-2">
-            <cat-counter id="chart30_c2" description="Valor Cuota" field="SUM_CUOTA"
-                format='1.2-2' fontIcon="fa fa-eur"></cat-counter>
+            demo sidebar
+        </div>
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <cat-counter id="chart30_c1" description="Gravamen" field="TIPO_GRAVAMEN" 
+                        fontIcon="fa fa-calculator"></cat-counter>
+                </div>
+                <div class="col-md-6">
+                    <cat-counter id="chart30_c2" description="Valor Cuota" field="SUM_CUOTA"
+                        format='1.2-2' fontIcon="fa fa-eur"></cat-counter>
+                </div>
+            </div>
+        </div>
+        <div class=" col-md-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <cat-counter id="chart2_c1" description="Gravamen" field="TIPO_GRAVAMEN" 
+                        fontIcon="fa fa-calculator"></cat-counter>
+                </div>
+                <div class="col-md-6">
+                    <cat-counter id="chart2_c2" description="Valor Cuota" field="SUM_CUOTA"
+                        format='1.2-2' fontIcon="fa fa-eur"></cat-counter>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-9">
-            <cat-chart id="chart2" charType='horizontalBar' (activate)="openSidenav($event)"
-             [levels]="['TIPO_CIF']" [displaySeries]="['N_SUBPARC','N_PROPIETARIOS']"></cat-chart>
-        </div>
-        <div class="col-md-1">
-            <cat-counter id="chart2_c1" description="Gravamen" field="TIPO_GRAVAMEN" 
-                fontIcon="fa fa-calculator"></cat-counter>
-        </div>
         <div class="col-md-2">
-            <cat-counter id="chart2_c2" description="Valor Cuota" field="SUM_CUOTA"
-                format='1.2-2' fontIcon="fa fa-eur"></cat-counter>
+            demo sidebar
+        </div>
+        <div class="col-md-5">            
+            <cat-chart id="chart1" charType='horizontalBar' (activate)="openSidenav($event)"
+                [levels]="['AC']" [displaySeries]="['N_SUBPARC']">
+            </cat-chart>
+        </div>
+        <div class="col-md-5">
+            <cat-chart id="chart2" charType='horizontalBar' (activate)="openSidenav($event)"
+             [levels]="['TIPO_CIF']" [displaySeries]="['N_PROPIETARIOS']"></cat-chart>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            demo sidebar
+        </div>
+        <div class="col-md-5">
+            <cat-chart id="chart3" charType='line' (activate)="openSidenav($event)"
+                [levels]="['AC','TIPO_CIF']" [displaySeries]="['N_SUBPARC']">
+            </cat-chart>
+        </div>
+        <div class="col-md-5">
+            dasa
         </div>
     </div>
 </div>

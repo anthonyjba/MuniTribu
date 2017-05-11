@@ -123,6 +123,14 @@ export class SidenavComponent {
                         let currentBtn = allOptions.find(x => x.nativeElement.id === opt)
                         currentBtn.nativeElement.classList.add("active-widget"); 
                     });
+
+                    //add class to second level
+                    /**
+                     if(item.filtroNivel2) {
+                        let currentBtn = allOptions.find(x => x.nativeElement.id === opt)
+                        currentBtn.nativeElement.classList.add("active-widget");
+                     }
+                     */
                 });
                 //let allOptions = this.optionsFilter.toArray();
                 

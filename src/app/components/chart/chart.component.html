@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <div class="container-fluid panel-container-chart">
 			<div class="col-xs-3 panel-container-chart text-left">
-                Chart
+                {{ title }}
             </div>
 			<div class="col-xs-6 text-center panel-container-chart">
                 <select id="q_{{id}}" #optsSerie multiple (change)="onChangeSeries($event.target)"

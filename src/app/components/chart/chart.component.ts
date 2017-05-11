@@ -55,10 +55,13 @@ export class ChartComponent {
   id: string;
 
   @Input()
+  title: string;
+
+  @Input()
   charType: string;
   
   @Input()
-  legend: boolean = true;
+  legend: boolean = false;
 
   @Input()
   levels: string[];

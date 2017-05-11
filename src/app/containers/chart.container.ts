@@ -63,7 +63,10 @@ export class SimpleNgrx {
     this.store.dispatch(new Sidenav.OpenSidenavAction(id));    
   }
 
-  loadCuboInicial(cuboMunicipio, gravamenMunicipio, nivelesMunicipio): void{
+  loadCuboInicial(cuboMunicipio: Array<ICubo_Couta>, 
+                  gravamenMunicipio: number, 
+                  nivelesMunicipio: Array<IColumns>
+                 ): void {
     /**
      * Load and Initialize All chart components. 
      * Update the global State 
@@ -83,6 +86,15 @@ export class SimpleNgrx {
         this.columnsGroup,
         nivelesChart
       );
+
+      let filtroSecundario = this.__getValueSecondLevel(nivelesChart)
+
+      charting.title = "Gráfico de " + nivelesChart[0] + " - " + filtroSecundario
+
+      if(filtroSecundario) {
+        chartDataset = chartDataset.filter(data => data[nivelesChart[1]] === filtroSecundario);
+        console.log(chartDataset);
+      }
       
       let newContainer = this.getChartContainer(chartDataset, gravamenMunicipio, nivelesChart[0]);
       
@@ -91,6 +103,20 @@ export class SimpleNgrx {
       this.updateCountersComponent(charting.id, newContainer.resumen);
     });
 
+  }
+
+  private __getValueSecondLevel(niveles) {
+    /**
+     * Devolver solo un tipo para el 2 nivel
+     */
+    let result = "";
+    debugger;
+
+    if( niveles.length === 2 ) {      
+      let indice = this.columnsGroup.findIndex((item) => item.id === niveles[1]);
+      result = keys(this.columnsGroup[indice].values)[0];
+    }
+    return result
   }
 
   private __refreshAll(action) {
