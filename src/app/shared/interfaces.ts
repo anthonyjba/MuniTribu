@@ -1,7 +1,8 @@
 
 export interface IDefault {
     id: string,
-    name: string
+    name: string,
+    color?: string
 }
 
 export interface IColumns {

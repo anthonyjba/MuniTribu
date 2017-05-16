@@ -9,11 +9,11 @@ export const COLUMNS_GROUP : Array<IColumns> = [
                 ];
 
 export const COLUMNS_QUANTITY: Array<IDefault> = [
-                  { id: 'N_SUBPARC', name:'#SubParcelas' },
-                  { id: 'N_PROPIETARIOS', name:'#Propietarios' },
-                  { id: 'SUM_HECT', name:'Hectáreas' },
-                  { id: 'SUM_V_CATASTR', name:'Valor Catastral' },
-                  { id: 'SUM_CUOTA', name:'Cuota' }
+                  { id: 'N_SUBPARC', name:'#SubParcelas', color: '#3081EE' },
+                  { id: 'N_PROPIETARIOS', name:'#Propietarios', color: '#9ecae1' },
+                  { id: 'SUM_HECT', name:'€ Hectáreas', color: '#6baed6' },
+                  { id: 'SUM_V_CATASTR', name:'€ V.Catatral', color: '#3182bd' },
+                  { id: 'SUM_CUOTA', name:'€ Cuota', color: '#08519c' }
                   ];
 
 export const COLUMNS_LEVEL : Array<IDefault> = [
@@ -23,5 +23,3 @@ export const COLUMNS_LEVEL : Array<IDefault> = [
                   { id: 'IP', name:'IP' },
                   { id: 'IPP', name:'IPP' }
                 ];
-
-export const COLORS : Array<string> = ['#3081EE','#9ecae1','#6baed6','#3182bd','#08519c'];

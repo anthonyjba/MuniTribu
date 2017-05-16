@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 
 import { COLUMNS_LEVEL, COLUMNS_QUANTITY  } from '../../shared/config';
@@ -17,8 +17,8 @@ import { Color} from 'ng2-charts';
 })
 export class ChartComponent {
   @ViewChild( BaseChartDirective ) chart : BaseChartDirective;
-  @ViewChild( 'optsLevel' ) optionsLevel;
-  @ViewChild( 'optsSerie' ) optionsSerie; 
+  //@ViewChild( 'optsLevel' ) optionsLevel;
+  @ViewChildren( 'optsSerie' ) optionsSerie : QueryList<Element>; 
 
   DEFAULT_SERIE = [{data: [], label: 'Sin Series'}];
 
@@ -30,12 +30,14 @@ export class ChartComponent {
   /* Default Values */
   private _ds: any[] = this.DEFAULT_SERIE;
   private _names: string[] = []; //['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  private _fontSize: number = 10;
 
   constructor() {
     this._ds =  this.DEFAULT_SERIE;
    }
 
-  ngAfterViewInit() { 
+  ngAfterViewInit() {
+    console.log(this.displaySeries); 
     this.optionsSelected(this.optionsSerie, this.displaySeries);
    }
 
@@ -75,14 +77,38 @@ export class ChartComponent {
 
   public options:any = {
     scaleShowVerticalLines: false,
-    responsive: true
+    responsive: true,
+    scales: {
+        xAxes: [{
+            ticks: {
+                fontSize: this._fontSize
+            }
+        }],
+        yAxes: [{
+            ticks: {
+                fontSize: this._fontSize
+            }
+        }]
+    }
   };
 
-  private optionsSelected(input, values) {
+  //public checkModel:any = {left: false, middle: true, right: false};
+
+  private optionsSelected(series, values) {
+    series.forEach(s => {
+      console.log(s);
+    })
+    
+  }
+  private optionsSelectedOld(input, values) {
       let options = input.nativeElement.options;
       for(let i=0; i < options.length; i++) {
           options[i].selected = values.join(',').indexOf(options[i].value) > -1;
       }
+  }
+
+  private serieSelected(value) {
+    console.log(value);
   }
 
   onChangeSeries(el) {

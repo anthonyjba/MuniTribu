@@ -18,7 +18,7 @@ import * as fromRoot from '../reducers';
 import { cuboState } from '../models/cubo-state.model'
 
 import { CuboCuotaService } from '../services/cubo-cuota.service';
-import { COLUMNS_QUANTITY, COLORS  } from '../shared/config';
+import { COLUMNS_QUANTITY  } from '../shared/config';
 import { IColumns, IDefault, ICubo_Couta } from '../shared/interfaces';
 import { keys } from '../shared/util';
 
@@ -93,7 +93,7 @@ export class SimpleNgrx {
 
       if(filtroSecundario) {
         chartDataset = chartDataset.filter(data => data[nivelesChart[1]] === filtroSecundario);
-        console.log(chartDataset);
+        //console.log(chartDataset);
       }
       
       let newContainer = this.getChartContainer(chartDataset, gravamenMunicipio, nivelesChart[0]);
@@ -110,8 +110,7 @@ export class SimpleNgrx {
      * Devolver solo un tipo para el 2 nivel
      */
     let result = "";
-    debugger;
-
+    
     if( niveles.length === 2 ) {      
       let indice = this.columnsGroup.findIndex((item) => item.id === niveles[1]);
       result = keys(this.columnsGroup[indice].values)[0];
@@ -211,7 +210,7 @@ export class SimpleNgrx {
 
       this.columnsQuantity.forEach((serie, indice) => {
         series.push({data: Array.from({length: keysColumns.length}, () => 0),
-                     backgroundColor: COLORS[indice],
+                     backgroundColor: serie.color,
                      label: currentLabel + " - " + serie.id, 
                      column: serie.id }); //Sum_Cuota, etc...
       });
