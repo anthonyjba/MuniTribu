@@ -59,17 +59,6 @@
 .slot-content{padding:0px;min-height:20px;-webkit-transform:translateY(0);transform:translateY(0);-webkit-transition:all 0.3s;transition:all 0.3s}
 .slot-content:hover{-webkit-transform:translateY(3px);transform:translateY(3px)}
 
-/* Button Series */
- .btn-serie {
-     padding: 1px 6px;
-     font-size: 10px;
-     color: black;
- }
-.btn-serie-sel {
-    border-color: greenyellow;
-    color: snow;
-}
-
 /* side nav */
 .sidenav {
     height: 90%;

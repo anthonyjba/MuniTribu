@@ -1,0 +1,23 @@
+.panel-container-chart {
+      padding-left: 15px;
+      font-weight: bold;
+    }
+
+.header-custom-chart {
+    padding: 3px 6px;
+}
+
+.body-custom-chart {
+    padding: 7px;
+}
+
+/* Button Series */
+ .btn-serie {
+     padding: 1px 6px;
+     font-size: 10px;
+     color: black;
+ }
+.btn-serie-sel {
+    border-color: navajowhite;
+    color: antiquewhite;
+}

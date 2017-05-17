@@ -115,8 +115,9 @@ export class SidenavComponent {
             let currentItem = clone[indice];
             currentItem.display = true;
             let filtros = Object.getOwnPropertyNames(item.filtros);
-            if(filtros.length > 0){
-                currentItem.filters = item.filtros;                
+            if(filtros.length > 0 || item.filtroNivel2){
+                currentItem.filters = item.filtros;
+                debugger;                
                 this.optionsFilter.changes.subscribe((allOptions) => 
                 {                    
                     filtros.forEach((opt) => { 
@@ -125,12 +126,13 @@ export class SidenavComponent {
                     });
 
                     //add class to second level
-                    /**
-                     if(item.filtroNivel2) {
-                        let currentBtn = allOptions.find(x => x.nativeElement.id === opt)
+                    
+                    console.log(item.filtroNivel2);
+                    if(item.filtroNivel2) {
+                        let currentBtn = allOptions.find(x => x.nativeElement.id === item.filtroNivel2)
                         currentBtn.nativeElement.classList.add("active-widget");
-                     }
-                     */
+                    }
+                    
                 });
                 //let allOptions = this.optionsFilter.toArray();
                 

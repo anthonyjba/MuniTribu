@@ -89,9 +89,10 @@ export class SimpleNgrx {
 
       let filtroSecundario = this.__getValueSecondLevel(nivelesChart)
 
-      charting.title = "Gráfico de " + nivelesChart[0] + " - " + filtroSecundario
+      charting.title = "Gráfico de " + nivelesChart[0];
 
       if(filtroSecundario) {
+        charting.title += " - " + filtroSecundario
         chartDataset = chartDataset.filter(data => data[nivelesChart[1]] === filtroSecundario);
         //console.log(chartDataset);
       }

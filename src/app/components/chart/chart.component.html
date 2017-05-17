@@ -1,23 +1,23 @@
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <div class="container-fluid panel-container-chart">
-			<div class="col-xs-3 panel-container-chart text-left">
+    <div class="panel-heading header-custom-chart">
+        <div class="row">
+			<div class="col-xs-9 panel-container-chart ">
                 {{ title }}
             </div>
-			<div class="col-xs-6 text-center panel-container-chart">
+			<!--<div class="col-xs-6 text-center panel-container-chart">
                 <select id="q_{{id}}" multiple (change)="onChangeSeries($event.target)"
                     class="selectpicker show-menu-arrow" data-width="200px" data-style="btn-custom">
                     <option *ngFor="let item of columnsQuantity" [value]="item.id" >
                         {{item.name}}
                     </option>
                 </select>
-            </div>
-            <div class="col-xs-3 panel-container-chart text-right">
+            </div>-->
+            <div *ngIf="showSeries" class="col-xs-3 panel-container-chart text-right">
                 <i class="fa fa-cog fa-2" aria-hidden="true" (click)="onSettings()" style="cursor:pointer"></i>
             </div>
         </div>
     </div>
-    <div class="panel-body">        
+    <div class="panel-body body-custom-chart">        
         <canvas baseChart [id]="id" 
                 [options]="options"
                 [colors]="colorsEmptyObject"
@@ -25,18 +25,10 @@
                 [chartType]="charType">
         </canvas>
         <div style="text-align:center">
-        <div class="btn-group">
+        <div *ngIf="showSeries" class="btn-group">
             <label *ngFor="let item of columnsQuantity" #optsSerie class="btn btn-serie" id="{{item.id}}"
                 style.background-color="{{ item.color }}" (click)="serieSelected(item.id)" 
-                uncheckable>{{ item.name }}</label>
-            <!--<label class="btn btn-serie" style.background-color="{{ columnsQuantity[1].color }}" 
-                btnRadio="Middle" uncheckable>#Propiet.</label>
-            <label class="btn btn-serie" style.background-color="{{ columnsQuantity[2].color }}" 
-                btnRadio="Right" uncheckable>#Hect.</label>
-            <label class="btn btn-serie" style.background-color="{{ columnsQuantity[3].color }}"
-                btnRadio="Right" uncheckable>€ V.Cat.</label>
-            <label class="btn btn-serie" style.background-color="{{ columnsQuantity[4].color }}" 
-                btnRadio="Right" uncheckable>€ Cuota</label>-->
+                uncheckable>{{ item.name }}</label>            
         </div>
         </div>
     </div>

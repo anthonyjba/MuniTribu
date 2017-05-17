@@ -8,28 +8,24 @@ import { Color} from 'ng2-charts';
 @Component({
   selector: 'cat-chart',
   templateUrl: './chart.component.html',
-  styles: [`
-    .panel-container-chart {
-      padding: 0px;
-      height: 16px !important;
-    }    
-  `]
+  styleUrls: ['./chart.component.css']
 })
 export class ChartComponent {
   @ViewChild( BaseChartDirective ) chart : BaseChartDirective;
-  //@ViewChild( 'optsLevel' ) optionsLevel;
-  @ViewChildren( 'optsSerie' ) optionsSerie : QueryList<Element>; 
+  @ViewChildren( 'optsSerie' ) optionsSeries : QueryList<Element>; 
 
-  DEFAULT_SERIE = [{data: [], label: 'Sin Series'}];
-
-  columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
 
   //DEFAULT_SERIE = [{data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
   //  {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}];
+  //  ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
 
   /* Default Values */
+  DEFAULT_SERIE = [{data: [], label: 'Sin Series'}];
+  columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
+  colorsEmptyObject: Array<Color> = [{}];
+
   private _ds: any[] = this.DEFAULT_SERIE;
-  private _names: string[] = []; //['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  private _names: string[] = [];
   private _fontSize: number = 10;
 
   constructor() {
@@ -37,8 +33,9 @@ export class ChartComponent {
    }
 
   ngAfterViewInit() {
-    console.log(this.displaySeries); 
-    this.optionsSelected(this.optionsSerie, this.displaySeries);
+    if(this.showSeries) {
+      this.optionsSelected(this.optionsSeries, this.displaySeries[0]);
+      }
    }
 
   @Input()
@@ -66,14 +63,15 @@ export class ChartComponent {
   legend: boolean = false;
 
   @Input()
+  showSeries: boolean = false;
+
+  @Input()
   levels: string[];
 
   @Input()
   displaySeries: string[];
 
-  colorsEmptyObject: Array<Color> = [{}];
-
-  @Output() activate = new EventEmitter();
+ @Output() activate = new EventEmitter();
 
   public options:any = {
     scaleShowVerticalLines: false,
@@ -92,23 +90,27 @@ export class ChartComponent {
     }
   };
 
-  //public checkModel:any = {left: false, middle: true, right: false};
+  private optionsSelected(series, element: string) {
 
-  private optionsSelected(series, values) {
     series.forEach(s => {
-      console.log(s);
-    })
+      s.nativeElement.classList.remove("btn-serie-sel");
+    });
     
+    let current = series.find(s => s.nativeElement.id === element);
+    current.nativeElement.classList.add("btn-serie-sel");
   }
-  private optionsSelectedOld(input, values) {
+
+  /*private optionsSelectedOld(input, values) {
       let options = input.nativeElement.options;
       for(let i=0; i < options.length; i++) {
           options[i].selected = values.join(',').indexOf(options[i].value) > -1;
       }
-  }
+  }*/
 
-  private serieSelected(value) {
-    console.log(value);
+  private serieSelected(displaySerie) {
+    this.displaySeries[0] = displaySerie;
+    this.optionsSelected(this.optionsSeries, displaySerie);
+    this.refresh();
   }
 
   onChangeSeries(el) {
