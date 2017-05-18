@@ -94,12 +94,12 @@ export class SimpleNgrx {
       if(filtroSecundario) {
         charting.title += " - " + filtroSecundario
         chartDataset = chartDataset.filter(data => data[nivelesChart[1]] === filtroSecundario);
-        //console.log(chartDataset);
       }
       
       let newContainer = this.getChartContainer(chartDataset, gravamenMunicipio, nivelesChart[0]);
-      
-      this.cuboActions.loadCubo(charting.id, chartDataset, nivelesChart, gravamenMunicipio, newContainer.resumen);
+      //store      
+      this.cuboActions.loadCubo(charting.id, chartDataset, nivelesChart, 
+                                gravamenMunicipio, filtroSecundario, newContainer.resumen);
       this.updateChartComponent(charting, newContainer.data.series, newContainer.data.names);
       this.updateCountersComponent(charting.id, newContainer.resumen);
     });

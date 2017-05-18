@@ -13,10 +13,10 @@
                     </div>
                     <div class="fixed-panel">
                         <ul class="list-group slot">
-                            <li *ngFor="let key of keys(col.values);" class="list-group-item widget">
+                            <li *ngFor="let key of keys(col.values)" class="list-group-item widget">
                                 <div class="color-line"></div>
                                 <div class="slot-content">
-                                    <button #optValues type="button" [id]="key" name="{{ col.id }}" 
+                                    <button type="button" [id]="key" name="{{ col.id }}" 
                                         class="btn-widget" (click)="onClickAccordion($event)">
                                 {{ key }}</button>
                                 </div>

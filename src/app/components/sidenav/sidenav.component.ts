@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ElementRef , ChangeDetectorRef, ViewChildren, QueryList } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { cuboState, INITIAL_STATE } from '../../models/cubo-state.model'
 import { IColumns, IDefault } from '../../shared/interfaces';
@@ -6,6 +7,7 @@ import { keys, type } from '../../shared/util';
 import  * as Cubo from '../../actions/cubo-actions'
 import * as Sidenav from '../../actions/sidenav-actions';
 import { AccordionPanelComponent } from 'ng2-bootstrap';
+
 
 @Component({
     selector: 'cat-sidenav',
@@ -16,6 +18,7 @@ export class SidenavComponent {
     items: Array<any>;
     uniqueAccordion: boolean = true;
     currentState: cuboState;
+    //keysFiltro: Observable<string> = undefined;
 
     @ViewChildren('optGroup', { read: ElementRef  }) optionsFilter : QueryList<AccordionPanelComponent>;
 
@@ -25,8 +28,8 @@ export class SidenavComponent {
         private cdRef:ChangeDetectorRef) { }
 
     /*ngOnchange() {
-        console.log(this.optionsFilter);
-        this.optionsFilter.changes.subscribe(() => console.log(this.optionsFilter));
+        console.log( "! ngOnchange !" );
+        //this.optionsFilter.changes.subscribe(() => console.log(this.optionsFilter));
     }
 
     ngAfterViewChecked(){
@@ -76,7 +79,8 @@ export class SidenavComponent {
     }
 
     onClickAccordion(event) {
-        let dictCurrent = this.items.find((col) => col.id === event.target.name).filters;
+        //let dictCurrent = this.items.find((col) => col.id === event.target.name).filters;
+        let dictCurrent = this.currentState.filtros;
 
         if (dictCurrent.hasOwnProperty(event.target.id)){
             delete dictCurrent[event.target.id];
@@ -93,10 +97,10 @@ export class SidenavComponent {
 
     private _updateState(action) {
         let niveles = this.items.filter(f => f.display).map(c => c.id)
-        let filtros = this.items[0].filters;
+        //let filtros = this.items[0].filters;
 
         this.currentState.niveles = niveles;
-        this.currentState.filtros = filtros;
+        //this.currentState.filtros = filtros;
 
         this.newState.emit({ state: this.currentState, action: action });
     }
@@ -105,7 +109,10 @@ export class SidenavComponent {
         this.currentState = INITIAL_STATE;
         this.currentState.id = item.id;
         this.currentState.gravamen = item.gravamen;
+        this.currentState.filtros = item.filtros;
+        this.currentState.filtroNivel2 = item.filtroNivel2;
 
+        //Clone items level
         let clone = columns;
         clone.forEach(c => { c.display = false; c.filters = {}; });  
 
@@ -114,8 +121,8 @@ export class SidenavComponent {
             let indice = clone.findIndex(c => c.id === element);
             let currentItem = clone[indice];
             currentItem.display = true;
-            let filtros = Object.getOwnPropertyNames(item.filtros);
-            if(filtros.length > 0 || item.filtroNivel2){
+            /*let filtros = Object.getOwnPropertyNames(item.filtros);
+            if(filtros.length > 0){
                 currentItem.filters = item.filtros;
                 debugger;                
                 this.optionsFilter.changes.subscribe((allOptions) => 
@@ -125,9 +132,7 @@ export class SidenavComponent {
                         currentBtn.nativeElement.classList.add("active-widget"); 
                     });
 
-                    //add class to second level
                     
-                    console.log(item.filtroNivel2);
                     if(item.filtroNivel2) {
                         let currentBtn = allOptions.find(x => x.nativeElement.id === item.filtroNivel2)
                         currentBtn.nativeElement.classList.add("active-widget");
@@ -136,21 +141,43 @@ export class SidenavComponent {
                 });
                 //let allOptions = this.optionsFilter.toArray();
                 
-            }
+            }*/
 
             nivelTemp.push(currentItem);
             clone.splice(indice, 1);
         });
 
+        //console.log(nivelTemp);
         clone.unshift(...nivelTemp);
         this.items = clone;
+
+        //this.optionsFilter. .do(d => { console.log("activate open"); })
+        
+        //this.optionsFilter.changes.subscribe((allOptions) => {
+        
+        
+        
+        let filtros = Object.getOwnPropertyNames(this.currentState.filtros);
+        if(filtros.length > 0){
+            filtros.forEach((opt) => { console.log(opt) });
+        }
+
+        if(this.currentState.filtroNivel2) {
+            let currentBtn = document.getElementById(this.currentState.filtroNivel2);
+            console.log(currentBtn);
+            //currentBtn.classList.add("active-widget");
+        }
+
+            //});
+
+        
 
         this._updateState(Sidenav.ActionTypes.OPEN_SIDENAV); 
 
     }
 
     keys(items) {
-        return keys(items)
+        return keys(items) 
     }
 
 }

@@ -26,11 +26,11 @@
         <div class="col-md-4">
             <div class="row">
                 <div class="col-md-6">
-                    <cat-counter id="chart30_c1" description="Gravamen" field="TIPO_GRAVAMEN" 
+                    <cat-counter id="chart1_c1" description="Gravamen" field="TIPO_GRAVAMEN" 
                         fontIcon="fa fa-calculator"></cat-counter>
                 </div>
                 <div class="col-md-6">
-                    <cat-counter id="chart30_c2" description="Valor Cuota" field="SUM_CUOTA"
+                    <cat-counter id="chart1_c2" description="Valor Cuota" field="SUM_CUOTA"
                         format='1.2-2' fontIcon="fa fa-eur"></cat-counter>
                 </div>
             </div>
@@ -48,11 +48,20 @@
             </div>
         </div>
         <div class="col-md-4">
-            dasa
+            <div class="row">
+                <div class="col-md-6">
+                    <cat-counter id="chart3_c1" description="Gravamen" field="TIPO_GRAVAMEN" 
+                        fontIcon="fa fa-calculator"></cat-counter>
+                </div>
+                <div class="col-md-6">
+                    <cat-counter id="chart3_c2" description="Valor Cuota" field="SUM_CUOTA"
+                        format='1.2-2' fontIcon="fa fa-eur"></cat-counter>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">            
+        <div class="col-md-4">
             <cat-chart id="chart1" charType='horizontalBar' (activate)="openSidenav($event)"
                 [levels]="['AC']" [displaySeries]="['N_SUBPARC']">
             </cat-chart>
