@@ -18,7 +18,7 @@ export class SidenavComponent {
     items: Array<any>;
     uniqueAccordion: boolean = true;
     currentState: cuboState;
-    //keysFiltro: Observable<string> = undefined;
+    keysSelected: {};
 
     @ViewChildren('optGroup', { read: ElementRef  }) optionsFilter : QueryList<AccordionPanelComponent>;
 
@@ -56,53 +56,65 @@ export class SidenavComponent {
     }
 
     onSwitchNiveles(toggle: Object) {
-        /*this.items.forEach((item) => {
-            if(item.id === toggle['id']) {
-                item.display = !item.display;
-            }
-        });*/
-        //let n=0; this.sortItems.forEach((e)=> { e.display? n++ : 0 });
+        
         let indice = this.items.findIndex((item) => item.id === toggle['id']);
         this.items[indice].display = toggle['display'];
-        //let reg = this.items.find((item) => item.id === toggle['id']);
-        //reg.display = toggle['display'];
-
+        
         let firstItem = this.optionsFilter.first;
         firstItem.isOpen = true;
-        
-        let tipoNivel2 = keys(this.items[indice].values)[0]
-        let currentButton = document.getElementById(tipoNivel2);
-        currentButton.classList.add("active-widget")
 
+        //Valid n levels
+        let n=0; this.items.forEach((e)=> { e.display? n++ : 0 });
+
+        if(n===2){        
+            let tipoNivel2 = keys(this.items[indice].values)[0]            
+            this.currentState.filtroNivel2 = tipoNivel2;
+            this.setKeysSelected();
+        }
 
         this._updateState(Cubo.ActionTypes.FILTER_CUBO);
     }
 
     onClickAccordion(event) {
         //let dictCurrent = this.items.find((col) => col.id === event.target.name).filters;
-        let dictCurrent = this.currentState.filtros;
 
-        if (dictCurrent.hasOwnProperty(event.target.id)){
-            delete dictCurrent[event.target.id];
-            event.currentTarget.classList.remove("active-widget");
-        }
-        else{
-            dictCurrent[event.target.id] = 1;
-            event.currentTarget.classList.add("active-widget");
-        }
+        if(event.target.name === this.currentState.niveles[0]){
 
+            let dictCurrent = this.currentState.filtros;
+            
+
+            if (dictCurrent.hasOwnProperty(event.target.id)){
+                delete dictCurrent[event.target.id];
+            }
+            else{
+                dictCurrent[event.target.id] = 1;
+            }
+            this.items.find((col) => col.id === event.target.name).filters = this.currentState.filtros;
+
+        }
+        else {
+            if(this.currentState.filtroNivel2) {
+                this.currentState.filtroNivel2 = event.target.id;
+                console.log(this.currentState.filtroNivel2);
+            }
+        }
+        this.setKeysSelected();        
         this._updateState(Cubo.ActionTypes.FILTER_CUBO);
 
     }
 
     private _updateState(action) {
         let niveles = this.items.filter(f => f.display).map(c => c.id)
-        //let filtros = this.items[0].filters;
 
         this.currentState.niveles = niveles;
-        //this.currentState.filtros = filtros;
-
         this.newState.emit({ state: this.currentState, action: action });
+    }
+
+    private setKeysSelected(){
+        this.keysSelected= Object.assign({}, this.currentState.filtros);
+        if(this.currentState.filtroNivel2) {
+            this.keysSelected[this.currentState.filtroNivel2] = 1;
+        }
     }
 
     activate(item: cuboState, columns) {
@@ -111,7 +123,9 @@ export class SidenavComponent {
         this.currentState.gravamen = item.gravamen;
         this.currentState.filtros = item.filtros;
         this.currentState.filtroNivel2 = item.filtroNivel2;
-
+        
+        this.setKeysSelected();
+        
         //Clone items level
         let clone = columns;
         clone.forEach(c => { c.display = false; c.filters = {}; });  
@@ -120,58 +134,15 @@ export class SidenavComponent {
         item.niveles.forEach(element => {
             let indice = clone.findIndex(c => c.id === element);
             let currentItem = clone[indice];
+            
             currentItem.display = true;
-            /*let filtros = Object.getOwnPropertyNames(item.filtros);
-            if(filtros.length > 0){
-                currentItem.filters = item.filtros;
-                debugger;                
-                this.optionsFilter.changes.subscribe((allOptions) => 
-                {                    
-                    filtros.forEach((opt) => { 
-                        let currentBtn = allOptions.find(x => x.nativeElement.id === opt)
-                        currentBtn.nativeElement.classList.add("active-widget"); 
-                    });
-
-                    
-                    if(item.filtroNivel2) {
-                        let currentBtn = allOptions.find(x => x.nativeElement.id === item.filtroNivel2)
-                        currentBtn.nativeElement.classList.add("active-widget");
-                    }
-                    
-                });
-                //let allOptions = this.optionsFilter.toArray();
-                
-            }*/
-
             nivelTemp.push(currentItem);
             clone.splice(indice, 1);
         });
 
-        //console.log(nivelTemp);
         clone.unshift(...nivelTemp);
         this.items = clone;
-
-        //this.optionsFilter. .do(d => { console.log("activate open"); })
-        
-        //this.optionsFilter.changes.subscribe((allOptions) => {
-        
-        
-        
-        let filtros = Object.getOwnPropertyNames(this.currentState.filtros);
-        if(filtros.length > 0){
-            filtros.forEach((opt) => { console.log(opt) });
-        }
-
-        if(this.currentState.filtroNivel2) {
-            let currentBtn = document.getElementById(this.currentState.filtroNivel2);
-            console.log(currentBtn);
-            //currentBtn.classList.add("active-widget");
-        }
-
-            //});
-
-        
-
+      
         this._updateState(Sidenav.ActionTypes.OPEN_SIDENAV); 
 
     }

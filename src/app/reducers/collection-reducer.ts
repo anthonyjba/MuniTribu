@@ -13,6 +13,7 @@ export const collectionReducer: ActionReducer<cuboState[]> = (state = [], action
         return state.map(item => {
             if(item.id === action.payload.id){
               item.filtros = Object.assign({}, action.payload.filtros);
+              item.filtroNivel2 = action.payload.filtroNivel2;
               item.resumen = action.payload.resumen;
             }
           return item;

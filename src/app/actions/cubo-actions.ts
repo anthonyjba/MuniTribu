@@ -33,10 +33,11 @@ export class CuboActions {
       });
   }
 
-  public filterCubo(id, filtros, resumen) {
+  public filterCubo(id, filtros: any, filtroNivel2: string, resumen) {
     let payload: cuboState = {
       id: id,       
       filtros: filtros,
+      filtroNivel2: filtroNivel2, 
       resumen: resumen 
     };
 

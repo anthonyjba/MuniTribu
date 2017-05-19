@@ -36,6 +36,7 @@ export class SimpleNgrx {
   currentChartId: string;
   currentNivel$: string[];
   currentFiltros$: {};
+  currentfiltroNivel2$: string;
   columnsGroup: Array<IColumns>;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   cuboMunicipioInicial: Array<ICubo_Couta>;
@@ -79,7 +80,7 @@ export class SimpleNgrx {
     
     this.charts.forEach(charting => {
       let nivelesChart = charting.levels;
-      let seriesChart = charting.displaySeries;
+      //let seriesChart = charting.displaySeries;
 
       let chartDataset = this._cuboCuotaService.getCuboFiltrado(
         this.cuboMunicipioInicial,
@@ -120,25 +121,26 @@ export class SimpleNgrx {
   }
 
   private __refreshAll(action) {
-
     let chartDataset = this._cuboCuotaService.getCuboFiltrado(
         this.cuboMunicipioInicial,
         this.columnsGroup,
         this.currentNivel$
       );
+    let currentChart = this.charts.find(cchart => { return cchart.id === this.currentChartId});
 
-    if( this.currentNivel$.length === 2 ) {
-      //Filtrar solo un tipo del 2 nivel
-      
+    currentChart.title = "Gráfico de " + this.currentNivel$[0];
+
+    if( this.currentfiltroNivel2$ ) {
+      currentChart.title += " - " + this.currentfiltroNivel2$
+      chartDataset = chartDataset.filter(data => data[this.currentNivel$[1]] === this.currentfiltroNivel2$);
     }
 
     let newContainer = this.getChartContainer(chartDataset, this.currentGravamen, this.currentNivel$[0]);
-
     
 
     switch(action){
         case Cubo.ActionTypes.FILTER_CUBO : {
-          this.cuboActions.filterCubo(this.currentChartId, this.currentFiltros$, newContainer.resumen);
+          this.cuboActions.filterCubo(this.currentChartId, this.currentFiltros$, this.currentfiltroNivel2$, newContainer.resumen);
           break;
         }
         case Cubo.ActionTypes.GRAVAMEN_CUBO : {
@@ -147,7 +149,7 @@ export class SimpleNgrx {
         }
      }
 
-    let currentChart = this.charts.find(cchart => { return cchart.id === this.currentChartId});
+    
     this.updateChartComponent(currentChart, newContainer.data.series, newContainer.data.names);
     this.updateCountersComponent(this.currentChartId, newContainer.resumen);
   }
@@ -161,6 +163,7 @@ export class SimpleNgrx {
     this.currentNivel$ = data.state.niveles;
     this.currentFiltros$ = data.state.filtros;
     this.currentGravamen = data.state.gravamen;
+    this.currentfiltroNivel2$ = data.state.filtroNivel2;
 
     if(data.action !== Sidenav.ActionTypes.OPEN_SIDENAV)
       this.__refreshAll(data.action);

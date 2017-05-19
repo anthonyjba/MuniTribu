@@ -47,7 +47,7 @@ export class CuboCuotaService {
 
     getCuboFiltrado(cuboMunicipio, columnsGroup, nivelesChart: string[]) {
       let result = [];
-    
+      
       for (var i = 0, j = cuboMunicipio.length; i !== j; i++) {
         let flag = false;
         for (var x = 0, y = columnsGroup.length; x != y; x++){

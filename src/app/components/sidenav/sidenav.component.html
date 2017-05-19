@@ -17,7 +17,8 @@
                                 <div class="color-line"></div>
                                 <div class="slot-content">
                                     <button type="button" [id]="key" name="{{ col.id }}" 
-                                        class="btn-widget" (click)="onClickAccordion($event)">
+                                        [ngClass]="{'btn-widget':true, 'active-widget': keysSelected.hasOwnProperty(key)}" 
+                                        (click)="onClickAccordion($event)">
                                 {{ key }}</button>
                                 </div>
                             </li>
