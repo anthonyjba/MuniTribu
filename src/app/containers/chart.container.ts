@@ -70,39 +70,43 @@ export class SimpleNgrx {
                  ): void {
     /**
      * Load and Initialize All chart components. 
-     * Update the global State 
-     * draw each chart component
-     * update Counter component
      */
     this.cuboMunicipioInicial = cuboMunicipio;
     this.currentGravamen = gravamenMunicipio;
     this.columnsGroup = nivelesMunicipio;
     
     this.charts.forEach(charting => {
-      let nivelesChart = charting.levels;
+      this.currentChartId = charting.id;
+      this.currentNivel$ = charting.levels;
+      this.currentfiltroNivel2$ = this.__getValueSecondLevel(this.currentNivel$);
+
+      this.__refreshAll(Cubo.ActionTypes.LOAD_CUBO);
+      
+      //let nivelesChart = charting.levels;
       //let seriesChart = charting.displaySeries;
 
-      let chartDataset = this._cuboCuotaService.getCuboFiltrado(
+      /*let chartDataset = this._cuboCuotaService.getCuboFiltrado(
         this.cuboMunicipioInicial,
         this.columnsGroup,
         nivelesChart
-      );
+      );*/
 
-      let filtroSecundario = this.__getValueSecondLevel(nivelesChart)
-
-      charting.title = "Gráfico de " + nivelesChart[0];
-
-      if(filtroSecundario) {
-        charting.title += " - " + filtroSecundario
-        chartDataset = chartDataset.filter(data => data[nivelesChart[1]] === filtroSecundario);
-      }
+      //let filtroSecundario 
       
-      let newContainer = this.getChartContainer(chartDataset, gravamenMunicipio, nivelesChart[0]);
+
+      //charting.title = "Gráfico de " + nivelesChart[0];
+
+      //if(filtroSecundario) {         
+        //charting.title += " - " + filtroSecundario
+        //chartDataset = chartDataset.filter(data => data[nivelesChart[1]] === filtroSecundario);
+      //}
+      
+      //let newContainer = this.getChartContainer(chartDataset, gravamenMunicipio, nivelesChart[0]);
       //store      
-      this.cuboActions.loadCubo(charting.id, chartDataset, nivelesChart, 
+      /*this.cuboActions.loadCubo(charting.id, chartDataset, nivelesChart, 
                                 gravamenMunicipio, filtroSecundario, newContainer.resumen);
       this.updateChartComponent(charting, newContainer.data.series, newContainer.data.names);
-      this.updateCountersComponent(charting.id, newContainer.resumen);
+      this.updateCountersComponent(charting.id, newContainer.resumen);*/
     });
 
   }
@@ -121,6 +125,14 @@ export class SimpleNgrx {
   }
 
   private __refreshAll(action) {
+    /**
+     * Get Dataset from cuboCuotaService 
+     * Verify the title with the current state 
+     * Valid and filter the Dataset for Level 2
+     * Update the new state reducer
+     * Draw each chart component
+     * Update Counter component
+     */
     let chartDataset = this._cuboCuotaService.getCuboFiltrado(
         this.cuboMunicipioInicial,
         this.columnsGroup,
@@ -137,19 +149,28 @@ export class SimpleNgrx {
 
     let newContainer = this.getChartContainer(chartDataset, this.currentGravamen, this.currentNivel$[0]);
     
-
     switch(action){
-        case Cubo.ActionTypes.FILTER_CUBO : {
-          this.cuboActions.filterCubo(this.currentChartId, this.currentFiltros$, this.currentfiltroNivel2$, newContainer.resumen);
+        case Cubo.ActionTypes.LOAD_CUBO: {
+          this.cuboActions.loadCubo(this.currentChartId, chartDataset, this.currentNivel$, 
+                                this.currentGravamen, this.currentfiltroNivel2$, newContainer.resumen);
           break;
         }
-        case Cubo.ActionTypes.GRAVAMEN_CUBO : {
+        case Cubo.ActionTypes.FILTER_CUBO: {
+          this.cuboActions.filterCubo(this.currentChartId, this.currentFiltros$, 
+                                this.currentfiltroNivel2$, newContainer.resumen);
+          break;
+        }
+        case Cubo.ActionTypes.GRAVAMEN_CUBO: {
           this.cuboActions.gravamenCubo(this.currentChartId, this.currentGravamen, newContainer.resumen);
+          break;
+        }
+        case Cubo.ActionTypes.SWITCH_LEVEL_CUBO: {
+          this.cuboActions.switchLevelCubo(this.currentChartId, this.currentNivel$, 
+                                this.currentfiltroNivel2$, newContainer.resumen)
           break;
         }
      }
 
-    
     this.updateChartComponent(currentChart, newContainer.data.series, newContainer.data.names);
     this.updateCountersComponent(this.currentChartId, newContainer.resumen);
   }

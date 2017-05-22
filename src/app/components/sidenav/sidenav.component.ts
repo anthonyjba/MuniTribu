@@ -71,12 +71,12 @@ export class SidenavComponent {
             this.currentState.filtroNivel2 = tipoNivel2;
             this.setKeysSelected();
         }
+        else { debugger; this.currentState.filtroNivel2 = ''; }
 
-        this._updateState(Cubo.ActionTypes.FILTER_CUBO);
+        this._updateState(Cubo.ActionTypes.SWITCH_LEVEL_CUBO);
     }
 
     onClickAccordion(event) {
-        //let dictCurrent = this.items.find((col) => col.id === event.target.name).filters;
 
         if(event.target.name === this.currentState.niveles[0]){
 
@@ -95,7 +95,7 @@ export class SidenavComponent {
         else {
             if(this.currentState.filtroNivel2) {
                 this.currentState.filtroNivel2 = event.target.id;
-                console.log(this.currentState.filtroNivel2);
+                //console.log(this.currentState.filtroNivel2);
             }
         }
         this.setKeysSelected();        

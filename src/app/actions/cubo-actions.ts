@@ -8,7 +8,8 @@ import { type } from '../shared/util';
 export const ActionTypes = {
   LOAD_CUBO:   type('[Cubo] Load item'),
   FILTER_CUBO: type('[Cubo] Filter value'),
-  GRAVAMEN_CUBO: type('[Cubo] Change gravamen')
+  GRAVAMEN_CUBO: type('[Cubo] Change gravamen'),
+  SWITCH_LEVEL_CUBO: type('[Cubo] Switch Level')
 };
 
 @Injectable()
@@ -16,7 +17,6 @@ export class CuboActions {
   constructor(private store: Store<cuboState>) {}
 
   public loadCubo(id: string, cubo, niveles: string[], gravamen: number, filtroNivel2: string, resumen) {
-    //entities: [...cubo],
 
     let payload: cuboState = {
       id: id,       
@@ -33,7 +33,7 @@ export class CuboActions {
       });
   }
 
-  public filterCubo(id, filtros: any, filtroNivel2: string, resumen) {
+  public filterCubo(id: string, filtros: any, filtroNivel2: string, resumen) {
     let payload: cuboState = {
       id: id,       
       filtros: filtros,
@@ -45,10 +45,9 @@ export class CuboActions {
       { type: ActionTypes.FILTER_CUBO,
         payload: payload
       });
-
   }
   
-  public gravamenCubo(id, gravamen, resumen) {
+  public gravamenCubo(id: string, gravamen: number, resumen) {
     let payload: cuboState = {
       id: id,       
       gravamen: gravamen,
@@ -57,6 +56,20 @@ export class CuboActions {
 
     this.store.dispatch(
       { type: ActionTypes.GRAVAMEN_CUBO,
+        payload: payload
+      });
+  }
+
+  public switchLevelCubo(id: string, niveles: string[], filtroNivel2: string, resumen) {
+    let payload: cuboState = {
+      id: id,       
+      niveles: niveles,
+      filtroNivel2: filtroNivel2, 
+      resumen: resumen 
+    };
+
+    this.store.dispatch(
+      { type: ActionTypes.SWITCH_LEVEL_CUBO,
         payload: payload
       });
   }

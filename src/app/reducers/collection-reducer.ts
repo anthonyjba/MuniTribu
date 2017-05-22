@@ -28,6 +28,16 @@ export const collectionReducer: ActionReducer<cuboState[]> = (state = [], action
           return item;
         });         
       }
+    case ActionTypes.SWITCH_LEVEL_CUBO: {
+        return state.map(item => {
+            if(item.id === action.payload.id){
+              item.niveles = action.payload.niveles;
+              item.filtroNivel2 = action.payload.filtroNivel2;
+              item.resumen = action.payload.resumen;
+            }
+          return item;
+        });         
+      }
 
     default:
       return state;    
