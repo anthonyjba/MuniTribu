@@ -67,37 +67,30 @@ export class SidenavComponent {
         let n=0; this.items.forEach((e)=> { e.display? n++ : 0 });
 
         if(n===2){        
-            let tipoNivel2 = keys(this.items[indice].values)[0]            
-            this.currentState.filtroNivel2 = tipoNivel2;
+            //let tipoNivel2 = keys(this.items[indice].values)[0] // Deprecated            
+            //this.currentState.filtroNivel2 = tipoNivel2;
             this.setKeysSelected();
         }
-        else { debugger; this.currentState.filtroNivel2 = ''; }
+        else { this.currentState.filtroNivel2 = {}; }
 
         this._updateState(Cubo.ActionTypes.SWITCH_LEVEL_CUBO);
     }
 
     onClickAccordion(event) {
+        let dictCurrent = {};
 
-        if(event.target.name === this.currentState.niveles[0]){
 
-            let dictCurrent = this.currentState.filtros;
-            
+        dictCurrent = event.target.name === this.currentState.niveles[0] ? 
+                        this.currentState.filtros : this.currentState.filtroNivel2;
 
-            if (dictCurrent.hasOwnProperty(event.target.id)){
-                delete dictCurrent[event.target.id];
-            }
-            else{
-                dictCurrent[event.target.id] = 1;
-            }
-            this.items.find((col) => col.id === event.target.name).filters = this.currentState.filtros;
-
+        if (dictCurrent.hasOwnProperty(event.target.id)){
+            delete dictCurrent[event.target.id];
         }
-        else {
-            if(this.currentState.filtroNivel2) {
-                this.currentState.filtroNivel2 = event.target.id;
-                //console.log(this.currentState.filtroNivel2);
-            }
+        else{
+            dictCurrent[event.target.id] = 1;
         }
+        
+        this.items.find((col) => col.id === event.target.name).filters = dictCurrent;
         this.setKeysSelected();        
         this._updateState(Cubo.ActionTypes.FILTER_CUBO);
 
@@ -111,10 +104,10 @@ export class SidenavComponent {
     }
 
     private setKeysSelected(){
-        this.keysSelected= Object.assign({}, this.currentState.filtros);
-        if(this.currentState.filtroNivel2) {
+        this.keysSelected= Object.assign({}, this.currentState.filtros, this.currentState.filtroNivel2);
+        /*if(this.currentState.filtroNivel2) {  //Old validation to one key filter
             this.keysSelected[this.currentState.filtroNivel2] = 1;
-        }
+        }*/
     }
 
     activate(item: cuboState, columns) {
@@ -124,6 +117,7 @@ export class SidenavComponent {
         this.currentState.filtros = item.filtros;
         this.currentState.filtroNivel2 = item.filtroNivel2;
         
+        debugger; 
         this.setKeysSelected();
         
         //Clone items level

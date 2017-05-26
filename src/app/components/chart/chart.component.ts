@@ -107,7 +107,7 @@ export class ChartComponent {
       }
   }*/
 
-  private serieSelected(displaySerie) {
+  private onSerieSelected(displaySerie) {
     this.displaySeries[0] = displaySerie;
     this.optionsSelected(this.optionsSeries, displaySerie);
     this.refresh();

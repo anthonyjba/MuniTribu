@@ -16,7 +16,7 @@ export const ActionTypes = {
 export class CuboActions {
   constructor(private store: Store<cuboState>) {}
 
-  public loadCubo(id: string, cubo, niveles: string[], gravamen: number, filtroNivel2: string, resumen) {
+  public loadCubo(id: string, cubo, niveles: string[], gravamen: number, filtroNivel2: any, resumen) {
 
     let payload: cuboState = {
       id: id,       
@@ -33,7 +33,7 @@ export class CuboActions {
       });
   }
 
-  public filterCubo(id: string, filtros: any, filtroNivel2: string, resumen) {
+  public filterCubo(id: string, filtros: any, filtroNivel2: any, resumen) {
     let payload: cuboState = {
       id: id,       
       filtros: filtros,
@@ -60,7 +60,7 @@ export class CuboActions {
       });
   }
 
-  public switchLevelCubo(id: string, niveles: string[], filtroNivel2: string, resumen) {
+  public switchLevelCubo(id: string, niveles: string[], filtroNivel2: any, resumen) {
     let payload: cuboState = {
       id: id,       
       niveles: niveles,

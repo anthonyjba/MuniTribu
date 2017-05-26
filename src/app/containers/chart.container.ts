@@ -36,7 +36,7 @@ export class SimpleNgrx {
   currentChartId: string;
   currentNivel$: string[];
   currentFiltros$: {};
-  currentfiltroNivel2$: string;
+  currentfiltroNivel2$: any = {};
   columnsGroup: Array<IColumns>;
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   cuboMunicipioInicial: Array<ICubo_Couta>;
@@ -78,35 +78,10 @@ export class SimpleNgrx {
     this.charts.forEach(charting => {
       this.currentChartId = charting.id;
       this.currentNivel$ = charting.levels;
-      this.currentfiltroNivel2$ = this.__getValueSecondLevel(this.currentNivel$);
+      //this.currentfiltroNivel2$ = Object.assign({}, this.__getValueSecondLevel(this.currentNivel$));  //this.__getValueSecondLevel(this.currentNivel$);
 
       this.__refreshAll(Cubo.ActionTypes.LOAD_CUBO);
       
-      //let nivelesChart = charting.levels;
-      //let seriesChart = charting.displaySeries;
-
-      /*let chartDataset = this._cuboCuotaService.getCuboFiltrado(
-        this.cuboMunicipioInicial,
-        this.columnsGroup,
-        nivelesChart
-      );*/
-
-      //let filtroSecundario 
-      
-
-      //charting.title = "Gráfico de " + nivelesChart[0];
-
-      //if(filtroSecundario) {         
-        //charting.title += " - " + filtroSecundario
-        //chartDataset = chartDataset.filter(data => data[nivelesChart[1]] === filtroSecundario);
-      //}
-      
-      //let newContainer = this.getChartContainer(chartDataset, gravamenMunicipio, nivelesChart[0]);
-      //store      
-      /*this.cuboActions.loadCubo(charting.id, chartDataset, nivelesChart, 
-                                gravamenMunicipio, filtroSecundario, newContainer.resumen);
-      this.updateChartComponent(charting, newContainer.data.series, newContainer.data.names);
-      this.updateCountersComponent(charting.id, newContainer.resumen);*/
     });
 
   }
@@ -138,13 +113,38 @@ export class SimpleNgrx {
         this.columnsGroup,
         this.currentNivel$
       );
+
     let currentChart = this.charts.find(cchart => { return cchart.id === this.currentChartId});
+    currentChart.title = `Gráfico de ${this.currentNivel$[0]}`;
 
-    currentChart.title = "Gráfico de " + this.currentNivel$[0];
+    
+    if( this.currentNivel$[1] ) {
+      
+      currentChart.title += (keys(this.currentfiltroNivel2$).length > 0) ? 
+                              ` - ${this.currentNivel$[1]} (Con ciertos valores)` :
+                              ` - ${this.currentNivel$[1]} (Con todos los valores)`
+      
+      
 
-    if( this.currentfiltroNivel2$ ) {
-      currentChart.title += " - " + this.currentfiltroNivel2$
-      chartDataset = chartDataset.filter(data => data[this.currentNivel$[1]] === this.currentfiltroNivel2$);
+      let newDataset: Array<ICubo_Couta> = [];
+      let tempLevel1: string = "";
+      let index: number = -1;
+
+      for(let i=0, l = chartDataset.length; i < l; i++) {
+        if (tempLevel1 != chartDataset[i][this.currentNivel$[0]]) {           
+          tempLevel1 = chartDataset[i][this.currentNivel$[0]];          
+          newDataset.push(chartDataset[i]);
+          index++;
+        }
+        else {
+          this.columnsQuantity.forEach(c => {
+            newDataset[index][c.id] += chartDataset[i][c.id] 
+          })
+        }        
+      }
+      chartDataset = newDataset;
+      
+      //chartDataset = chartDataset.filter(data => data[this.currentNivel$[1]] === this.currentfiltroNivel2$);
     }
 
     let newContainer = this.getChartContainer(chartDataset, this.currentGravamen, this.currentNivel$[0]);
@@ -196,8 +196,7 @@ export class SimpleNgrx {
       document.getElementById("mySidenav").style.width = "250px"
       document.getElementById("main").style.marginLeft = "250px";
 
-      this.currentItem$.take(1).subscribe(item => this.sidenav.activate(item, this.columnsGroup));
-      
+      this.currentItem$.take(1).subscribe(item => this.sidenav.activate(item, this.columnsGroup));      
     }
   }
 

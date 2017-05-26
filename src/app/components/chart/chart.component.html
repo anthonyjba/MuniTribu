@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading header-custom-chart">
         <div class="row">
-			<div class="col-xs-9 panel-container-chart ">
+			<div class="col-xs-10 panel-container-chart ">
                 {{ title }}
             </div>
 			<!--<div class="col-xs-6 text-center panel-container-chart">
@@ -12,12 +12,16 @@
                     </option>
                 </select>
             </div>-->
-            <div *ngIf="showSeries" class="col-xs-3 panel-container-chart text-right">
+            <div *ngIf="showSeries" class="col-xs-2 panel-container-chart text-right">
                 <i class="fa fa-cog fa-2" aria-hidden="true" (click)="onSettings()" style="cursor:pointer"></i>
             </div>
         </div>
     </div>
-    <div class="panel-body body-custom-chart">        
+    <div class="panel-body body-custom-chart">
+        <div *ngIf="showSeries" class="number" style="float:right">
+            Cuota:<div>{{ value | number : format }}</div>
+        </div>
+
         <canvas baseChart [id]="id" 
                 [options]="options"
                 [colors]="colorsEmptyObject"
@@ -27,7 +31,7 @@
         <div style="text-align:center">
         <div *ngIf="showSeries" class="btn-group">
             <label *ngFor="let item of columnsQuantity" #optsSerie class="btn btn-serie" id="{{item.id}}"
-                style.background-color="{{ item.color }}" (click)="serieSelected(item.id)" 
+                style.background-color="{{ item.color }}" (click)="onSerieSelected(item.id)" 
                 uncheckable>{{ item.name }}</label>            
         </div>
         </div>
