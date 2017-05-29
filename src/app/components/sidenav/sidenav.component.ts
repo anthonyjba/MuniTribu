@@ -117,8 +117,9 @@ export class SidenavComponent {
         this.currentState.filtros = item.filtros;
         this.currentState.filtroNivel2 = item.filtroNivel2;
         
-        debugger; 
         this.setKeysSelected();
+
+        debugger;
         
         //Clone items level
         let clone = columns;

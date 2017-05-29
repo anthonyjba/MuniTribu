@@ -73,7 +73,7 @@
         </div>
         <div class="col-md-4">
             <cat-chart id="chart3" charType='horizontalBar' (activate)="openSidenav($event)"
-                [levels]="['AC','TIPO_CIF']" [displaySeries]="['N_SUBPARC']" [showSeries]="true" >
+                [levels]="['AC','TIPO_CIF']" [displaySeries]="['N_SUBPARC']" [activateControls]="true" >
             </cat-chart>
         </div>
     </div>
@@ -81,7 +81,8 @@
     <div class="row">
         <div class="col-md-4">
             <cat-chart id="chart4" charType='line' (activate)="openSidenav($event)"
-                [levels]="['TIPO_CIF','TALLA']" [displaySeries]="['N_PROPIETARIOS']">
+                [levels]="['TIPO_CIF','TALLA']" [displaySeries]="['N_PROPIETARIOS']"
+                 [activateControls]="true">
             </cat-chart>
         </div>
     </div>

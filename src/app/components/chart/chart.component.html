@@ -12,28 +12,54 @@
                     </option>
                 </select>
             </div>-->
-            <div *ngIf="showSeries" class="col-xs-2 panel-container-chart text-right">
+            <div *ngIf="activateControls" class="col-xs-2 panel-container-chart text-right">
                 <i class="fa fa-cog fa-2" aria-hidden="true" (click)="onSettings()" style="cursor:pointer"></i>
             </div>
         </div>
     </div>
-    <div class="panel-body body-custom-chart">
-        <div *ngIf="showSeries" class="number" style="float:right">
-            Cuota:<div>{{ value | number : format }}</div>
-        </div>
 
+    <div class="panel-body body-custom-chart">
+        <!--Data-->
+        <div *ngIf="activateControls" class="number">
+            <div class="row">
+                <div class="col-xs-5">
+                    V.Catastral:<div style="float:right">{{ dataResumen.SUM_V_CATASTR | number : format }}</div></div>
+                <div class="col-xs-4">
+                    V.Cuota:<div style="float:right">{{ dataResumen.SUM_CUOTA | number : format }}</div></div>
+                <div class="col-xs-3">
+                    Gravámen:<div style="float:right">{{ dataResumen.TIPO_GRAVAMEN }}</div></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-9">Elegir:
+                    <div style="float:right">
+                        <select id="q_{{id}}" multiple (change)="onChangeLevel2($event.target)"
+                            class="selectpicker show-menu-arrow" data-width="200px" data-style="btn-custom">
+                            <option *ngFor="let item of columnsQuantity" [value]="item.id" >
+                                {{item.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <input type="range" #tgrv min="0" max="1" step="0.1" />
+                </div>
+            </div>
+        </div>
+        <!--Chart-->
         <canvas baseChart [id]="id" 
                 [options]="options"
                 [colors]="colorsEmptyObject"
                 [legend]="legend"
                 [chartType]="charType">
         </canvas>
+        <!--Series-->
         <div style="text-align:center">
-        <div *ngIf="showSeries" class="btn-group">
+        <div *ngIf="activateControls" class="btn-group">
             <label *ngFor="let item of columnsQuantity" #optsSerie class="btn btn-serie" id="{{item.id}}"
                 style.background-color="{{ item.color }}" (click)="onSerieSelected(item.id)" 
                 uncheckable>{{ item.name }}</label>            
         </div>
         </div>
     </div>
+
 </div>

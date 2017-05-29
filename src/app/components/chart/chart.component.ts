@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 
-import { COLUMNS_LEVEL, COLUMNS_QUANTITY  } from '../../shared/config';
-import { IDefault  } from '../../shared/interfaces';
+import { COLUMNS_QUANTITY, COLUMNS_GROUP } from '../../shared/config';
+import { IDefault, ICubo_Couta } from '../../shared/interfaces';
 import { Color} from 'ng2-charts';
 
 @Component({
@@ -21,20 +21,28 @@ export class ChartComponent {
 
   /* Default Values */
   DEFAULT_SERIE = [{data: [], label: 'Sin Series'}];
+  DEFAULT_RESUMEN: ICubo_Couta = { N_SUBPARC:0, N_PROPIETARIOS:0, SUM_HECT:0, SUM_V_CATASTR:0, SUM_CUOTA:0, TIPO_GRAVAMEN:0 }
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   colorsEmptyObject: Array<Color> = [{}];
 
   private _ds: any[] = this.DEFAULT_SERIE;
   private _names: string[] = [];
-  private _fontSize: number = 10;
+  private _resumen: ICubo_Couta = this.DEFAULT_RESUMEN;
+  private _fontSize: number = 10;  
 
   constructor() {
     this._ds =  this.DEFAULT_SERIE;
    }
 
   ngAfterViewInit() {
-    if(this.showSeries) {
+    if(this.activateControls) {
       this.optionsSelected(this.optionsSeries, this.displaySeries[0]);
+
+      if( this.levels.length === 2 ) {      
+        //let indice = this.columnsGroup.findIndex((item) => item.id === this.levels[1]);
+        //keys(this.columnsGroup[indice].values)[0];
+      }
+      
       }
    }
 
@@ -49,6 +57,12 @@ export class ChartComponent {
     this._names = names;
   }
   get dataLabels(): string[] { return this._names; }
+
+  @Input()
+  set dataResumen(data: ICubo_Couta){
+    this._resumen = data;
+  }
+  get dataResumen(): ICubo_Couta { return this._resumen; }
   
   @Input()
   id: string;
@@ -63,7 +77,7 @@ export class ChartComponent {
   legend: boolean = false;
 
   @Input()
-  showSeries: boolean = false;
+  activateControls: boolean = false;
 
   @Input()
   levels: string[];
@@ -107,19 +121,19 @@ export class ChartComponent {
       }
   }*/
 
-  private onSerieSelected(displaySerie) {
-    this.displaySeries[0] = displaySerie;
-    this.optionsSelected(this.optionsSeries, displaySerie);
+  private onSerieSelected(currentSerie) {
+    this.displaySeries[0] = currentSerie;
+    this.optionsSelected(this.optionsSeries, currentSerie);
     this.refresh();
   }
 
-  onChangeSeries(el) {
+  /*onChangeSeries(el) {
     this.displaySeries = Array.apply(null, el.options)
       .filter(option => option.selected)
       .map(option => option.value)
     
     this.refresh();
-  }
+  }*/
 
   onSettings() {
     this.activate.emit(this.id);
@@ -137,6 +151,8 @@ export class ChartComponent {
           //añadir la propeiedad orden y lanzar por un evento para ordenar por una serie elegida
           this.chart.labels =this.dataLabels; 
           this.chart.ngOnChanges( {} );
+
+          //console.log(this.dataResumen.TIPO_GRAVAMEN);
         }
   }
 

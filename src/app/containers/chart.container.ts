@@ -7,7 +7,7 @@ import "rxjs/add/operator/take";
 //app components
 import { SidenavComponent } from '../components/sidenav/sidenav.component';
 import { ChartComponent } from '../components/chart/chart.component';
-import { CounterComponent } from '../components/counter/counter.component';
+//import { CounterComponent } from '../components/counter/counter.component';
 
 
 
@@ -43,7 +43,7 @@ export class SimpleNgrx {
 
   @ViewChild(SidenavComponent) sidenav : SidenavComponent;
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
-  @ViewChildren(CounterComponent) counters : QueryList<CounterComponent>;
+  //@ViewChildren(CounterComponent) counters : QueryList<CounterComponent>;
 
   constructor(
     private cuboActions: Cubo.CuboActions,
@@ -171,8 +171,8 @@ export class SimpleNgrx {
         }
      }
 
-    this.updateChartComponent(currentChart, newContainer.data.series, newContainer.data.names);
-    this.updateCountersComponent(this.currentChartId, newContainer.resumen);
+    this.updateChartComponent(currentChart, newContainer.data.series, newContainer.data.names, newContainer.resumen);
+    //this.updateCountersComponent(this.currentChartId, newContainer.resumen);
   }
 
   onChangeTipoGrav() {
@@ -206,19 +206,20 @@ export class SimpleNgrx {
     this.closeSidenav(this.currentChartId);
   }
 
-  private updateChartComponent(chart, series, labels) {
+  private updateChartComponent(chart, series, labels, resumen: any) {
     chart.dataset = series;
-    chart.dataLabels = labels; 
+    chart.dataLabels = labels;
+    chart.dataResumen = resumen;
     chart.refresh();
   }
 
-  private updateCountersComponent(chartId: string, resumen: any) {
+  /*private updateCountersComponent(chartId: string, resumen: any) {
       this.counters.forEach(counting => {
         if(counting.id.substr(0, chartId.length) === chartId) {                    
           counting.value = resumen[counting.field];
         }
       })
-  }
+  }*/
 
   private getChartContainer(cuboFiltrado: any[], tipoGravamen: number, labelColumn: string) {
         
