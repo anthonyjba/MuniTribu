@@ -119,7 +119,6 @@ export class SidenavComponent {
         
         this.setKeysSelected();
 
-        debugger;
         
         //Clone items level
         let clone = columns;

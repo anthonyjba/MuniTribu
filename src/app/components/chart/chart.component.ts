@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 
-import { COLUMNS_QUANTITY, COLUMNS_GROUP } from '../../shared/config';
-import { IDefault, ICubo_Couta } from '../../shared/interfaces';
+import { COLUMNS_QUANTITY } from '../../shared/config';
+import { IDefault, ICubo_Couta, IColumns } from '../../shared/interfaces';
 import { Color} from 'ng2-charts';
 
 @Component({
@@ -28,6 +28,7 @@ export class ChartComponent {
   private _ds: any[] = this.DEFAULT_SERIE;
   private _names: string[] = [];
   private _resumen: ICubo_Couta = this.DEFAULT_RESUMEN;
+  private _columns: Array<any> = [];
   private _fontSize: number = 10;  
 
   constructor() {
@@ -37,12 +38,6 @@ export class ChartComponent {
   ngAfterViewInit() {
     if(this.activateControls) {
       this.optionsSelected(this.optionsSeries, this.displaySeries[0]);
-
-      if( this.levels.length === 2 ) {      
-        //let indice = this.columnsGroup.findIndex((item) => item.id === this.levels[1]);
-        //keys(this.columnsGroup[indice].values)[0];
-      }
-      
       }
    }
 
@@ -63,6 +58,12 @@ export class ChartComponent {
     this._resumen = data;
   }
   get dataResumen(): ICubo_Couta { return this._resumen; }
+
+  @Input()
+  set dataColumns(columns: string[]){
+    this._columns = columns;
+  }
+  get dataColumns(): string[] { return this._columns; }
   
   @Input()
   id: string;
@@ -151,6 +152,8 @@ export class ChartComponent {
           //añadir la propeiedad orden y lanzar por un evento para ordenar por una serie elegida
           this.chart.labels =this.dataLabels; 
           this.chart.ngOnChanges( {} );
+
+          
 
           //console.log(this.dataResumen.TIPO_GRAVAMEN);
         }

@@ -108,6 +108,7 @@ export class SimpleNgrx {
      * Draw each chart component
      * Update Counter component
      */
+    
     let chartDataset = this._cuboCuotaService.getCuboFiltrado(
         this.cuboMunicipioInicial,
         this.columnsGroup,
@@ -117,7 +118,7 @@ export class SimpleNgrx {
     let currentChart = this.charts.find(cchart => { return cchart.id === this.currentChartId});
     currentChart.title = `Gráfico de ${this.currentNivel$[0]}`;
 
-    
+    let keysLevel2 : any = {};
     if( this.currentNivel$[1] ) {
       
       currentChart.title += (keys(this.currentfiltroNivel2$).length > 0) ? 
@@ -142,8 +143,12 @@ export class SimpleNgrx {
           })
         }        
       }
-      chartDataset = newDataset;
+
+      chartDataset = newDataset;      
       
+      let indice = this.columnsGroup.findIndex((item) => item.id === this.currentNivel$[1]);
+      keysLevel2 = keys(this.columnsGroup[indice].values);
+
       //chartDataset = chartDataset.filter(data => data[this.currentNivel$[1]] === this.currentfiltroNivel2$);
     }
 
@@ -171,7 +176,8 @@ export class SimpleNgrx {
         }
      }
 
-    this.updateChartComponent(currentChart, newContainer.data.series, newContainer.data.names, newContainer.resumen);
+    
+    this.updateChartComponent(currentChart, newContainer, keysLevel2);
     //this.updateCountersComponent(this.currentChartId, newContainer.resumen);
   }
 
@@ -206,10 +212,13 @@ export class SimpleNgrx {
     this.closeSidenav(this.currentChartId);
   }
 
-  private updateChartComponent(chart, series, labels, resumen: any) {
-    chart.dataset = series;
-    chart.dataLabels = labels;
-    chart.dataResumen = resumen;
+  private updateChartComponent(chart: ChartComponent, 
+                              container: any, 
+                              columns: any) {
+    chart.dataset = container.data.series;
+    chart.dataLabels = container.data.names;
+    chart.dataResumen = container.resumen;
+    chart.dataColumns = columns;
     chart.refresh();
   }
 

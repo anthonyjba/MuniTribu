@@ -33,9 +33,9 @@
                 <div class="col-xs-9">Elegir:
                     <div style="float:right">
                         <select id="q_{{id}}" multiple (change)="onChangeLevel2($event.target)"
-                            class="selectpicker show-menu-arrow" data-width="200px" data-style="btn-custom">
-                            <option *ngFor="let item of columnsQuantity" [value]="item.id" >
-                                {{item.name}}
+                            class="selectpicker show-menu-arrow dropdown-custom" data-width="200px" data-style="btn-custom">
+                            <option *ngFor="let item of dataColumns" [value]="item" >
+                                {{item | truncate : 36 : '...' }}
                             </option>
                         </select>
                     </div>
