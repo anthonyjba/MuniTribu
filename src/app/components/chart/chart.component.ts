@@ -5,6 +5,9 @@ import { COLUMNS_QUANTITY } from '../../shared/config';
 import { IDefault, ICubo_Couta, IColumns } from '../../shared/interfaces';
 import { Color} from 'ng2-charts';
 
+import { cuboState } from '../../models/cubo-state.model'
+import  * as Cubo from '../../actions/cubo-actions'
+
 @Component({
   selector: 'cat-chart',
   templateUrl: './chart.component.html',
@@ -86,6 +89,8 @@ export class ChartComponent {
   @Input()
   displaySeries: string[];
 
+  currentGravamen:number = 0;
+
  @Output() activate = new EventEmitter();
 
   public options:any = {
@@ -128,6 +133,17 @@ export class ChartComponent {
     this.refresh();
   }
 
+  onChangeTipoGrav() {
+    let currentState : cuboState = 
+        { id: this.id, 
+          gravamen: this.currentGravamen,
+          niveles: this.levels
+        };
+
+    this.activate.emit({ state: currentState, action: Cubo.ActionTypes.GRAVAMEN_CUBO });
+    //this.__refreshAll(Cubo.ActionTypes.GRAVAMEN_CUBO);    
+  }
+
   /*onChangeSeries(el) {
     this.displaySeries = Array.apply(null, el.options)
       .filter(option => option.selected)
@@ -137,7 +153,7 @@ export class ChartComponent {
   }*/
 
   onSettings() {
-    this.activate.emit(this.id);
+    //this.activate.emit(this.id);
   }
 
   refresh() {
@@ -153,7 +169,7 @@ export class ChartComponent {
           this.chart.labels =this.dataLabels; 
           this.chart.ngOnChanges( {} );
 
-          
+          this.currentGravamen = this.dataResumen.TIPO_GRAVAMEN; 
 
           //console.log(this.dataResumen.TIPO_GRAVAMEN);
         }

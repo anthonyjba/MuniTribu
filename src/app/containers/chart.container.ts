@@ -113,7 +113,9 @@ export class SimpleNgrx {
         this.cuboMunicipioInicial,
         this.columnsGroup,
         this.currentNivel$
-      );
+      )
+
+    
 
     let currentChart = this.charts.find(cchart => { return cchart.id === this.currentChartId});
     currentChart.title = `Gráfico de ${this.currentNivel$[0]}`;
@@ -125,11 +127,15 @@ export class SimpleNgrx {
                               ` - ${this.currentNivel$[1]} (Con ciertos valores)` :
                               ` - ${this.currentNivel$[1]} (Con todos los valores)`
       
-      
 
-      let newDataset: Array<ICubo_Couta> = [];
+      console.log(chartDataset[0]);
+      //= chartDataset.slice(0);
+
+      let newDataset: Array<ICubo_Couta>=[];
       let tempLevel1: string = "";
       let index: number = -1;
+
+      
 
       for(let i=0, l = chartDataset.length; i < l; i++) {
         if (tempLevel1 != chartDataset[i][this.currentNivel$[0]]) {           
@@ -144,7 +150,10 @@ export class SimpleNgrx {
         }        
       }
 
-      chartDataset = newDataset;      
+      chartDataset = [];
+      chartDataset = newDataset.slice(0);
+
+      console.log(newDataset[0]);      
       
       let indice = this.columnsGroup.findIndex((item) => item.id === this.currentNivel$[1]);
       keysLevel2 = keys(this.columnsGroup[indice].values);
@@ -156,7 +165,7 @@ export class SimpleNgrx {
     
     switch(action){
         case Cubo.ActionTypes.LOAD_CUBO: {
-          this.cuboActions.loadCubo(this.currentChartId, chartDataset, this.currentNivel$, 
+          this.cuboActions.loadCubo(this.currentChartId, this.currentNivel$, 
                                 this.currentGravamen, this.currentfiltroNivel2$, newContainer.resumen);
           break;
         }
@@ -181,11 +190,20 @@ export class SimpleNgrx {
     //this.updateCountersComponent(this.currentChartId, newContainer.resumen);
   }
 
-  onChangeTipoGrav() {
-    this.__refreshAll(Cubo.ActionTypes.GRAVAMEN_CUBO);    
+  onCurrentState(data) {
+    this.currentChartId = data.state.id;
+    this.currentNivel$ = data.state.niveles;
+    switch(data.action){
+      case Cubo.ActionTypes.GRAVAMEN_CUBO: {
+        this.currentGravamen = data.state.gravamen;
+        break;
+      }
+    }
+    this.__refreshAll(data.action);
+
   }
 
-  onCurrentState(data){
+  /*onCurrentState(data){
     this.currentChartId = data.state.id;
     this.currentNivel$ = data.state.niveles;
     this.currentFiltros$ = data.state.filtros;
@@ -194,7 +212,7 @@ export class SimpleNgrx {
 
     if(data.action !== Sidenav.ActionTypes.OPEN_SIDENAV)
       this.__refreshAll(data.action);
-  }
+  }*/
 
   private openNav(content) {
 

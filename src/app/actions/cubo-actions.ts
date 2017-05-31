@@ -16,7 +16,7 @@ export const ActionTypes = {
 export class CuboActions {
   constructor(private store: Store<cuboState>) {}
 
-  public loadCubo(id: string, cubo, niveles: string[], gravamen: number, filtroNivel2: any, resumen) {
+  public loadCubo(id: string, niveles: string[], gravamen: number, filtroNivel2: any, resumen) {
 
     let payload: cuboState = {
       id: id,       

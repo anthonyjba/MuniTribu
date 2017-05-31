@@ -60,20 +60,23 @@
                 </div>
             </div>
         </div>
-    </div>-->
+    </div>
+     (activate)="openSidenav($event)"
+    -->
     <div class="row">
         <div class="col-md-4">
-            <cat-chart id="chart1" charType='horizontalBar' (activate)="openSidenav($event)"
+            <cat-chart id="chart1" charType='horizontalBar'
                 [levels]="['AC']" [displaySeries]="['N_SUBPARC']">
             </cat-chart>
         </div>
         <div class="col-md-4">
-            <cat-chart id="chart2" charType='horizontalBar' (activate)="openSidenav($event)"
+            <cat-chart id="chart2" charType='horizontalBar'
              [levels]="['TIPO_CIF']" [displaySeries]="['N_PROPIETARIOS']"></cat-chart>
         </div>
         <div class="col-md-4">
-            <cat-chart id="chart3" charType='horizontalBar' (activate)="openSidenav($event)"
-                [levels]="['AC','TIPO_CIF']" [displaySeries]="['N_SUBPARC']" [activateControls]="true" >
+            <cat-chart id="chart3" charType='horizontalBar'
+                [levels]="['AC','TIPO_CIF']" [displaySeries]="['N_SUBPARC']" 
+                [activateControls]="true"  (activate)="onCurrentState($event)" >
             </cat-chart>
         </div>
     </div>
