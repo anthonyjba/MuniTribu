@@ -50,8 +50,8 @@ export class SimpleNgrx {
     private _cuboCuotaService: CuboCuotaService,
     private cdRef:ChangeDetectorRef,
     private store: Store<any>) {
-      this.showSidenav$ = this.store.select(fromRoot.getSidenavState) 
-      this.showSidenav$.subscribe(data => this.openNav(data));
+      //this.showSidenav$ = this.store.select(fromRoot.getSidenavState) 
+      //this.showSidenav$.subscribe(data => this.openNav(data));
       this.currentItem$ = this.store.select(fromRoot.getSelected);
   }
 
@@ -128,33 +128,25 @@ export class SimpleNgrx {
                               ` - ${this.currentNivel$[1]} (Con todos los valores)`
       
 
-      console.log(chartDataset[0]);
-      //= chartDataset.slice(0);
 
       let newDataset: Array<ICubo_Couta>=[];
       let tempLevel1: string = "";
       let index: number = -1;
 
-      
-
-      for(let i=0, l = chartDataset.length; i < l; i++) {
-        if (tempLevel1 != chartDataset[i][this.currentNivel$[0]]) {           
-          tempLevel1 = chartDataset[i][this.currentNivel$[0]];          
-          newDataset.push(chartDataset[i]);
+      chartDataset.forEach((item) => {  
+        if(item[this.currentNivel$[0]] != tempLevel1) { 
+          tempLevel1 = item[this.currentNivel$[0]]; 
           index++;
-        }
-        else {
+          newDataset.push(Object.assign({},item)); } 
+        else { 
           this.columnsQuantity.forEach(c => {
-            newDataset[index][c.id] += chartDataset[i][c.id] 
-          })
-        }        
-      }
+            newDataset[index][c.id] += item[c.id] 
+          }) 
+        }  
+      });
 
-      chartDataset = [];
-      chartDataset = newDataset.slice(0);
+      chartDataset = newDataset;
 
-      console.log(newDataset[0]);      
-      
       let indice = this.columnsGroup.findIndex((item) => item.id === this.currentNivel$[1]);
       keysLevel2 = keys(this.columnsGroup[indice].values);
 
@@ -198,6 +190,11 @@ export class SimpleNgrx {
         this.currentGravamen = data.state.gravamen;
         break;
       }
+      case Cubo.ActionTypes.SWITCH_LEVEL_CUBO: {
+        this.currentfiltroNivel2$ = data.state.filtroNivel2;
+        this.columnsGroup.find((col) => col.id === this.currentNivel$[1]).filters = data.state.filtroNivel2;
+        break;
+      } 
     }
     this.__refreshAll(data.action);
 

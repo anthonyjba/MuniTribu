@@ -83,9 +83,9 @@
 
     <div class="row">
         <div class="col-md-4">
-            <cat-chart id="chart4" charType='line' (activate)="openSidenav($event)"
+            <cat-chart id="chart4" charType='line'
                 [levels]="['TIPO_CIF','TALLA']" [displaySeries]="['N_PROPIETARIOS']"
-                 [activateControls]="true">
+                 [activateControls]="true"  (activate)="onCurrentState($event)">
             </cat-chart>
         </div>
     </div>

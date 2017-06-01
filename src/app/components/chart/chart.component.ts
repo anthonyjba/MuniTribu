@@ -141,7 +141,21 @@ export class ChartComponent {
         };
 
     this.activate.emit({ state: currentState, action: Cubo.ActionTypes.GRAVAMEN_CUBO });
-    //this.__refreshAll(Cubo.ActionTypes.GRAVAMEN_CUBO);    
+  }
+
+
+  onChangeLevel2(el) {
+    let currentState : cuboState = 
+        { id: this.id, 
+          niveles: this.levels,
+          filtroNivel2: {} 
+        };
+
+    let keyLevel2 = Array.apply(null, el.options)
+      .filter(option => option.selected)
+      .map(option => currentState.filtroNivel2[option.value] = 1 )
+    
+    this.activate.emit({ state: currentState, action: Cubo.ActionTypes.SWITCH_LEVEL_CUBO });
   }
 
   /*onChangeSeries(el) {
