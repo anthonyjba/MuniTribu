@@ -5,8 +5,14 @@ import { COLUMNS_QUANTITY } from '../../shared/config';
 import { IDefault, ICubo_Couta, IColumns } from '../../shared/interfaces';
 import { Color} from 'ng2-charts';
 
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import "rxjs/add/operator/take";
+
 import { cuboState } from '../../models/cubo-state.model'
+import * as Sidenav from '../../actions/sidenav-actions';
 import  * as Cubo from '../../actions/cubo-actions'
+import * as fromRoot from '../../reducers';
 
 @Component({
   selector: 'cat-chart',
@@ -14,9 +20,12 @@ import  * as Cubo from '../../actions/cubo-actions'
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent {
+
   @ViewChild( BaseChartDirective ) chart : BaseChartDirective;
   @ViewChildren( 'optsSerie' ) optionsSeries : QueryList<Element>; 
 
+  currentItem$: Observable<cuboState>;
+  storeChartId: string = "";
 
   //DEFAULT_SERIE = [{data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
   //  {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}];
@@ -34,8 +43,11 @@ export class ChartComponent {
   private _columns: Array<any> = [];
   private _fontSize: number = 10;  
 
-  constructor() {
+  constructor(
+    private store: Store<any>
+  ) {
     this._ds =  this.DEFAULT_SERIE;
+    this.currentItem$ = this.store.select(fromRoot.getSelected);
    }
 
   ngAfterViewInit() {
@@ -134,22 +146,27 @@ export class ChartComponent {
   }
 
   onChangeTipoGrav() {
-    let currentState : cuboState = 
-        { id: this.id, 
-          gravamen: this.currentGravamen,
-          niveles: this.levels
-        };
+    let currentState : cuboState;
+    if( this.storeChartId !== this.id) {
+      this.store.dispatch(new Sidenav.OpenSidenavAction(this.id));
+    }
+
+    this.currentItem$.take(1).subscribe(item => currentState = item);
+    this.storeChartId = currentState.id; 
+    currentState.gravamen = this.currentGravamen;
 
     this.activate.emit({ state: currentState, action: Cubo.ActionTypes.GRAVAMEN_CUBO });
   }
 
 
   onChangeLevel2(el) {
-    let currentState : cuboState = 
-        { id: this.id, 
-          niveles: this.levels,
-          filtroNivel2: {} 
-        };
+    let currentState : cuboState;
+    if( this.storeChartId !== this.id) {
+      this.store.dispatch(new Sidenav.OpenSidenavAction(this.id));
+    }
+
+    this.currentItem$.take(1).subscribe(item => currentState = item);
+    this.storeChartId = currentState.id; 
 
     let keyLevel2 = Array.apply(null, el.options)
       .filter(option => option.selected)

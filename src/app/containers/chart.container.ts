@@ -5,15 +5,15 @@ import { Store } from '@ngrx/store';
 import "rxjs/add/operator/take";
 
 //app components
-import { SidenavComponent } from '../components/sidenav/sidenav.component';
+//import { SidenavComponent } from '../components/sidenav/sidenav.component';
 import { ChartComponent } from '../components/chart/chart.component';
 //import { CounterComponent } from '../components/counter/counter.component';
 
 
 
 import * as Cubo from '../actions/cubo-actions'
-import * as Sidenav from '../actions/sidenav-actions';
-import * as fromRoot from '../reducers';
+//import * as Sidenav from '../actions/sidenav-actions';
+//import * as fromRoot from '../reducers';
 
 import { cuboState } from '../models/cubo-state.model'
 
@@ -30,8 +30,8 @@ import { keys } from '../shared/util';
   templateUrl: './chart.container.html'
 })
 export class SimpleNgrx {
-  showSidenav$: Observable<any>;
-  currentItem$: Observable<cuboState>;
+  //showSidenav$: Observable<any>;
+  //currentItem$: Observable<cuboState>;
   currentGravamen: number;
   currentChartId: string;
   currentNivel$: string[];
@@ -41,21 +41,23 @@ export class SimpleNgrx {
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   cuboMunicipioInicial: Array<ICubo_Couta>;
 
-  @ViewChild(SidenavComponent) sidenav : SidenavComponent;
+  //@ViewChild(SidenavComponent) sidenav : SidenavComponent;
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
   //@ViewChildren(CounterComponent) counters : QueryList<CounterComponent>;
 
   constructor(
     private cuboActions: Cubo.CuboActions,
     private _cuboCuotaService: CuboCuotaService,
-    private cdRef:ChangeDetectorRef,
-    private store: Store<any>) {
+    private cdRef:ChangeDetectorRef) {
+
+//,private store: Store<any>
+
       //this.showSidenav$ = this.store.select(fromRoot.getSidenavState) 
       //this.showSidenav$.subscribe(data => this.openNav(data));
-      this.currentItem$ = this.store.select(fromRoot.getSelected);
+      //this.currentItem$ = this.store.select(fromRoot.getSelected);
   }
 
-
+/** SideNav
   closeSidenav(id) {
     this.store.dispatch(new Sidenav.CloseSidenavAction(id));
   }
@@ -63,6 +65,23 @@ export class SimpleNgrx {
   openSidenav(id) {
     this.store.dispatch(new Sidenav.OpenSidenavAction(id));    
   }
+  
+  private openNav(content) {
+
+    if(content['showSidenav']){
+      document.getElementById("mySidenav").style.width = "250px"
+      document.getElementById("main").style.marginLeft = "250px";
+
+      //this.currentItem$.take(1).subscribe(item => this.sidenav.activate(item, this.columnsGroup));      
+    }
+  }
+
+  private closeNav() {
+    document.getElementById("mySidenav").style.width = "0px";
+    document.getElementById("main").style.marginLeft = "0px";
+    this.closeSidenav(this.currentChartId);
+  }
+ */
 
   loadCuboInicial(cuboMunicipio: Array<ICubo_Couta>, 
                   gravamenMunicipio: number, 
@@ -211,21 +230,7 @@ export class SimpleNgrx {
       this.__refreshAll(data.action);
   }*/
 
-  private openNav(content) {
-
-    if(content['showSidenav']){
-      document.getElementById("mySidenav").style.width = "250px"
-      document.getElementById("main").style.marginLeft = "250px";
-
-      this.currentItem$.take(1).subscribe(item => this.sidenav.activate(item, this.columnsGroup));      
-    }
-  }
-
-  private closeNav() {
-    document.getElementById("mySidenav").style.width = "0px";
-    document.getElementById("main").style.marginLeft = "0px";
-    this.closeSidenav(this.currentChartId);
-  }
+  
 
   private updateChartComponent(chart: ChartComponent, 
                               container: any, 
