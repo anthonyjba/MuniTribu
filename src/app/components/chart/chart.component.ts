@@ -147,12 +147,11 @@ export class ChartComponent {
 
   onChangeTipoGrav() {
     let currentState : cuboState;
-    if( this.storeChartId !== this.id) {
-      this.store.dispatch(new Sidenav.OpenSidenavAction(this.id));
-    }
 
+    this.store.dispatch(new Sidenav.OpenSidenavAction(this.id));
     this.currentItem$.take(1).subscribe(item => currentState = item);
-    this.storeChartId = currentState.id; 
+    //this.storeChartId = currentState.id; 
+    
     currentState.gravamen = this.currentGravamen;
 
     this.activate.emit({ state: currentState, action: Cubo.ActionTypes.GRAVAMEN_CUBO });
@@ -161,13 +160,12 @@ export class ChartComponent {
 
   onChangeLevel2(el) {
     let currentState : cuboState;
-    if( this.storeChartId !== this.id) {
-      this.store.dispatch(new Sidenav.OpenSidenavAction(this.id));
-    }
-
+    
+    this.store.dispatch(new Sidenav.OpenSidenavAction(this.id));
     this.currentItem$.take(1).subscribe(item => currentState = item);
-    this.storeChartId = currentState.id; 
+    //this.storeChartId = currentState.id;
 
+    currentState.filtroNivel2 = {}; 
     let keyLevel2 = Array.apply(null, el.options)
       .filter(option => option.selected)
       .map(option => currentState.filtroNivel2[option.value] = 1 )

@@ -118,6 +118,20 @@ export class SimpleNgrx {
     return result
   }
 
+  private __validCurrentState(chartId, niveles) {
+    if(this.currentChartId !== chartId) {
+      this.currentChartId = chartId;
+      this.currentNivel$ = niveles;
+
+      this.columnsGroup.forEach(c => { c.filters = {}; }); 
+      this.currentfiltroNivel2$ = {}
+      /*if( niveles.length === 2 ) {      
+        let indice = this.columnsGroup.findIndex((item) => item.id === niveles[1]);
+        this.columnsGroup[indice].filters = this.currentfiltroNivel2$ = {}
+      }*/
+    }
+  }
+
   private __refreshAll(action) {
     /**
      * Get Dataset from cuboCuotaService 
@@ -202,11 +216,25 @@ export class SimpleNgrx {
   }
 
   onCurrentState(data) {
+    //this.__validCurrentState(data.state.id, data.state.niveles);
     this.currentChartId = data.state.id;
-    this.currentNivel$ = data.state.niveles;
-    switch(data.action){
+    this.currentNivel$ =  data.state.niveles;
+
+    this.columnsGroup.forEach(c => { c.filters = {}; });     
+    this.currentGravamen = data.state.gravamen;
+    this.currentfiltroNivel2$ = {}
+    if( data.state.filtroNivel2 ) {
+      this.currentfiltroNivel2$ = data.state.filtroNivel2;
+      this.columnsGroup.find((col) => col.id === this.currentNivel$[1]).filters = data.state.filtroNivel2;
+    }
+
+    this.__refreshAll(data.action);
+
+  }
+
+    /*switch(data.action){
       case Cubo.ActionTypes.GRAVAMEN_CUBO: {
-        this.currentGravamen = data.state.gravamen;
+        
         break;
       }
       case Cubo.ActionTypes.SWITCH_LEVEL_CUBO: {
@@ -214,10 +242,8 @@ export class SimpleNgrx {
         this.columnsGroup.find((col) => col.id === this.currentNivel$[1]).filters = data.state.filtroNivel2;
         break;
       } 
-    }
-    this.__refreshAll(data.action);
+    }*/
 
-  }
 
   /*onCurrentState(data){
     this.currentChartId = data.state.id;

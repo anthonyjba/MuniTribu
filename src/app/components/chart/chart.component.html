@@ -20,33 +20,29 @@
         <!--Data-->
         <div *ngIf="activateControls" class="number">
             <div class="row">
-                <div class="col-xs-3">
-                    V.Catastral:<div style="float:right">{{ dataResumen.SUM_V_CATASTR | number : '1.0-0' }}</div></div>
-                <div class="col-xs-3">
-                    V.Cuota:<div style="float:right">{{ dataResumen.SUM_CUOTA | number : '1.0-0' }}</div></div>
-                <div class="col-xs-3">
-                    Gravámen:<div style="float:right">{{ dataResumen.TIPO_GRAVAMEN }}</div></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-8">
-                    <div style="float:right">
+                <div class="col-xs-2">
                         <select id="q_{{id}}" multiple (change)="onChangeLevel2($event.target)"
-                            class="selectpicker show-menu-arrow dropdown-custom" data-width="20px" data-style="btn-custom">
+                            class="selectpicker show-menu-arrow dropdown-custom" data-width="15px" data-style="btn-custom">
                             <option *ngFor="let item of dataColumns" [value]="item" >
                                 {{item | truncate : 36 : '...' }}
                             </option>
                         </select>
-                    </div>
                 </div>
-                <div class="col-xs-2">
-                    <input type="range" #tgrv min="0" max="1" step="0.1"
-                    [(ngModel)]="currentGravamen" (change)="onChangeTipoGrav()" />
-                </div>
-                <div class="col-xs-1">
+                <div class="col-xs-3">
+                    V.Catastral:<div style="float:right">{{ dataResumen.SUM_V_CATASTR | number : '1.0-0' }}</div></div>
+                <div class="col-xs-3">
+                    V.Cuota:<div style="float:right">{{ dataResumen.SUM_CUOTA | number : '1.0-0' }}</div></div>
+                <div class="col-xs-4">
+                    Gravámen:
+                        <div style="float:right">
+                        <input type="number" id="range" #tgrv min="0" max="1" step="0.1" width="10px"
+                        [(ngModel)]="currentGravamen" (change)="onChangeTipoGrav()" /></div>
+                    </div>                
+                <!--<div class="col-xs-1" style="font-size: 1.5em;">
                     <div *ngIf="activateControls" class="col-xs-2 panel-container-chart text-right">
                         <i class="fa fa-cog fa-2" aria-hidden="true" style="cursor:pointer"></i>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
         <!--Chart-->
