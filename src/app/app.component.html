@@ -31,41 +31,38 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <label>Municipio:</label>
+                    <span style="font-size: 13px;">Municipio:</span>
                     <select [(ngModel)]="selmuni" id="Municipios" class="form-control main colorHighligth">
                         <option value="45900">Toledo</option>
-                        <!--<option *ngFor="let muni of municipios"
-                            [value]="muni.id">                    
-                                {{muni.name}}
-                        </option>-->
+                        <!--<option *ngFor="let muni of municipios" [value]="muni.id">{{muni.name}}</option>-->
                     </select>
                 </div>
                 <div class="col-md-9">
                     <!-- Resumen del Municipio -->
                     <div class="row">
 
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <cat-counter description="SubParcelas" fontIcon="fa fa-home" [value]="resumenMunicipio.N_SUBPARC"></cat-counter>
                         </div>
 
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <cat-counter description="Propietarios" fontIcon="fa fa-group" [value]="resumenMunicipio.N_PROPIETARIOS"></cat-counter>
                         </div>
 
-                        <div class="col-md-1">
-                            <cat-counter description="Gravamen" fontIcon="fa fa-calculator" [value]="resumenMunicipio.TIPO_GRAVAMEN"></cat-counter>
+                        <div class="col-md-2">
+                            <cat-counter description="Gravámen" fontIcon="fa fa-calculator" [value]="resumenMunicipio.TIPO_GRAVAMEN"></cat-counter>
                         </div>
 
-                        <div class="col-md-3">
-                            <cat-counter description="Hectáreas" format='1.2-2' fontIcon="fa fa-eur" [value]="resumenMunicipio.SUM_HECT"></cat-counter>
+                        <div class="col-md-2">
+                            <cat-counter description="Hectáreas" format='1.0-0' fontIcon="fa fa-eur" [value]="resumenMunicipio.SUM_HECT"></cat-counter>
                         </div>
 
-                        <div class="col-md-3">
-                            <cat-counter description="Valor Catastral" format='1.2-2' fontIcon="fa fa-eur" [value]="resumenMunicipio.SUM_V_CATASTR"></cat-counter>
+                        <div class="col-md-2">
+                            <cat-counter description="Valor Catastral" format='1.0-0' fontIcon="fa fa-eur" [value]="resumenMunicipio.SUM_V_CATASTR"></cat-counter>
                         </div>
 
-                        <div class="col-md-3">
-                            <cat-counter description="Valor Cuota" format='1.2-2' fontIcon="fa fa-eur" [value]="resumenMunicipio.SUM_CUOTA"></cat-counter>
+                        <div class="col-md-2">
+                            <cat-counter description="Valor Cuota" format='1.0-0' fontIcon="fa fa-eur" [value]="resumenMunicipio.SUM_CUOTA"></cat-counter>
                         </div>
 
                     </div>

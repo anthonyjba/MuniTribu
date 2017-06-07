@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -25,15 +25,12 @@ import { CuboCuotaService } from './services/cubo-cuota.service'
 import { SimpleNgrx } from './containers/chart.container'
 import { ChartComponent } from './components/chart/chart.component';
 import { CounterComponent } from './components/counter/counter.component';
-import { SortableGroupComponent } from './components/sortable-group/sortable-group.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
+//import { SortableGroupComponent } from './components/sortable-group/sortable-group.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SortableGroupComponent,
     SimpleNgrx,
-    SidenavComponent,
     CounterComponent,
     TruncatePipe,    
     ChartComponent
@@ -52,6 +49,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     })
   ],  
   providers: [
+    { provide: LOCALE_ID, useValue: 'es-ES' },
     CuboCuotaService
   ],
   bootstrap: [AppComponent]

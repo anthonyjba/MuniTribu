@@ -101,7 +101,7 @@ export class ChartComponent {
   @Input()
   displaySeries: string[];
 
-  currentGravamen:number = 0;
+  currentGravamen: number = 0;
 
  @Output() activate = new EventEmitter();
 
@@ -132,13 +132,6 @@ export class ChartComponent {
     current.nativeElement.classList.add("btn-serie-sel");
   }
 
-  /*private optionsSelectedOld(input, values) {
-      let options = input.nativeElement.options;
-      for(let i=0; i < options.length; i++) {
-          options[i].selected = values.join(',').indexOf(options[i].value) > -1;
-      }
-  }*/
-
   private onSerieSelected(currentSerie) {
     this.displaySeries[0] = currentSerie;
     this.optionsSelected(this.optionsSeries, currentSerie);
@@ -150,7 +143,6 @@ export class ChartComponent {
 
     this.store.dispatch(new Sidenav.OpenSidenavAction(this.id));
     this.currentItem$.take(1).subscribe(item => currentState = item);
-    //this.storeChartId = currentState.id; 
     
     currentState.gravamen = this.currentGravamen;
 
@@ -163,44 +155,47 @@ export class ChartComponent {
     
     this.store.dispatch(new Sidenav.OpenSidenavAction(this.id));
     this.currentItem$.take(1).subscribe(item => currentState = item);
-    //this.storeChartId = currentState.id;
 
     currentState.filtroNivel2 = {}; 
     let keyLevel2 = Array.apply(null, el.options)
       .filter(option => option.selected)
       .map(option => currentState.filtroNivel2[option.value] = 1 )
-    
+
     this.activate.emit({ state: currentState, action: Cubo.ActionTypes.SWITCH_LEVEL_CUBO });
   }
 
-  /*onChangeSeries(el) {
-    this.displaySeries = Array.apply(null, el.options)
-      .filter(option => option.selected)
-      .map(option => option.value)
-    
-    this.refresh();
-  }*/
-
-  onSettings() {
-    //this.activate.emit(this.id);
-  }
 
   refresh() {
-        if (this.chart) {
+        if( this.chart ) {
+
+          
+          
 
           //Valida las series a mostrar de cada componente chart
           this.chart.datasets = !this.displaySeries ? this.dataset : 
                                 this.displaySeries.length > 0 ? 
                                 this.dataset.filter((c) => { return this.displaySeries.join(',').indexOf(c.column) > -1 }) :
                                 this.DEFAULT_SERIE;
+          
+          if(this.chart.chartType === "pie"){
+            debugger;
+            delete this.chart.options.scales;
+            //#f7fbff,#deebf7,#c6dbef,#9ecae1,#6baed6,#4292c6,#2171b5,#08519c,#08306b
+            let num = this.chart.datasets[0].data.length;
+            this.chart.datasets[0].backgroundColor = ["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6"]
 
-          //añadir la propeiedad orden y lanzar por un evento para ordenar por una serie elegida
+            this.chart.options.legend= {
+                boxWidth: '15px'
+            }
+            
+          }
+
+          //añadir la propiedad orden y lanzar por un evento para ordenar por una serie elegida
           this.chart.labels =this.dataLabels; 
           this.chart.ngOnChanges( {} );
 
           this.currentGravamen = this.dataResumen.TIPO_GRAVAMEN; 
 
-          //console.log(this.dataResumen.TIPO_GRAVAMEN);
         }
   }
 

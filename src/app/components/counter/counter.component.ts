@@ -1,11 +1,11 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'cat-counter',
     templateUrl: 'counter.component.html',
     styleUrls: ['./counter.component.css']
 })
-export class CounterComponent implements OnChanges {
+export class CounterComponent {
 
     @Input()
     id: string;
@@ -27,7 +27,4 @@ export class CounterComponent implements OnChanges {
 
     constructor() {}
 
-    ngOnChanges() {
-        //console.log(this.value);
-    }
 }

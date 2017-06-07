@@ -19,7 +19,14 @@ export function type<T>(label: T | ''): T {
   return <T>label;
 }
 
-
 export function keys(currentDict: any) : Array<string> {
   return Object.keys(currentDict);
+}
+
+export function getUniqueValueById<T>(list: any[], id: string, column: string){
+  let result: any = undefined;
+  let item = list.find((item) => item.id === id)
+  if(item) { result = item[column]; }
+      
+  return <T>result;
 }

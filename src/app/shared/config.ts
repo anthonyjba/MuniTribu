@@ -1,8 +1,8 @@
 import { IColumns, IDefault } from './interfaces';
 
 export const COLUMNS_GROUP : Array<IColumns> = [
-                  { id: 'AC', name:'Cultivo', display: false, values: {}, filters : {} }, 
-                  { id: 'TIPO_CIF', name:'Propietario', display: false, values: {}, filters : {} },
+                  { id: 'AC', name:'Cultivos', display: false, values: {}, filters : {} }, 
+                  { id: 'TIPO_CIF', name:'Titulares', display: false, values: {}, filters : {} },
                   { id: 'TALLA', name:'Tamaño', display: false, values: {}, filters : {} },
                   { id: 'IP', name:'IP', display: false, values: {}, filters : {} },
                   { id: 'IPP', name:'IPP', display: false, values: {}, filters : {} }

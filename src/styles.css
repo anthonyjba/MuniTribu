@@ -70,6 +70,15 @@ body {
     font-size: 10px;
     padding: 0px;
 }
+.bootstrap-select>.dropdown-toggle {
+    background-color: lightskyblue;    
+    color: blue;
+}
+.bootstrap-select>.dropdown-toggle.bs-placeholder {
+    background-color: #f5f5f5;
+    color: black;
+}
+
 .dropdown-custom .dropdown-menu {
     font-size: 10px !important;
 }
