@@ -101,13 +101,15 @@ export class ChartComponent {
   @Input()
   displaySeries: string[];
 
+  private customLegend = false;
+
   currentGravamen: number = 0;
 
  @Output() activate = new EventEmitter();
 
   public options:any = {
     scaleShowVerticalLines: false,
-    responsive: true,
+    responsive: true,        
     scales: {
         xAxes: [{
             ticks: {
@@ -177,16 +179,18 @@ export class ChartComponent {
                                 this.dataset.filter((c) => { return this.displaySeries.join(',').indexOf(c.column) > -1 }) :
                                 this.DEFAULT_SERIE;
           
-          if(this.chart.chartType === "pie"){
-            debugger;
+          if(this.chart.chartType === "pie"){            
             delete this.chart.options.scales;
             //#f7fbff,#deebf7,#c6dbef,#9ecae1,#6baed6,#4292c6,#2171b5,#08519c,#08306b
             let num = this.chart.datasets[0].data.length;
             this.chart.datasets[0].backgroundColor = ["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6"]
-
+            this.chart.datasets[0].borderColor = ['gray','gray','gray','gray','gray'];
+            this.chart.datasets[0].borderWidth = [1, 1, 1, 1, 1]
             this.chart.options.legend= {
-                boxWidth: '15px'
+                boxWidth: '15px',
+                display: true,
             }
+            this.customLegend = true;
             
           }
 

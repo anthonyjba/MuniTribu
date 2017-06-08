@@ -7,12 +7,13 @@ import { Observable } from 'rxjs/Observable';
 import { ICubo_Couta } from '../shared/interfaces';
 import 'rxjs/add/operator/map';
 //import 'rxjs/add/operator/do';
+import { decompressJson } from '../shared/util';
 
 
 @Injectable()
 export class CuboCuotaService {
 
-    private DEFAULT_RESUMEN: ICubo_Couta = { MUNI: null, 
+    private DEFAULT_RESUMEN: ICubo_Couta = { COD_MUNICIPIO: null, 
               N_SUBPARC: 0, N_PROPIETARIOS: 0, SUM_HECT: 0, SUM_V_CATASTR: 0, TIPO_GRAVAMEN: 0, SUM_CUOTA: 0};
 
     constructor(private http: Http) { }
@@ -21,9 +22,10 @@ export class CuboCuotaService {
         return Object.assign({}, this.DEFAULT_RESUMEN ); 
     }
 
-    getCubo(){
-        return this.http.get('assets/data/cubo_cuota.json')
-                        .map(res => res.json());    //add res.json().items || []
+    getCubo(muni: string){
+        return this.http.get('assets/data/cubo_cuota_toledo_c.json')
+                        .map(res => decompressJson(res.json(), muni)) 
+                        //.map(res => res.json());    //add res.json().items || []
                         //.do(data => console.log(data))        
     }
 
@@ -69,7 +71,7 @@ export class CuboCuotaService {
           result.push(cuboMunicipio[i]);
       }
 
-      //console.log(result);
+      console.log(result);
       return result;
     }
 

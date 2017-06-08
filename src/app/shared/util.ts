@@ -30,3 +30,20 @@ export function getUniqueValueById<T>(list: any[], id: string, column: string){
       
   return <T>result;
 }
+
+export function decompressJson(jsonComp, id: string) {
+
+	        var json = [];
+	        var campos = jsonComp[0];
+	        for (var i = 1, l = jsonComp.length; i < l; i++) {	            
+	            var line = jsonComp[i];
+              if(line[0] === id) {
+                var reg = {};
+                for (var z = 0; z < campos.length; z++) {
+                    reg[campos[z]] = line[z];
+                }
+                json.push(reg);
+              }
+	        }
+	        return json;
+	    }

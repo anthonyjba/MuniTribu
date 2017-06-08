@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
-    this._cubocuotaService.getCubo()
+    this._cubocuotaService.getCubo(this.selmuni)
         .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
                 error => console.log(error),
                 () => this.__extractDictionary());

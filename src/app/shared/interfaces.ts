@@ -14,7 +14,7 @@ export interface IColumns {
 }
 
 export interface ICubo_Couta {
-    MUNI?: string,
+    /*MUNI?: string,
     AC?: string,
     IP?: number,
     IPP?: number,
@@ -25,5 +25,20 @@ export interface ICubo_Couta {
     SUM_HECT: number,
     SUM_V_CATASTR: number,
     TIPO_GRAVAMEN: number,
+    SUM_CUOTA: number*/
+    COD_MUNICIPIO?: string,
+    TIPO_EXPLOTACION?: string,
+    AC?: string,
+    IP?: number,
+    EXENTO?: string,
+    BONIFICACION?: string,
+    TALLA?: string,
+    TIPO_CIF?: string,
+    N_SUBPARC: number,
+    N_PROPIETARIOS: number,
+    SUM_HECT: number,
+    SUM_V_CATASTR: number,
+    TIPO_GRAVAMEN: number,
     SUM_CUOTA: number
 }
+
