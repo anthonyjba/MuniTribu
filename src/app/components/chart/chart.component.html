@@ -39,9 +39,8 @@
                 [legend]="legend"
                 [chartType]="charType">
         </canvas>
-        <div *ngIf="customLegend" id="chartjs-legend" class="noselect">
-            <ul><li><span style="background-color:red">AC</span></li>
-            <li><span style="background-color:blue">SD</span></li></ul>            
+           
+        <div #mylegend id="chartjs-legend" class="noselect">              
         </div>
         
         <!--Series-->

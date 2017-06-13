@@ -317,6 +317,9 @@ export class SimpleNgrx {
       }
     }
 
+    console.log(resumenFiltrado);
+      
+
     //Adding to container
     let containerChart = { 
           names : keysColumns.map((el) => { return el.substring(0, 40) }), 

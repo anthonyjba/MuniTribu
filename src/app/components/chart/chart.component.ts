@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList } from '@angular/core';
+
+
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ViewChildren, QueryList, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 
 import { COLUMNS_QUANTITY } from '../../shared/config';
@@ -11,18 +13,22 @@ import "rxjs/add/operator/take";
 
 import { cuboState } from '../../models/cubo-state.model'
 import * as Sidenav from '../../actions/sidenav-actions';
-import  * as Cubo from '../../actions/cubo-actions'
+import * as Cubo from '../../actions/cubo-actions'
 import * as fromRoot from '../../reducers';
+
+require('chart.js');
+declare var Chart: any;
 
 @Component({
   selector: 'cat-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent {
+export class ChartComponent implements OnInit {
 
   @ViewChild( BaseChartDirective ) chart : BaseChartDirective;
-  @ViewChildren( 'optsSerie' ) optionsSeries : QueryList<Element>; 
+  @ViewChild('mylegend') mylegend : any;
+  @ViewChildren('optsSerie') optionsSeries : QueryList<Element>; 
 
   currentItem$: Observable<cuboState>;
   storeChartId: string = "";
@@ -48,7 +54,65 @@ export class ChartComponent {
   ) {
     this._ds =  this.DEFAULT_SERIE;
     this.currentItem$ = this.store.select(fromRoot.getSelected);
+    
+    
+    /*BaseChartDirective.registerPlugin({
+      afterDraw: (chartInstance, easing) => {
+        const xScale = chartInstance.scales['x-axis-0'];
+        const ctx = chartInstance.chart.ctx;
+
+        if (chartInstance.options.horizontalLines) {
+          chartInstance.options.horizontalLines.map(({y, color}) => {
+            // calculate the pixel using the scale
+            const yPixel = chartInstance.scales['y-axis-0'].getPixelForValue(y);
+
+            // draw line
+            ctx.strokeStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(Math.round(xScale.left), yPixel);
+            ctx.lineTo(Math.round(xScale.right), yPixel);
+            ctx.stroke();
+          });
+        }
+      }
+    });*/
+
    }
+
+  ngOnInit() {
+    Chart.pluginService.register({
+
+      afterDatasetsDraw: function(chartInstance, easing) {
+
+        if (chartInstance.config.type === "pie") {
+          // To only draw at the end of animation, check for easing === 1
+          var ctx = chartInstance.chart.ctx;
+          chartInstance.data.datasets.forEach(function(dataset, i) {
+            var meta = chartInstance.getDatasetMeta(i);
+            if (!meta.hidden) {
+              meta.data.forEach(function(element, index) {
+                // Draw the text in black, with the specified font
+                ctx.fillStyle = '#333';
+                var fontSize = 11;
+                var fontStyle = 'normal';
+                var fontFamily = '"Helvetica Neue",Helvetica,Arial,sans-serif';
+                ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+                // Just naively convert to string for now
+                var dataString = dataset.data[index].toString();
+                // Make sure alignment settings are correct
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                var padding = 0;
+                var position = element.tooltipPosition();
+                ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+              });
+            }
+          });
+        }
+      }
+
+    });
+  } 
 
   ngAfterViewInit() {
     if(this.activateControls) {
@@ -100,8 +164,6 @@ export class ChartComponent {
 
   @Input()
   displaySeries: string[];
-
-  private customLegend = false;
 
   currentGravamen: number = 0;
 
@@ -166,6 +228,24 @@ export class ChartComponent {
     this.activate.emit({ state: currentState, action: Cubo.ActionTypes.SWITCH_LEVEL_CUBO });
   }
 
+  private legendDrawing(chart) {
+    // class="' + chart.cvs.id + '-legend"   //
+    var text = [];
+    text.push('<ul>');
+    for (var i = 0; i < chart.datasets[0].data.length; i++) {
+      text.push(`<li><span style="background-color:${chart.datasets[0].backgroundColor[i]}" >`);
+      if (chart.labels[i]) {
+        text.push(chart.labels[i]);
+      }
+      text.push('</span></li>');
+    }
+    text.push('</ul>');
+
+    let custom = this.mylegend.nativeElement;
+    custom.insertAdjacentHTML('beforeend', text.join(""))
+
+    return true;
+  }
 
   refresh() {
         if( this.chart ) {
@@ -179,6 +259,9 @@ export class ChartComponent {
                                 this.dataset.filter((c) => { return this.displaySeries.join(',').indexOf(c.column) > -1 }) :
                                 this.DEFAULT_SERIE;
           
+          //añadir la propiedad orden y lanzar por un evento para ordenar por una serie elegida
+          this.chart.labels =this.dataLabels;
+
           if(this.chart.chartType === "pie"){            
             delete this.chart.options.scales;
             //#f7fbff,#deebf7,#c6dbef,#9ecae1,#6baed6,#4292c6,#2171b5,#08519c,#08306b
@@ -189,13 +272,12 @@ export class ChartComponent {
             this.chart.options.legend= {
                 boxWidth: '15px',
                 display: true,
-            }
-            this.customLegend = true;
+                legendCallback: this.legendDrawing(this.chart)
+            }            
             
           }
 
-          //añadir la propiedad orden y lanzar por un evento para ordenar por una serie elegida
-          this.chart.labels =this.dataLabels; 
+           
           this.chart.ngOnChanges( {} );
 
           this.currentGravamen = this.dataResumen.TIPO_GRAVAMEN; 
