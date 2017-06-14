@@ -18,11 +18,6 @@ export const COLUMNS_QUANTITY: Array<IDefault> = [
                   { id: 'SUM_CUOTA', name:'€ Cuota', color: '#08519c' }
                   ];
 
-/*export const COLUMNS_LEVEL : Array<IDefault> = [
-                  { id: 'AC', name:'Cultivo' },
-                  { id: 'TIPO_CIF', name:'Propietario' },
-                  { id: 'TALLA', name:'Tamaño' },
-                  { id: 'IP', name:'IP' },
-                  { id: 'IPP', name:'IPP' }
-                ];
-*/
+export const COLORS_CHART: string[] = ["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b"];
+//#f7fbff,#deebf7,#c6dbef,#9ecae1,#6baed6,#4292c6,#2171b5,#08519c,#08306b
+//"#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6"

@@ -3,7 +3,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ViewChildren, QueryList, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 
-import { COLUMNS_QUANTITY } from '../../shared/config';
+import { COLUMNS_QUANTITY, COLORS_CHART } from '../../shared/config';
 import { IDefault, ICubo_Couta, IColumns } from '../../shared/interfaces';
 import { Color} from 'ng2-charts';
 
@@ -54,29 +54,6 @@ export class ChartComponent implements OnInit {
   ) {
     this._ds =  this.DEFAULT_SERIE;
     this.currentItem$ = this.store.select(fromRoot.getSelected);
-    
-    
-    /*BaseChartDirective.registerPlugin({
-      afterDraw: (chartInstance, easing) => {
-        const xScale = chartInstance.scales['x-axis-0'];
-        const ctx = chartInstance.chart.ctx;
-
-        if (chartInstance.options.horizontalLines) {
-          chartInstance.options.horizontalLines.map(({y, color}) => {
-            // calculate the pixel using the scale
-            const yPixel = chartInstance.scales['y-axis-0'].getPixelForValue(y);
-
-            // draw line
-            ctx.strokeStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(Math.round(xScale.left), yPixel);
-            ctx.lineTo(Math.round(xScale.right), yPixel);
-            ctx.stroke();
-          });
-        }
-      }
-    });*/
-
    }
 
   ngOnInit() {
@@ -93,7 +70,7 @@ export class ChartComponent implements OnInit {
               meta.data.forEach(function(element, index) {
                 // Draw the text in black, with the specified font
                 ctx.fillStyle = '#333';
-                var fontSize = 11;
+                var fontSize = 10;
                 var fontStyle = 'normal';
                 var fontFamily = '"Helvetica Neue",Helvetica,Arial,sans-serif';
                 ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
@@ -250,9 +227,6 @@ export class ChartComponent implements OnInit {
   refresh() {
         if( this.chart ) {
 
-          
-          
-
           //Valida las series a mostrar de cada componente chart
           this.chart.datasets = !this.displaySeries ? this.dataset : 
                                 this.displaySeries.length > 0 ? 
@@ -263,12 +237,12 @@ export class ChartComponent implements OnInit {
           this.chart.labels =this.dataLabels;
 
           if(this.chart.chartType === "pie"){            
-            delete this.chart.options.scales;
-            //#f7fbff,#deebf7,#c6dbef,#9ecae1,#6baed6,#4292c6,#2171b5,#08519c,#08306b
+            delete this.chart.options.scales;                        
             let num = this.chart.datasets[0].data.length;
-            this.chart.datasets[0].backgroundColor = ["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6"]
-            this.chart.datasets[0].borderColor = ['gray','gray','gray','gray','gray'];
-            this.chart.datasets[0].borderWidth = [1, 1, 1, 1, 1]
+
+            this.chart.datasets[0].backgroundColor = COLORS_CHART.slice(0,num);
+            this.chart.datasets[0].borderColor = Array(num).fill('gray');
+            this.chart.datasets[0].borderWidth = Array(num).fill(1);
             this.chart.options.legend= {
                 boxWidth: '15px',
                 display: true,
@@ -276,7 +250,6 @@ export class ChartComponent implements OnInit {
             }            
             
           }
-
            
           this.chart.ngOnChanges( {} );
 

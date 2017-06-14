@@ -9,6 +9,7 @@
         "src/tsconfig.*.json": true,
         "references.d.ts": true,
         "tslint.json": true,
+        "node_modules/" : true,
         "src/polyfills.ts": true,
         "src/test.ts": true,
         "src/assets/.gitkeep": true,

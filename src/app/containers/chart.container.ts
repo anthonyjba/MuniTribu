@@ -5,16 +5,9 @@ import { Store } from '@ngrx/store';
 import "rxjs/add/operator/take";
 
 //app components
-//import { SidenavComponent } from '../components/sidenav/sidenav.component';
 import { ChartComponent } from '../components/chart/chart.component';
-//import { CounterComponent } from '../components/counter/counter.component';
-
-
 
 import * as Cubo from '../actions/cubo-actions'
-//import * as Sidenav from '../actions/sidenav-actions';
-//import * as fromRoot from '../reducers';
-
 import { cuboState } from '../models/cubo-state.model'
 
 import { CuboCuotaService } from '../services/cubo-cuota.service';
@@ -25,13 +18,10 @@ import { keys, getUniqueValueById } from '../shared/util';
 
 @Component({
   selector: 'simple-ngrx',
-  //changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ Cubo.CuboActions ],    
   templateUrl: './chart.container.html'
 })
 export class SimpleNgrx {
-  //showSidenav$: Observable<any>;
-  //currentItem$: Observable<cuboState>;
   currentGravamen: number;
   currentChartId: string;
   currentNivel$: string[];
@@ -41,47 +31,13 @@ export class SimpleNgrx {
   columnsQuantity: Array<IDefault> = COLUMNS_QUANTITY;
   cuboMunicipioInicial: Array<ICubo_Couta>;
 
-  //@ViewChild(SidenavComponent) sidenav : SidenavComponent;
   @ViewChildren(ChartComponent) charts : QueryList<ChartComponent>;
-  //@ViewChildren(CounterComponent) counters : QueryList<CounterComponent>;
 
   constructor(
     private cuboActions: Cubo.CuboActions,
     private _cuboCuotaService: CuboCuotaService,
     private cdRef:ChangeDetectorRef) {
-
-//,private store: Store<any>
-
-      //this.showSidenav$ = this.store.select(fromRoot.getSidenavState) 
-      //this.showSidenav$.subscribe(data => this.openNav(data));
-      //this.currentItem$ = this.store.select(fromRoot.getSelected);
   }
-
-/** SideNav
-  closeSidenav(id) {
-    this.store.dispatch(new Sidenav.CloseSidenavAction(id));
-  }
-
-  openSidenav(id) {
-    this.store.dispatch(new Sidenav.OpenSidenavAction(id));    
-  }
-  
-  private openNav(content) {
-
-    if(content['showSidenav']){
-      document.getElementById("mySidenav").style.width = "250px"
-      document.getElementById("main").style.marginLeft = "250px";
-
-      //this.currentItem$.take(1).subscribe(item => this.sidenav.activate(item, this.columnsGroup));      
-    }
-  }
-
-  private closeNav() {
-    document.getElementById("mySidenav").style.width = "0px";
-    document.getElementById("main").style.marginLeft = "0px";
-    this.closeSidenav(this.currentChartId);
-  }
- */
 
   loadCuboInicial(cuboMunicipio: Array<ICubo_Couta>, 
                   gravamenMunicipio: number, 
@@ -125,11 +81,39 @@ export class SimpleNgrx {
 
       this.columnsGroup.forEach(c => { c.filters = {}; }); 
       this.currentfiltroNivel2$ = {}
-      /*if( niveles.length === 2 ) {      
-        let indice = this.columnsGroup.findIndex((item) => item.id === niveles[1]);
-        this.columnsGroup[indice].filters = this.currentfiltroNivel2$ = {}
-      }*/
     }
+  }
+
+  private __acumulateByLevel1(ds: any[]) {
+    let newDataset: Array<ICubo_Couta>=[];
+    let tempLevel1: string = "";
+    let index: number = -1;
+    let level1 = this.currentNivel$[0];
+
+    ds.sort(function (a, b) {
+      if (a[level1] > b[level1]) {
+        return 1;
+      }
+      if (a[level1] < b[level1]) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    })
+
+    ds.forEach((item) => {  
+      if(item[level1] != tempLevel1) { 
+        tempLevel1 = item[level1]; 
+        index++;
+        newDataset.push(Object.assign({},item)); } 
+      else { 
+        this.columnsQuantity.forEach(c => {
+          newDataset[index][c.id] += item[c.id] 
+        }) 
+      }  
+    });
+
+    return newDataset;
   }
 
   private __refreshAll(action) {
@@ -141,11 +125,19 @@ export class SimpleNgrx {
      * Draw each chart component
      * Update Counter component
      */
-    
+
+    let niveles = []; 
+    if(this.currentNivel$.some(n => { return n==="AC"})) {
+      niveles = [...this.currentNivel$, "TIPO_EXPLOTACION"];
+      //if(!this.currentNivel$.some(e=> { return e === "TIPO_EXPLOTACION"})) {
+      //  this.currentNivel$.push("TIPO_EXPLOTACION");}
+    }
+    else{ niveles = [...this.currentNivel$] }
+   
     let chartDataset = this._cuboCuotaService.getCuboFiltrado(
         this.cuboMunicipioInicial,
         this.columnsGroup,
-        this.currentNivel$
+        niveles
       )
 
     
@@ -162,24 +154,7 @@ export class SimpleNgrx {
                               ` - ${nameLevel2} (Con todos los valores)`
       
 
-
-      let newDataset: Array<ICubo_Couta>=[];
-      let tempLevel1: string = "";
-      let index: number = -1;
-
-      chartDataset.forEach((item) => {  
-        if(item[this.currentNivel$[0]] != tempLevel1) { 
-          tempLevel1 = item[this.currentNivel$[0]]; 
-          index++;
-          newDataset.push(Object.assign({},item)); } 
-        else { 
-          this.columnsQuantity.forEach(c => {
-            newDataset[index][c.id] += item[c.id] 
-          }) 
-        }  
-      });
-
-      chartDataset = newDataset;
+      chartDataset = this.__acumulateByLevel1(chartDataset);
 
       //let indice = this.columnsGroup.findIndex((item) => item.id === this.currentNivel$[1]);
       keysLevel2 = keys(getUniqueValueById<any>(this.columnsGroup,this.currentNivel$[1],'values'));
@@ -213,11 +188,9 @@ export class SimpleNgrx {
 
     
     this.updateChartComponent(currentChart, newContainer, keysLevel2);
-    //this.updateCountersComponent(this.currentChartId, newContainer.resumen);
   }
 
   onCurrentState(data) {
-    //this.__validCurrentState(data.state.id, data.state.niveles);
     this.currentChartId = data.state.id;
     this.currentNivel$ =  data.state.niveles;
 
@@ -233,32 +206,6 @@ export class SimpleNgrx {
 
   }
 
-    /*switch(data.action){
-      case Cubo.ActionTypes.GRAVAMEN_CUBO: {
-        
-        break;
-      }
-      case Cubo.ActionTypes.SWITCH_LEVEL_CUBO: {
-        this.currentfiltroNivel2$ = data.state.filtroNivel2;
-        this.columnsGroup.find((col) => col.id === this.currentNivel$[1]).filters = data.state.filtroNivel2;
-        break;
-      } 
-    }*/
-
-
-  /*onCurrentState(data){
-    this.currentChartId = data.state.id;
-    this.currentNivel$ = data.state.niveles;
-    this.currentFiltros$ = data.state.filtros;
-    this.currentGravamen = data.state.gravamen;
-    this.currentfiltroNivel2$ = data.state.filtroNivel2;
-
-    if(data.action !== Sidenav.ActionTypes.OPEN_SIDENAV)
-      this.__refreshAll(data.action);
-  }*/
-
-  
-
   private updateChartComponent(chart: ChartComponent, 
                               container: any, 
                               columns: any) {
@@ -268,14 +215,6 @@ export class SimpleNgrx {
     chart.dataColumns = columns;
     chart.refresh();
   }
-
-  /*private updateCountersComponent(chartId: string, resumen: any) {
-      this.counters.forEach(counting => {
-        if(counting.id.substr(0, chartId.length) === chartId) {                    
-          counting.value = resumen[counting.field];
-        }
-      })
-  }*/
 
   private getChartContainer(cuboFiltrado: any[], tipoGravamen: number, labelColumn: string) {
         
@@ -316,9 +255,6 @@ export class SimpleNgrx {
         }
       }
     }
-
-    console.log(resumenFiltrado);
-      
 
     //Adding to container
     let containerChart = { 

@@ -31,10 +31,12 @@ export class CuboCuotaService {
 
     getResumenMunicipio(cuboCuotaInicial, niveles) {
 
-      let resumen; 
-      for (var i = 0, j = cuboCuotaInicial.length; i !== j; i++) {
+      let resumen;
+      let j = cuboCuotaInicial.length;
+      let y = niveles.length; 
+      for (var i = 0; i !== j; i++) {
         let flag = true;
-        for (var x = 0, y = niveles.length; x != y; x++){
+        for (var x = 0; x != y; x++){
           if(cuboCuotaInicial[i][niveles[x].id] !== null){
             flag = false;
             break;
@@ -43,7 +45,7 @@ export class CuboCuotaService {
         if(flag)
           resumen = Object.assign({}, cuboCuotaInicial[i]);
       }
-      console.log(resumen);
+      //console.log(resumen);
       return resumen;
     }
 
@@ -51,6 +53,7 @@ export class CuboCuotaService {
       let result = [];
       let j = cuboMunicipio.length;
       let y = columnsGroup.length;
+
       for (var i = 0; i !== j; i++) {
         let flag = false;
         for (var x = 0; x != y; x++){
@@ -64,8 +67,6 @@ export class CuboCuotaService {
                     Object.getOwnPropertyNames(columnsGroup[x].filters).length === 0 || 
                     columnsGroup[x].filters[cuboMunicipio[i][columnsGroup[x].id]])                      
                   )
-              //(Object.getOwnPropertyNames(columnsGroup[x].filters).length === 0 || 
-                //columnsGroup[x].filters[cuboMunicipio[i][columnsGroup[x].id]])
             )
             flag = true;
           else { 
@@ -82,31 +83,3 @@ export class CuboCuotaService {
     }
 
 }
-
-/**
- * for (var i = 0, j = cuboMunicipio.length; i !== j; i++) {
-        let flag = false;
-        for (var x = 0, y = columnsGroup.length; x != y; x++){
-          if(
-              (nivelesChart.indexOf(columnsGroup[x].id) === -1 ? 
-                      cuboMunicipio[i][columnsGroup[x].id] === null :
-                      cuboMunicipio[i][columnsGroup[x].id] !== null) 
-                      &&
-              (Object.getOwnPropertyNames(columnsGroup[x].filters).length === 0 || 
-                columnsGroup[x].filters[cuboMunicipio[i][columnsGroup[x].id]])
-            )
-            flag = true;
-          else { 
-            flag = false;
-            continue;
-          }  
-        }
-
-        if(flag)
-          result.push(cuboMunicipio[i]);
-      }
-
-      return result;
-    }
- * 
- */

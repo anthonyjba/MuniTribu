@@ -1,7 +1,7 @@
 <div id="main">
 
     <div class="row">
-        <!--<div class="col-md-4">
+        <div class="col-md-4">
             <cat-chart id="chart1" charType='horizontalBar'
                 [levels]="['AC']" [displaySeries]="['N_SUBPARC']">
             </cat-chart>
@@ -9,8 +9,8 @@
         <div class="col-md-4">
             <cat-chart id="chart2" charType='horizontalBar'
              [levels]="['TIPO_CIF']" [displaySeries]="['N_SUBPARC']"></cat-chart>
-        </div>-->
-        <!--<div class="col-md-2">
+        </div>
+        <div class="col-md-2">
             <cat-chart id="chart3" charType="pie"
                 [levels]="['TALLA']" [displaySeries]="['N_PROPIETARIOS']">
             </cat-chart>
@@ -19,23 +19,24 @@
             <cat-chart id="chart4" charType="pie"
                 [levels]="['IP']" [displaySeries]="['N_SUBPARC']">
             </cat-chart>
-        </div>-->
+        </div>
         
     </div>
 
     <div class="row">
-        <!--<div class="col-md-4">
+        <div class="col-md-4">
             <cat-chart id="chart5" charType='horizontalBar'
-                [levels]="['AC','TIPO_CIF']" [displaySeries]="['N_SUBPARC']" 
+                [levels]="['TIPO_CIF','AC']" [displaySeries]="['N_SUBPARC']" 
                 [activateControls]="true"  (activate)="onCurrentState($event)" >
             </cat-chart>
-        </div>-->
+        </div>
         <div class="col-md-4">
             <cat-chart id="chart6" charType='horizontalBar'
-                [levels]="['TIPO_CIF','AC']" [displaySeries]="['N_SUBPARC']"
+                [levels]="['AC','TIPO_CIF']" [displaySeries]="['N_SUBPARC']"
                  [activateControls]="true"  (activate)="onCurrentState($event)">
             </cat-chart>
         </div>
+        
     </div>
 
 </div>
