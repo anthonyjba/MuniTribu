@@ -57,6 +57,7 @@ export class ChartComponent implements OnInit {
    }
 
   ngOnInit() {
+    Chart.defaults.global.defaultFontColor = "#999";
     Chart.pluginService.register({
 
       afterDatasetsDraw: function(chartInstance, easing) {

@@ -40,7 +40,7 @@
                 [chartType]="charType">
         </canvas>
            
-        <div #mylegend id="chartjs-legend" class="noselect">              
+        <div *ngIf="chart.chartType==='pie'" #mylegend id="chartjs-legend" class="noselect">              
         </div>
         
         <!--Series-->

@@ -129,8 +129,6 @@ export class SimpleNgrx {
     let niveles = []; 
     if(this.currentNivel$.some(n => { return n==="AC"})) {
       niveles = [...this.currentNivel$, "TIPO_EXPLOTACION"];
-      //if(!this.currentNivel$.some(e=> { return e === "TIPO_EXPLOTACION"})) {
-      //  this.currentNivel$.push("TIPO_EXPLOTACION");}
     }
     else{ niveles = [...this.currentNivel$] }
    
@@ -156,10 +154,7 @@ export class SimpleNgrx {
 
       chartDataset = this.__acumulateByLevel1(chartDataset);
 
-      //let indice = this.columnsGroup.findIndex((item) => item.id === this.currentNivel$[1]);
       keysLevel2 = keys(getUniqueValueById<any>(this.columnsGroup,this.currentNivel$[1],'values'));
-
-      //chartDataset = chartDataset.filter(data => data[this.currentNivel$[1]] === this.currentfiltroNivel2$);
     }
 
     let newContainer = this.getChartContainer(chartDataset, this.currentGravamen, this.currentNivel$[0]);
@@ -258,11 +253,27 @@ export class SimpleNgrx {
 
     //Adding to container
     let containerChart = { 
-          names : keysColumns.map((el) => { return el.substring(0, 40) }), 
-          series:  series
+          names : this.__evalNamesByKeys(this.columnsGroup[indexGroup].id, keysColumns), 
+          series: series
         }
     
     return { data: containerChart, resumen: resumenFiltrado };
+  }
+
+  private __evalNamesByKeys(type, list) {
+    if(type === "TIPO_CIF"){
+      list.forEach((item, i) => {
+              switch(item) {
+                case "B Sociedades de responsabilidad limitada": 
+                      list[i] = "B Sociedades limitadas"; break;
+                case "S Órganos de la Administración del Estado y de las comunidades autónomas": 
+                      list[i] = "S AAEE y AACC"; break;
+                case " V Otros tipos no definidos en el resto de claves. ¿Sociedad Agraria de Transformación?": 
+                      list[i] = "V Otros"; break;
+              }                
+            });
+    }
+    return list;  //list.map((el) => { return el.substring(0, 40) })    
   }
 
 }
