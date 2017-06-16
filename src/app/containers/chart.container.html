@@ -59,4 +59,29 @@
         
     </div>
 
+    <div class="row">
+        <div class="col-md-4">
+            <cat-chart id="chart9" charType='horizontalBar'
+                [levels]="['TIPO_CIF','EXENTO']" [displaySeries]="['N_SUBPARC']" 
+                [activateControls]="true"  (activate)="onCurrentState($event)" >
+            </cat-chart>            
+        </div>
+        <div class="col-md-4">
+                <cat-chart id="chart10" charType='bar'
+                    [levels]="['AC','BONIFICACION']" [displaySeries]="['N_SUBPARC']" 
+                    [activateControls]="true"  (activate)="onCurrentState($event)" >
+                </cat-chart>
+        </div>
+        <div class="col-md-2">
+                    <cat-chart id="chart11" charType="pie"
+                        [levels]="['EXENTO']" [displaySeries]="['N_SUBPARC']">
+                    </cat-chart>
+        </div>
+        <div class="col-md-2">
+                    <cat-chart id="chart12" charType="pie"
+                        [levels]="['BONIFICACION']" [displaySeries]="['N_SUBPARC']">
+                    </cat-chart>
+        </div>
+    </div>
+
 </div>
