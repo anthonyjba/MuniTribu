@@ -23,7 +23,7 @@ export class CuboCuotaService {
     }
 
     getCubo(muni: string){
-        return this.http.get('assets/data/cubo_cuota.json')
+        return this.http.get('assets/data/cubo_cuota_toledo.json')
                         .map(res => decompressJson(res.json(), muni)) 
                         //.map(res => res.json());    //add res.json().items || []
                         //.do(data => console.log(data))        

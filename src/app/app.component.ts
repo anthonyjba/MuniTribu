@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   @ViewChild(SimpleNgrx) appContainer: SimpleNgrx;
 
   //Default Values
-  selmuni: string = "45900";
+  selmuni: string = "45002";
 
   constructor(private _cubocuotaService: CuboCuotaService) {
       this.resumenMunicipio = _cubocuotaService.getDefaultResumen();
