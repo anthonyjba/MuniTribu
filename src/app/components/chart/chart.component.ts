@@ -1,4 +1,5 @@
-
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+ 
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ViewChildren, QueryList, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
@@ -50,7 +51,8 @@ export class ChartComponent implements OnInit {
   private _fontSize: number = 10;  
 
   constructor(
-    private store: Store<any>
+    private store: Store<any>,
+    private sanitizer: DomSanitizer
   ) {
     this._ds =  this.DEFAULT_SERIE;
     this.currentItem$ = this.store.select(fromRoot.getSelected);
@@ -144,6 +146,9 @@ export class ChartComponent implements OnInit {
   displaySeries: string[];
 
   currentGravamen: number = 0;
+  protected legendKeys = [];
+  protected colors = COLORS_CHART;
+  protected innerLegend: SafeHtml;
 
  @Output() activate = new EventEmitter();
 
@@ -207,10 +212,12 @@ export class ChartComponent implements OnInit {
   }
 
   private legendDrawing(chart) {
-    // class="' + chart.cvs.id + '-legend"   //
+    this.legendKeys =  chart.labels;
+    
     var text = [];
     text.push('<ul>');
-    for (var i = 0; i < chart.datasets[0].data.length; i++) {
+    
+    for (var i = 0; i < this.legendKeys.length; i++) {
       text.push(`<li><span style="background-color:${chart.datasets[0].backgroundColor[i]}" >`);
       if (chart.labels[i]) {
         text.push(chart.labels[i]);
@@ -219,9 +226,8 @@ export class ChartComponent implements OnInit {
     }
     text.push('</ul>');
 
-    let custom = this.mylegend.nativeElement;
-    custom.insertAdjacentHTML('beforeend', text.join(""))
-
+    this.innerLegend = this.sanitizer.bypassSecurityTrustHtml(text.join("")); 
+    
     return true;
   }
 

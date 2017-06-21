@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AccordionModule } from 'ng2-bootstrap';
 import { DndModule } from 'ng2-dnd';
 import { ChartsModule } from 'ng2-charts';
+import { Ng2CompleterModule } from 'ng2-completer';
 
 //Pipes
 import { TruncatePipe } from './shared/truncate.pipe';
@@ -25,14 +26,13 @@ import { CuboCuotaService } from './services/cubo-cuota.service'
 import { SimpleNgrx } from './containers/chart.container'
 import { ChartComponent } from './components/chart/chart.component';
 import { CounterComponent } from './components/counter/counter.component';
-//import { SortableGroupComponent } from './components/sortable-group/sortable-group.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SimpleNgrx,
     CounterComponent,
-    TruncatePipe,    
+    TruncatePipe,
     ChartComponent
   ],
   imports: [
@@ -40,10 +40,10 @@ import { CounterComponent } from './components/counter/counter.component';
     FormsModule,
     HttpModule, 
     ChartsModule,
+    Ng2CompleterModule,
     DndModule.forRoot(),
-    AccordionModule.forRoot(),
-    StoreModule.provideStore(rootReducer),
-    
+    AccordionModule.forRoot(),    
+    StoreModule.provideStore(rootReducer),    
     StoreDevtoolsModule.instrumentOnlyWithExtension({
       maxAge: 5
     })

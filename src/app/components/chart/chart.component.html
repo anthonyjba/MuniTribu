@@ -8,16 +8,17 @@
     </div>
 
     <div class="panel-body body-custom-chart">
-        <!--Data-->
+        <!--Data  | truncate : 36 : '...'-->
         <div *ngIf="activateControls">
             <div class="row">
                 <div class="col-xs-1">
-                        <select id="q_{{id}}" multiple (change)="onChangeLevel2($event.target)"
-                            class="selectpicker show-menu-arrow dropdown-custom" data-width="15px" 
-                            data-style="btn-custom">
+                        <select id="q_{{id}}"
+                            class="selectpicker show-menu-arrow dropdown-custom"
+                            multiple data-width="20px" data-style="btn-custom"
+                            (change)="onChangeLevel2($event.target)">
                             <option *ngFor="let item of dataColumns" [value]="item" >
-                                {{item | truncate : 36 : '...' }}
-                            </option>
+                                {{item}}
+                            </option>                            
                         </select>
                 </div>
                 <div class="col-xs-7 text-center">
@@ -40,7 +41,8 @@
                 [chartType]="charType">
         </canvas>
            
-        <div *ngIf="chart.chartType==='pie'" #mylegend id="chartjs-legend" class="noselect">              
+        <div *ngIf="chart.chartType==='pie'" #mylegend id="chartjs-legend" 
+        [innerHTML]="innerLegend" class="noselect">
         </div>
         
         <!--Series-->

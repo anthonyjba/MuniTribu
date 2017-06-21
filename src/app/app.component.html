@@ -29,13 +29,12 @@
             <hr>
             <p></p>
 
-            <div class="row">
+            <div class="form-group row">
                 <div class="col-md-3">
-                    <span style="font-size: 13px;">Municipio:</span>
-                    <select [(ngModel)]="selmuni" id="Municipios" class="form-control main colorHighligth">
-                        <option value="45900">Toledo</option>
-                        <!--<option *ngFor="let muni of municipios" [value]="muni.id">{{muni.name}}</option>-->
-                    </select>
+                    <span style="font-size: 13px;">Municipio: {{selmuni}}</span>
+                    <ng2-completer [(ngModel)]="searchStr" [datasource]="dataService" 
+                        [minSearchLength]="2"  [inputClass]="'form-control main colorHighligth'"  
+                        (selected)="onSelected($event)" [initialValue]="{name:'Toledo'}"></ng2-completer>
                 </div>
                 <div class="col-md-9">
                     <!-- Resumen del Municipio -->

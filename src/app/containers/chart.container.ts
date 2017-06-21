@@ -42,10 +42,11 @@ export class SimpleNgrx {
   loadCuboInicial(cuboMunicipio: Array<ICubo_Couta>, 
                   gravamenMunicipio: number, 
                   nivelesMunicipio: Array<IColumns>
-                 ): void {
+                 ): void {    
     /**
-     * Load and Initialize All chart components. 
+     * reset store & Initialize All chart components. 
      */
+    this.cuboActions.resetCollection();    
     this.cuboMunicipioInicial = cuboMunicipio;
     this.currentGravamen = gravamenMunicipio;
     this.columnsGroup = nivelesMunicipio;
@@ -55,10 +56,8 @@ export class SimpleNgrx {
       this.currentNivel$ = charting.levels;
       //this.currentfiltroNivel2$ = Object.assign({}, this.__getValueSecondLevel(this.currentNivel$));  //this.__getValueSecondLevel(this.currentNivel$);
 
-      this.__refreshAll(Cubo.ActionTypes.LOAD_CUBO);
-      
+      this.__refreshAll(Cubo.ActionTypes.LOAD_CUBO);      
     });
-
   }
 
   private __getValueSecondLevel(niveles) {

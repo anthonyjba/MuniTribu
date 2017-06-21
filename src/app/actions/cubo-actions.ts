@@ -6,6 +6,7 @@ import { type } from '../shared/util';
 
 
 export const ActionTypes = {
+  RESET_COLLECTION: type('[Collection] reset'), 
   LOAD_CUBO:   type('[Cubo] Load item'),
   FILTER_CUBO: type('[Cubo] Filter value'),
   GRAVAMEN_CUBO: type('[Cubo] Change gravamen'),
@@ -15,6 +16,10 @@ export const ActionTypes = {
 @Injectable()
 export class CuboActions {
   constructor(private store: Store<cuboState>) {}
+
+  public resetCollection(){
+    this.store.dispatch({ type: ActionTypes.RESET_COLLECTION });
+  }
 
   public loadCubo(id: string, niveles: string[], gravamen: number, filtroNivel2: any, resumen) {
 

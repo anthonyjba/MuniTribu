@@ -38,6 +38,9 @@ export const collectionReducer: ActionReducer<cuboState[]> = (state = [], action
           return item;
         });         
       }
+    case ActionTypes.RESET_COLLECTION: {
+      return [];
+    }
 
     default:
       return state;    
