@@ -21,3 +21,25 @@
     border-color: navajowhite;
     color: antiquewhite;
 }
+
+/*
+.ui-select-choices {
+        position: fixed;
+        top: auto;
+        left: auto;
+        width: inherit;
+      }
+
+.dropdown-menu.open {
+
+   max-height: 300px !important;
+
+}
+
+.dropdown-menu.inner.selectpicker {
+
+   max-height: 290px !important;
+
+   height: 300px !important;
+
+}*/

@@ -57,6 +57,8 @@ export class AppComponent implements OnInit {
   private __extractDictionary(){
     if(this.cuboCuotaInicial.length === 0) return;
 
+    this.columnsGroup.forEach(c=> { c.values = {} } );
+
     for (var i = 0, j = this.cuboCuotaInicial.length; i !== j; i++) {
       for (var x = 0, y = this.columnsGroup.length; x != y; x++){
         if(this.cuboCuotaInicial[i][this.columnsGroup[x].id])

@@ -19,6 +19,7 @@ import * as fromRoot from '../../reducers';
 
 require('chart.js');
 declare var Chart: any;
+declare var jQuery: any;
 
 @Component({
   selector: 'cat-chart',
@@ -59,6 +60,13 @@ export class ChartComponent implements OnInit {
    }
 
   ngOnInit() {
+    // SelectPicker component
+    if(this.activateControls){
+      
+      
+    }
+
+    // Chart component
     Chart.defaults.global.defaultFontColor = "#999";
     Chart.pluginService.register({
 
@@ -229,6 +237,18 @@ export class ChartComponent implements OnInit {
     this.innerLegend = this.sanitizer.bypassSecurityTrustHtml(text.join("")); 
     
     return true;
+  }
+
+  populateSelect(listSelect) {
+    if(this.activateControls) {
+      let combo = jQuery('#q_'+this.id)
+      combo.children('option').remove();
+      listSelect.forEach(item => {
+        combo.append(`<option value='${item}'>${ item }</option>`);        
+      });
+      combo.selectpicker();
+      combo.selectpicker('refresh');
+    }
   }
 
   refresh() {

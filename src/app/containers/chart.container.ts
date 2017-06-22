@@ -13,7 +13,7 @@ import { cuboState } from '../models/cubo-state.model'
 import { CuboCuotaService } from '../services/cubo-cuota.service';
 import { COLUMNS_QUANTITY  } from '../shared/config';
 import { IColumns, IDefault, ICubo_Couta } from '../shared/interfaces';
-import { keys, getUniqueValueById } from '../shared/util';
+import { keys, getUniqueValueById, evalNamesByKeys } from '../shared/util';
 
 
 @Component({
@@ -162,6 +162,7 @@ export class SimpleNgrx {
         case Cubo.ActionTypes.LOAD_CUBO: {
           this.cuboActions.loadCubo(this.currentChartId, this.currentNivel$, 
                                 this.currentGravamen, this.currentfiltroNivel2$, newContainer.resumen);
+          currentChart.populateSelect(keysLevel2);
           break;
         }
         case Cubo.ActionTypes.FILTER_CUBO: {
@@ -181,7 +182,7 @@ export class SimpleNgrx {
      }
 
     
-    this.updateChartComponent(currentChart, newContainer, keysLevel2);
+    this.updateChartComponent(currentChart, newContainer);
   }
 
   onCurrentState(data) {
@@ -201,12 +202,11 @@ export class SimpleNgrx {
   }
 
   private updateChartComponent(chart: ChartComponent, 
-                              container: any, 
-                              columns: any) {
+                              container: any) {
     chart.dataset = container.data.series;
     chart.dataLabels = container.data.names;
     chart.dataResumen = container.resumen;
-    chart.dataColumns = columns;
+    //chart.dataColumns = columns;
     chart.refresh();
   }
 
@@ -252,27 +252,13 @@ export class SimpleNgrx {
 
     //Adding to container
     let containerChart = { 
-          names : this.__evalNamesByKeys(this.columnsGroup[indexGroup].id, keysColumns), 
+          names : keysColumns, 
           series: series
         }
     
     return { data: containerChart, resumen: resumenFiltrado };
   }
 
-  private __evalNamesByKeys(type, list) {
-    if(type === "TIPO_CIF"){
-      list.forEach((item, i) => {
-              switch(item) {
-                case "B Sociedades de responsabilidad limitada": 
-                      list[i] = "B Sociedades limitadas"; break;
-                case "S Órganos de la Administración del Estado y de las comunidades autónomas": 
-                      list[i] = "S AAEE y AACC"; break;
-                case " V Otros tipos no definidos en el resto de claves. ¿Sociedad Agraria de Transformación?": 
-                      list[i] = "V Otros"; break;
-              }                
-            });
-    }
-    return list;  //list.map((el) => { return el.substring(0, 40) })    
-  }
+  
 
 }
