@@ -15,6 +15,7 @@ import { Ng2CompleterModule } from 'ng2-completer';
 
 //Pipes
 import { TruncatePipe } from './shared/truncate.pipe';
+import { Safe } from './shared/safeHtml.pipe';
 
 //Catastro Reducers
 import rootReducer from './reducers/index';
@@ -33,6 +34,7 @@ import { CounterComponent } from './components/counter/counter.component';
     SimpleNgrx,
     CounterComponent,
     TruncatePipe,
+    Safe,
     ChartComponent
   ],
   imports: [

@@ -9,7 +9,9 @@ const reducers = {
   CollectionItems: collectionReducer
 };
 
-export default combineReducers(reducers);
+const rootReducer = combineReducers(reducers);
+
+export default rootReducer;
 
 /**
  * SideNav Reducers

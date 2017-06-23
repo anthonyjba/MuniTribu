@@ -1,9 +1,0 @@
-<label>Niveles del gráfico a mostrar:</label>
-<ul class="list-group" dnd-sortable-container [sortableData]="sortItems">
-    <li *ngFor="let item of sortItems; let i = index" class="list-group-item" dnd-sortable (onDragSuccess)="refresh()" [sortableIndex]="i">{{item.name}}
-        <label class="switch">
-        <input type="checkbox" id="{{item.id}}" [checked]="item.display" (change)="toggle($event.target)">
-        <div class="slider round"></div>
-        </label>
-    </li>
-</ul>

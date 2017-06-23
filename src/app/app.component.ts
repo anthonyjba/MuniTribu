@@ -29,9 +29,9 @@ export class AppComponent implements OnInit {
   resumenMunicipio: ICubo_Couta;
   columnsGroup: Array<IColumns> = COLUMNS_GROUP;
 
-  protected searchStr: string;
-  private dataService: CompleterData;
-  protected selmuni: string = "45002";
+  searchStr: string;
+  dataService: CompleterData;
+  selmuni: string = "45002";
   
   @ViewChild(SimpleNgrx) appContainer: SimpleNgrx;
 
@@ -75,13 +75,13 @@ export class AppComponent implements OnInit {
     this.appContainer.loadCuboInicial(this.cuboCuotaInicial, gravamenMunicipio, this.columnsGroup);
   }
 
-  protected onSelected(item: CompleterItem) {
+  onSelected(item: CompleterItem) {
     this.selmuni = item? (!item.description ? "45900": item.description) : "";
     if(this.selmuni) {
       this.resetStoreApp();}
   }
 
-  protected resetStoreApp() {
+  private resetStoreApp() {
     this._cubocuotaService.getCubo(this.selmuni)
         .subscribe((data : Array<ICubo_Couta>) => this.cuboCuotaInicial = data,
                 error => console.log(error),
